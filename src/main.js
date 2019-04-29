@@ -3,11 +3,11 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import {library} from '@fortawesome/fontawesome-svg-core';
-import {faLink, faTimes, faAddressCard} from '@fortawesome/free-solid-svg-icons';
-import {faTelegramPlane, faGithub} from '@fortawesome/free-brands-svg-icons';
+import {faLink, faAddressCard} from '@fortawesome/free-solid-svg-icons';
+import {faTelegramPlane, faTwitter, faVk, faFacebookF, faYoutube, faInstagram, faGithub} from '@fortawesome/free-brands-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 
-library.add(faLink, faTelegramPlane, faTimes, faGithub);
+library.add(faLink, faTelegramPlane, faTwitter, faVk, faFacebookF, faYoutube, faInstagram, faGithub);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.config.productionTip = false
 

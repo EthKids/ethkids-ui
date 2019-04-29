@@ -18,7 +18,7 @@
       <div>Total collected: <a href>{{100}} ETH </a></div>
       <div>Donation fund: <a href>{{10}} ETH</a></div>
       <div>Curve fund: <a href>{{2}} ETH</a></div>
-      <div>My tokens: {{15/1500}} CHANCE</div>
+      <div>My tokens: {{'15/1500'}} CHANCE</div>
     </div>
   </div>
 </template>
@@ -76,10 +76,6 @@ export default {
     display: table;
   }
 
-  .content div {
-    white-space: nowrap;
-  }
-
   .fundImage {
     display: table-cell;
     vertical-align: middle;
@@ -98,10 +94,6 @@ export default {
     vertical-align: middle;
     padding: 13px 0;
     width: 200px;
-  }
-
-  .fundFinState div {
-    white-space: nowrap;
   }
 
 </style>
