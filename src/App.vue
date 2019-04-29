@@ -55,6 +55,10 @@ h2 {
   font-weight: 300;
 }
 
+.highlighted {
+  color: #ffbc4e;
+}
+
 a:hover {
   color: #ffbc4e;
 }

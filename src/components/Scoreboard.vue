@@ -4,7 +4,7 @@
       <h3>
         Top donators
       </h3>
-      <div v-for="address in donators" class="row">
+      <div v-for="address in donators" class="row" v-bind:class="{ highlighted: address.counter==2}">
         <div class="col-2">
           {{address.counter}}
         </div>

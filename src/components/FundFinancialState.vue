@@ -1,10 +1,31 @@
 <template>
-  <div class="fundFinState">
-    <div>Token: <a href="https://etherscan.io/address/0xcd979b552b46c49f01c0d0cb9a481976bcd50f7d">CHANCE</a></div>
-    <div>Total collected: <a href>{{100}} ETH </a></div>
-    <div>Donation fund: <a href>{{10}} ETH</a></div>
-    <div>Curve fund: <a href>{{2}} ETH</a></div>
-    <div>My tokens: {{'15/1500'}} CHANCE</div>
+  <div class="container">
+    <dl class="row">
+      <dt class="col-sm-7">Token</dt>
+      <dd class="col-sm-5"><a href="https://etherscan.io/address/0xcd979b552b46c49f01c0d0cb9a481976bcd50f7d">CHANCE</a></dd>
+
+      <dt class="col-sm-7">Total raised up to now</dt>
+      <dd class="col-sm-5"><a href>{{100}} ETH </a></dd>
+
+
+      <dt class="col-sm-7">Current donation fund</dt>
+      <dd class="col-sm-5"><a href>{{10}} ETH</a></dd>
+
+      <dt class="col-sm-7">Community funds</dt>
+      <dd class="col-sm-5"><a href>{{2}} ETH</a></dd>
+
+
+      <dt class="col-sm-7">My tokens</dt>
+      <dd class="col-sm-5"> {{'15/1500'}} CHANCE</dd>
+
+      <dt class="col-sm-7"></dt>
+      <dd class="col-sm-5">
+        <input
+          class="btn btn-primary btn-sm custom-btn-action"
+          type="button"
+          value="Sell back"
+          @click="donate()"/></dd>
+    </dl>
   </div>
 </template>
 
@@ -15,11 +36,5 @@ export default {
 </script>
 
 <style scoped>
-  .fundFinState {
-    display: table-cell;
-    vertical-align: middle;
-    padding: 13px 0;
-    width: 200px;
-  }
 
 </style>

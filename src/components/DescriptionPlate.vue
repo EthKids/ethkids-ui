@@ -1,6 +1,6 @@
 <template>
   <div class="descriptionContainer">
-    <h1>EthKids</h1>
+    <h1 class="display-3 highlighted">EthKids</h1>
     <p>Lorem ipsum dolor sit amet, sed te brute deserunt vulputate, singulis reprehendunt ei vim.
       Lorem ipsum dolor sit amet, sed te brute deserunt vulputate, singulis reprehendunt ei vim. Ei sit laoreet perpetua. Causae explicari vim an, per
       te percipit appellantur, quo ad suas omnesque. An illud labore pri, fabulas volutpat per ut. Duo ea utamur adipiscing, mel eu eligendi menandri,
