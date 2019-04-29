@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <fixed-header>
-      <div class="navbar">
+      <div>
         <router-link to="/">Home</router-link>
         |
         <router-link to="/about">About</router-link>
@@ -19,9 +19,11 @@
 </template>
 
 <script>
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 import FixedHeader from 'vue-fixed-header'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
-import CustomFooter from '@/components/CustomFooter';
+import CustomFooter from '@/components/CustomFooter'
 
 export default {
   components: {
@@ -34,16 +36,43 @@ export default {
 
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: 'Cairo', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
 }
 
+h1 {
+  line-height: 1.3;
+  letter-spacing: .1px;
+  text-align: center;
+  font-weight: 200;
+  font-size: 2.75rem;
+}
+
+h2 {
+  font-weight: 300;
+}
+
+a:hover {
+  color: #ffbc4e;
+}
+
+.custom-btn-action {
+  background-color: #ffbc4e;
+  box-shadow: 0 0 2px #ffbc4e, 0 0 25px rgba(255, 188, 78, 0.58), 0 0 5px rgba(255, 188, 78, 0.15);
+  margin: 7px;
+}
+
+.custom-btn-action:hover {
+  background-color: #ffb131;
+  box-shadow: 0 0 2px #ffbc4e, 0 0 25px rgba(255, 188, 78, 0.58), 0 0 5px rgba(255, 188, 78, 0.15);
+  text-shadow: 0 0 2px #ffbc4e, 0 0 25px rgba(255, 188, 78, 0.58), 0 0 5px rgba(255, 188, 78, 0.15);
+}
+
 .icon {
   padding-left: 30px;
-  width: 35px;
   color: black;
 }
 </style>

@@ -1,8 +1,13 @@
 <template>
-  <div class="home">
+  <div class="container">
     <img alt="Vue logo" src="../assets/header.jpg">
     <DescriptionPlate/>
-    <FundCard count="1" name="Chance" fundAddress="0x" shortDescription="This is a charity donation fund whihi bla bla bla"/>
+    <div class="row justify-content-center">
+      <h2>
+        1
+      </h2>
+    </div>
+    <FundCard name="Chance.by" fundAddress="0x" shortDescription="This is a charity donation fund whihi bla bla bla"/>
   </div>
 </template>
 

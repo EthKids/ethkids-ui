@@ -1,33 +1,90 @@
 <template>
-  <div class="plate" v-on:click="onClickButton">
-    <a class="icon">
-      {{count}}
-    </a>
-    <div class="content">
-      <div class="fundImage">
-        <img src="http://www.chance.by/upload/iblock/a0c/320h200_cvetnoy.jpg" title="Фонд 'ШАНС'">
+  <div class="fundContainer">
+    <div class="row">
+      <div class="col-sm">
+        <div class="fundLogo">
+          <img src="http://www.chance.by/upload/iblock/a0c/320h200_cvetnoy.jpg" title="Фонд 'ШАНС'">
+        </div>
       </div>
-      <div class="fundText">
-        <div>{{name}}</div>
-        <div>{{shortDescription}}...</div>
-        <div>Read more...</div>
+      <div class="col-sm-6">
+        <h2>{{name}}</h2>
+        <div class="fundDescription">
+          <div>Lorem ipsum dolor sit amet, sed te brute deserunt vulputate, singulis reprehendunt ei vim.</div>
+          <div>
+            Lorem ipsum dolor sit amet, sed te brute deserunt vulputate, singulis reprehendunt ei vim. Ei sit laoreet perpetua. Causae explicari vim
+            an, per te percipit appellantur, quo ad suas omnesque. An illud labore pri, fabulas volutpat per ut. Duo ea utamur adipiscing, mel eu
+            eligendi menandri, et doming mnesarchum dissentias pro. Verterem maluisset has te, duo epicurei dissentias id.
+
+            Mel te esse tractatos. Has ea omnes percipitur, odio doctus integre ex pro. Et mea aeque nostrud delenit. Ius ne numquam quaerendum
+            ullamcorper.
+            <p>906 helped children</p>
+            <p>10 active years</p>
+            <p>$13,615,100 raised in donations</p>
+            <p>11 employees</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm">
+        <FundFinancialState/>
       </div>
     </div>
-    <div class="fundFinState">
-      <div>Token: <a href="https://etherscan.io/address/0xcd979b552b46c49f01c0d0cb9a481976bcd50f7d">CHANCE</a></div>
-      <div>Total collected: <a href>{{100}} ETH </a></div>
-      <div>Donation fund: <a href>{{10}} ETH</a></div>
-      <div>Curve fund: <a href>{{2}} ETH</a></div>
-      <div>My tokens: {{'15/1500'}} CHANCE</div>
+    <div class="row social">
+      <div class="col-sm">
+        <a href="https://www.chance.by/">https://www.chance.by/</a>
+      </div>
+      <div class="col-sm">
+        <ul>
+          <li>
+            <a href="https://twitter.com/FondChance" class="icon">
+              <font-awesome-icon size="lg" :icon="['fab', 'twitter']"/>
+            </a>
+          </li>
+          <li>
+            <a href="https://vk.com/chance_foundation" class="icon">
+              <font-awesome-icon size="lg" :icon="['fab', 'vk']"/>
+            </a>
+          </li>
+          <li>
+            <a href="https://www.facebook.com/FoundationChanceBelarus" class="icon">
+              <font-awesome-icon size="lg" :icon="['fab', 'facebook-f']"/>
+            </a>
+          </li>
+          <li>
+            <a href="http://www.youtube.com/user/chancefond" class="icon">
+              <font-awesome-icon size="lg" :icon="['fab', 'youtube']"/>
+            </a>
+          </li>
+          <li>
+            <a href="https://www.instagram.com/chance_foundation/" class="icon">
+              <font-awesome-icon size="lg" :icon="['fab', 'instagram']"/>
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
+    <div class="row justify-content-center">
+      <div class="actions">
+        <input
+          class="btn btn-primary btn-lg custom-btn-action"
+          type="button"
+          value="Donate"
+          @click="donate()"/>
+      </div>
+    </div>
+    <LogTrail/>
+    <Scoreboard/>
   </div>
+
 </template>
 
 <script>
+import FundFinancialState from '@/components/FundFinancialState'
+import LogTrail from '@/components/LogTrail'
+import Scoreboard from '@/components/Scoreboard'
+
 export default {
   name: 'FundCard',
   props: {
-    count: String,
     name: String,
     fundAddress: String,
     shortDescription: String
@@ -37,63 +94,42 @@ export default {
       this.$router.push({path: `/fund/${this.fundAddress}`})
     }
   },
+  components: {
+    FundFinancialState,
+    LogTrail,
+    Scoreboard,
+  }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .plate {
-    display: table;
+  .fundContainer {
     border: 1px dashed #b8b8b8;
     border-radius: 10px;
-    box-shadow: 0 0 15px #929292, 0 0 1px #c4c4c4, 0 0 1px #ececec;
-    cursor: hand;
-    cursor: pointer;
-    height: 250px;
-    width: 90%;
-    margin-left: 100px;
-    margin-right: 100px;
-    font-size: 14px;
-    line-height: 20px;
   }
 
-  .plate:hover {
-    background-color: rgba(238, 238, 238, 0.07);
-    box-shadow: 0 0 15px #929292, 0 0 15px #c4c4c4, 0 0 15px #ececec;
+  .social {
+    margin-top: 50px;
   }
 
-  .icon {
-    display: table-cell;
-    border-right: 1px dashed #b8b8b8;
+  ul {
+    text-align: right;
+  }
+
+  ul li {
+    display: inline-block;
+    padding: 0 20px;
+  }
+
+  .fundLogo {
     vertical-align: middle;
-    padding: 13px 0;
-    width: 100px;
-    font-size: 24px;
-    font-weight: bold;
+
   }
 
-  .content {
-    display: table;
-  }
-
-  .fundImage {
-    display: table-cell;
-    vertical-align: middle;
-    padding: 13px 0;
-    width: 350px;
-  }
-
-  .fundText {
-    padding: 3px 10px;
-    display: block;
-  }
-
-  .fundFinState {
-    display: table-cell;
-    border-left: 1px dashed #b8b8b8;
-    vertical-align: middle;
-    padding: 13px 0;
-    width: 200px;
+  .fundDescription {
+    text-align: justify;
+    text-justify: inter-word;
   }
 
 </style>
