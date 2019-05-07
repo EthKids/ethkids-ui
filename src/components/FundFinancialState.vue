@@ -51,15 +51,61 @@ export default {
     const self = this;
     this.$store.subscribe((mutation) => {
       if (mutation.type === 'registerToken') {
-        let tokenInstance = mutation.payload;
-        tokenInstance.methods.balanceOf(self.$store.state.web3.coinbase).call().then((tokenBalance) => {
-          self.$store.commit('registerTokenMyBalance', parseFloat(window.web3.utils.fromWei(tokenBalance.toString(), 'ether')).toFixed(3));
-        });
-        tokenInstance.methods.totalSupply().call().then((totalSupply) => {
-          self.$store.commit('registerTokenTotalSupply', window.web3.utils.fromWei(totalSupply.toString(), 'ether'));
+        self.loadMyTokenBalance();
+        self.loadTokenSupply();
+      }
+      if (mutation.type === 'registerCharityVault') {
+        self.loadCharityVault();
+      }
+      if (mutation.type === 'registerBondingVault') {
+        self.loadBondingVault();
+      }
+      if (mutation.type == 'registerCommunity') {
+        let latestDonationBlock = 0;
+        self.$store.state.communityInstance().events.LogDonationReceived({}, (e, res) => {
+          if (!e && latestDonationBlock < res.blockNumber) {
+            this.loadMyTokenBalance();
+            this.loadTokenSupply();
+            this.loadCharityVault();
+            this.loadBondingVault();
+            latestDonationBlock = res.blockNumber;
+          }
         });
       }
     });
+  },
+  methods: {
+    loadMyTokenBalance() {
+      let tokenInstance = this.$store.state.tokenInstance();
+      tokenInstance.methods.balanceOf(this.$store.state.web3.coinbase).call().then((tokenBalance) => {
+        this.$store.commit('registerTokenMyBalance', parseFloat(window.web3.utils.fromWei(tokenBalance.toString(), 'ether')).toFixed(3));
+      });
+    },
+    loadTokenSupply() {
+      let tokenInstance = this.$store.state.tokenInstance();
+      tokenInstance.methods.totalSupply().call().then((totalSupply) => {
+        this.$store.commit('registerTokenTotalSupply', window.web3.utils.fromWei(totalSupply.toString(), 'ether'));
+      });
+    },
+    loadCharityVault() {
+      let charityVaultContract = this.$store.state.charityVaultInstance();
+      charityVaultContract.methods.sumStats().call().then((sumRaised) => {
+        let balanceEth = window.web3.utils.fromWei(sumRaised.toString(), 'ether');
+        this.$store.commit('registerTotalDonationsRaised', parseFloat(balanceEth).toFixed(3));
+      });
+
+      window.web3.eth.getBalance(charityVaultContract.options.address, (err, charityBalance) => {
+        let balanceEth = window.web3.utils.fromWei(charityBalance.toString(), 'ether');
+        this.$store.commit('registerCharityVaultBalance', parseFloat(balanceEth).toFixed(3));
+      });
+    },
+    loadBondingVault() {
+      let bondingVaultContract = this.$store.state.bondingVaultInstance();
+      window.web3.eth.getBalance(bondingVaultContract.options.address, (err, bondingVaultBalance) => {
+        let balanceEth = window.web3.utils.fromWei(bondingVaultBalance.toString(), 'ether');
+        this.$store.commit('registerBondingVaultBalance', parseFloat(balanceEth).toFixed(3));
+      });
+    }
   }
 }
 </script>

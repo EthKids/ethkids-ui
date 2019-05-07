@@ -1,6 +1,6 @@
 <template>
   <div class="container fundContainer">
-    <donate-modal @show-loading="onShowLoading" @hide-loading="onHideLoading"/>
+    <donate-modal/>
     <div class="row">
       <div class="col-sm-8">
         <div class="media">
@@ -102,7 +102,7 @@ export default {
   methods: {
     donate() {
       EventBus.publish('OPEN_DONATE');
-    }
+    },
   },
   components: {
     FundFinancialState,

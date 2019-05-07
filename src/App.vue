@@ -17,9 +17,9 @@
     <custom-footer/>
     <loading
       :active.sync="isLoading"
-      loader="dots"
-      color="#fcb12b"
-      background-color="#1c2020">
+      loader="bars"
+      color="#007bff"
+      background-color="#F1D7AD">
       <div slot="after" class="vld-text">
         {{loaderText}}
       </div>
@@ -63,15 +63,14 @@ export default {
       this.$store.dispatch('registerContracts');
     });
 
-  },
-  methods: {
-    onShowLoading(text) {
-      this.isLoading = true;
-      this.loaderText = text;
-    },
-    onHideLoading() {
-      this.isLoading = false;
-    },
+    EventBus.subscribe('OPEN_LOADING', (text) => {
+      self.isLoading = true;
+      self.loaderText = text;
+    });
+    EventBus.subscribe('CLOSE_LOADING', (text) => {
+      self.isLoading = false;
+    });
+
   },
 }
 </script>
@@ -79,48 +78,73 @@ export default {
 <style lang="scss">
   @import '../node_modules/vue-loading-overlay/dist/vue-loading.css';
 
-#app {
-  font-family: 'Cairo', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+  #app {
+    font-family: 'Cairo', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+  }
 
-h1 {
-  line-height: 1.3;
-  letter-spacing: .1px;
-  text-align: center;
-  font-weight: 200;
-  font-size: 2.75rem;
-}
+  h1 {
+    line-height: 1.3;
+    letter-spacing: .1px;
+    text-align: center;
+    font-weight: 200;
+    font-size: 2.75rem;
+  }
 
-h2 {
-  font-weight: 300;
-}
+  h2 {
+    font-weight: 300;
+  }
 
-.highlighted {
-  color: #ffbc4e;
-}
+  .highlighted {
+    color: #ffbc4e;
+  }
 
-a:hover {
-  color: #ffbc4e;
-}
+  a:hover {
+    color: #ffbc4e;
+  }
 
-.custom-btn-action {
-  background-color: #ffbc4e;
-  box-shadow: 0 0 2px #ffbc4e, 0 0 25px rgba(255, 188, 78, 0.58), 0 0 5px rgba(255, 188, 78, 0.15);
-  margin: 7px;
-}
+  .custom-btn-action {
+    background-color: #ffbc4e;
+    box-shadow: 0 0 2px #ffbc4e, 0 0 25px rgba(255, 188, 78, 0.58), 0 0 5px rgba(255, 188, 78, 0.15);
+    margin: 7px;
+  }
 
-.custom-btn-action:hover {
-  background-color: #ffb131;
-  box-shadow: 0 0 2px #ffbc4e, 0 0 25px rgba(255, 188, 78, 0.58), 0 0 5px rgba(255, 188, 78, 0.15);
-  text-shadow: 0 0 2px #ffbc4e, 0 0 25px rgba(255, 188, 78, 0.58), 0 0 5px rgba(255, 188, 78, 0.15);
-}
+  .custom-btn-action:hover {
+    background-color: #ffb131;
+    box-shadow: 0 0 2px #ffbc4e, 0 0 25px rgba(255, 188, 78, 0.58), 0 0 5px rgba(255, 188, 78, 0.15);
+    text-shadow: 0 0 2px #ffbc4e, 0 0 25px rgba(255, 188, 78, 0.58), 0 0 5px rgba(255, 188, 78, 0.15);
+  }
 
-.icon {
-  padding-left: 30px;
-  color: black;
-}
+  .icon {
+    padding-left: 30px;
+    color: black;
+  }
+
+  .vld-overlay {
+
+  .vld-background {
+    opacity: 0.9;
+  }
+
+  .vld-icon {
+    position: relative;
+    width: 100%;
+    text-align: center;
+
+  svg {
+    width: 120px;
+    height: 70px;
+  }
+
+  }
+  }
+  .vld-text {
+    color: #5e6bde;
+    text-align: center;
+    font-size: 24px;
+    width: 100%;
+  }
 </style>

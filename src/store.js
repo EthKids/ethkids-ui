@@ -133,12 +133,6 @@ export default new Vuex.Store({
       commit('registerBondingVaultAddress', bondingVaultAddress);
       getBondingVaultContract(bondingVaultAddress).then((bondingVaultContract) => {
         commit('registerBondingVault', bondingVaultContract);
-
-        window.web3.eth.getBalance(bondingVaultAddress, (err, bondingVaultBalance) => {
-          let balanceEth = window.web3.utils.fromWei(bondingVaultBalance.toString(), 'ether');
-          commit('registerBondingVaultBalance', parseFloat(balanceEth).toFixed(3));
-        });
-
       }).catch((err) => {
         console.log(err);
       });
@@ -148,17 +142,6 @@ export default new Vuex.Store({
       commit('registerCharityVaultAddress', charityVaultAddress);
       getCharityVaultContract(charityVaultAddress).then((charityVaultContract) => {
         commit('registerCharityVault', charityVaultContract);
-
-        charityVaultContract.methods.sumStats().call().then((sumRaised) => {
-          let balanceEth = window.web3.utils.fromWei(sumRaised.toString(), 'ether');
-          commit('registerTotalDonationsRaised', parseFloat(balanceEth).toFixed(3));
-        });
-
-        window.web3.eth.getBalance(charityVaultAddress, (err, charityBalance) => {
-          let balanceEth = window.web3.utils.fromWei(charityBalance.toString(), 'ether');
-          commit('registerCharityVaultBalance', parseFloat(balanceEth).toFixed(3));
-        });
-
       }).catch((err) => {
         console.log(err);
       });

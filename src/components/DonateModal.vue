@@ -57,17 +57,17 @@ export default {
     donate() {
       const self = this;
       self.donateModal = false;
-      self.$emit('show-loading', 'Processing your transaction...');
+      EventBus.publish('OPEN_LOADING', 'Processing your transaction...');
       self.$store.state.communityInstance().methods
         .donate()
         .send({from: self.$store.state.web3.coinbase, value: window.web3.utils.toWei(self.donation.toString(), 'ether')})
         .on('confirmation', () => {
         })
         .on('receipt', () => {
-          self.$emit('hide-loading');
+          EventBus.publish('CLOSE_LOADING');
         })
         .on('error', () => {
-          self.$emit('hide-loading');
+          EventBus.publish('CLOSE_LOADING');
         });
     },
   },
