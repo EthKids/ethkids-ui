@@ -28,15 +28,22 @@ export default new Vuex.Store({
     //TODO These states are per community
     communityAddress: null,
     communityInstance: null,
+    //bonding vault stats
+    bondingVaultAddress: null,
     bondingVaultInstance: null,
+    bondingVaultBalance: null,
     //charity vault stats
     charityVaultAddress: null,
     charityVaultInstance: null,
     charityVaultBalance: null,
     totalDonationsRaised: 0,
-
+    //token stats
     tokenAddress: null,
     tokenInstance: null,
+    tokenSym: null,
+    tokenTotalSupply: null,
+    tokenMyBalance: null,
+    tokenMyETHSell: null,
 
   },
   mutations: {
@@ -70,8 +77,14 @@ export default new Vuex.Store({
     registerCommunity(state, payload) {
       state.communityInstance = () => payload;
     },
+    registerBondingVaultAddress(state, payload) {
+      state.bondingVaultAddress = payload;
+    },
     registerBondingVault(state, payload) {
       state.bondingVaultInstance = () => payload;
+    },
+    registerBondingVaultBalance(state, payload) {
+      state.bondingVaultBalance = payload;
     },
     registerCharityVaultAddress(state, payload) {
       state.charityVaultAddress = payload;
@@ -87,6 +100,15 @@ export default new Vuex.Store({
     },
     registerToken(state, payload) {
       state.tokenInstance = () => payload;
+    },
+    registerTokenSym(state, payload) {
+      state.tokenSym = payload;
+    },
+    registerTokenTotalSupply(state, payload) {
+      state.tokenTotalSupply = payload;
+    },
+    registerTokenMyBalance(state, payload) {
+      state.tokenMyBalance = payload;
     },
     registerTotalDonationsRaised(state, payload) {
       state.totalDonationsRaised = payload;
@@ -108,8 +130,13 @@ export default new Vuex.Store({
       commit('pollWeb3Instance', payload);
     },
     initBondingVaultContract({commit}, bondingVaultAddress) {
+      commit('registerBondingVaultAddress', bondingVaultAddress);
       getBondingVaultContract(bondingVaultAddress).then((bondingVaultContract) => {
         commit('registerBondingVault', bondingVaultContract);
+
+        window.web3.eth.getBalance(bondingVaultAddress, (err, bondingVaultBalance) => {
+          commit('registerBondingVaultBalance', bondingVaultBalance);
+        });
 
       }).catch((err) => {
         console.log(err);
@@ -137,6 +164,10 @@ export default new Vuex.Store({
       commit('registerTokenAddress', tokenAddress);
       getCommunityTokenContract(tokenAddress).then((tokenContract) => {
         commit('registerToken', tokenContract);
+
+        tokenContract.methods.symbol().call().then((sym) => {
+          commit('registerTokenSym', sym);
+        });
 
       }).catch((err) => {
         console.log(err);
