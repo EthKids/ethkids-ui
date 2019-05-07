@@ -4,9 +4,41 @@
     <div class="row">
       <div class="col-sm-8">
         <div class="media">
-          <img class="mr-3" src="http://www.chance.by/upload/iblock/a0c/320h200_cvetnoy.jpg" title="Фонд 'ШАНС'">
+          <div class="col-sm">
+            <img class="mr-3" src="http://www.chance.by/upload/iblock/a0c/320h200_cvetnoy.jpg" title="Фонд 'ШАНС'">
+            <ul class="social">
+              <li>
+                <a href="https://twitter.com/FondChance" class="icon">
+                  <font-awesome-icon size="lg" :icon="['fab', 'twitter']"/>
+                </a>
+              </li>
+              <li>
+                <a href="https://vk.com/chance_foundation" class="icon">
+                  <font-awesome-icon size="lg" :icon="['fab', 'vk']"/>
+                </a>
+              </li>
+              <li>
+                <a href="https://www.facebook.com/FoundationChanceBelarus" class="icon">
+                  <font-awesome-icon size="lg" :icon="['fab', 'facebook-f']"/>
+                </a>
+              </li>
+              <li>
+                <a href="http://www.youtube.com/user/chancefond" class="icon">
+                  <font-awesome-icon size="lg" :icon="['fab', 'youtube']"/>
+                </a>
+              </li>
+              <li>
+                <a href="https://www.instagram.com/chance_foundation/" class="icon">
+                  <font-awesome-icon size="lg" :icon="['fab', 'instagram']"/>
+                </a>
+              </li>
+            </ul>
+          </div>
           <div class="media-body">
             <h2 class="mt-0">{{name}}</h2>
+            <h6>
+              <a href="https://www.chance.by/">https://www.chance.by</a>
+            </h6>
             Lorem ipsum dolor sit amet, sed te brute deserunt vulputate, singulis reprehendunt ei vim.
 
             Lorem ipsum dolor sit amet, sed te brute deserunt vulputate, singulis reprehendunt ei vim.
@@ -32,40 +64,6 @@
       </div>
       <div class="col-sm">
         <FundFinancialState/>
-      </div>
-    </div>
-    <div class="row social">
-      <div class="col-sm">
-        <a href="https://www.chance.by/">https://www.chance.by/</a>
-      </div>
-      <div class="col-sm">
-        <ul>
-          <li>
-            <a href="https://twitter.com/FondChance" class="icon">
-              <font-awesome-icon size="lg" :icon="['fab', 'twitter']"/>
-            </a>
-          </li>
-          <li>
-            <a href="https://vk.com/chance_foundation" class="icon">
-              <font-awesome-icon size="lg" :icon="['fab', 'vk']"/>
-            </a>
-          </li>
-          <li>
-            <a href="https://www.facebook.com/FoundationChanceBelarus" class="icon">
-              <font-awesome-icon size="lg" :icon="['fab', 'facebook-f']"/>
-            </a>
-          </li>
-          <li>
-            <a href="http://www.youtube.com/user/chancefond" class="icon">
-              <font-awesome-icon size="lg" :icon="['fab', 'youtube']"/>
-            </a>
-          </li>
-          <li>
-            <a href="https://www.instagram.com/chance_foundation/" class="icon">
-              <font-awesome-icon size="lg" :icon="['fab', 'instagram']"/>
-            </a>
-          </li>
-        </ul>
       </div>
     </div>
     <div class="row justify-content-center">
@@ -121,16 +119,15 @@ export default {
   }
 
   .social {
-    margin-top: 50px;
+    margin-top: 20px;
   }
 
   ul {
-    text-align: right;
+    text-align: left;
   }
 
   ul li {
     display: inline-block;
-    padding: 0 20px;
   }
 
   .fundDescription {

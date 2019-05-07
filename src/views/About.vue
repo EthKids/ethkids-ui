@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1>This is an about page</h1>
+    <h1>{{msg}}</h1>
 
     <h3>
       What is it for
@@ -15,3 +15,21 @@
     </h3>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'About',
+  data() {
+    return {
+      msg: 'This is an about page',
+    };
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+  .container {
+    padding: 100px 10px 0px 10px;
+    height: 100vh;
+  }
+</style>

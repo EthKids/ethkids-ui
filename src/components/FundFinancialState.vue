@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <sell-modal/>
     <dl class="row">
       <dt class="col-sm-7">Token</dt>
       <dd class="col-sm-5"><a v-bind:href="getTokenLink">{{this.$store.state.tokenSym}}</a></dd>
@@ -18,21 +19,33 @@
       <dt class="col-sm-7">My tokens</dt>
       <dd class="col-sm-5"> {{this.$store.state.tokenMyBalance + '/' + this.$store.state.tokenTotalSupply}} {{this.$store.state.tokenSym}}</dd>
 
+      <dt class="col-sm-7">My stake</dt>
+      <dd class="col-sm-5"> {{getMyTokenPercent}}</dd>
+
+      <dt class="col-sm-7">My current price</dt>
+      <dd class="col-sm-5"> XYX</dd>
+
       <dt class="col-sm-7"></dt>
       <dd class="col-sm-5">
         <input
           class="btn btn-primary btn-sm custom-btn-action"
           type="button"
-          value="Sell back"
+          value="Sell my tokens"
           @click="sellBack()"/></dd>
     </dl>
   </div>
 </template>
 
 <script>
+import SellModal from '@/components/SellModal';
+import EventBus from '@/utils/event-bus';
 
 export default {
   name: 'FundFinancialState',
+  components: {
+    EventBus,
+    SellModal,
+  },
   computed: {
     getTokenLink() {
       return `https://etherscan.io/address/${this.$store.state.tokenAddress}`;
@@ -46,6 +59,14 @@ export default {
     getBondingVaultAddressLink() {
       return `https://etherscan.io/address/${this.$store.state.bondingVaultAddress}`;
     },
+    getMyTokenPercent() {
+      if (this.$store.state.tokenTotalSupply > 0) {
+        return ((this.$store.state.tokenMyBalance / this.$store.state.tokenTotalSupply) * 100).toFixed(1) + '%';
+      } else {
+        return '0%';
+      }
+
+    }
   },
   mounted() {
     const self = this;
@@ -64,17 +85,31 @@ export default {
         let latestDonationBlock = 0;
         self.$store.state.communityInstance().events.LogDonationReceived({}, (e, res) => {
           if (!e && latestDonationBlock < res.blockNumber) {
-            this.loadMyTokenBalance();
-            this.loadTokenSupply();
-            this.loadCharityVault();
-            this.loadBondingVault();
+            this.reloadFinancialState();
             latestDonationBlock = res.blockNumber;
+          }
+        });
+
+        let latestSoldBlock = 0;
+        self.$store.state.communityInstance().events.LogTokensSold({}, (e, res) => {
+          if (!e && latestSoldBlock < res.blockNumber) {
+            this.reloadFinancialState();
+            latestSoldBlock = res.blockNumber;
           }
         });
       }
     });
   },
   methods: {
+    sellBack() {
+      EventBus.publish('OPEN_SELL');
+    },
+    reloadFinancialState() {
+      this.loadMyTokenBalance();
+      this.loadTokenSupply();
+      this.loadCharityVault();
+      this.loadBondingVault();
+    },
     loadMyTokenBalance() {
       let tokenInstance = this.$store.state.tokenInstance();
       tokenInstance.methods.balanceOf(this.$store.state.web3.coinbase).call().then((tokenBalance) => {
