@@ -30,6 +30,25 @@ export default {
     FixedHeader,
     FontAwesomeIcon,
     CustomFooter
+  },
+  data() {
+    return {
+      isLoading: false,
+      loaderText: '',
+    };
+  },
+  beforeCreate() {
+    const self = this;
+    //subscriptions
+    this.$store.subscribe((mutation) => {
+
+    });
+
+    //dispatchers
+    this.$store.dispatch('registerWeb3').then(() => {
+      this.$store.dispatch('registerContracts');
+    });
+
   }
 }
 </script>

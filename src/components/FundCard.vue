@@ -23,8 +23,8 @@
             Mel te esse tractatos. Has ea omnes percipitur, odio doctus integre ex pro. Et mea aeque nostrud delenit. Ius ne numquam quaerendum
             ullamcorper.
           </p>
-          <p>906 helped children</p>
-          <p>10 active years</p>
+          <p>906 children helped</p>
+          <p>10 years active</p>
           <p>$13,615,100 raised in donations</p>
           <p>11 employees</p>
         </div>

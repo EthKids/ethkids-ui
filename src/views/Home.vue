@@ -1,6 +1,7 @@
 <template>
   <div class="container">
-    <img alt="Vue logo" src="../assets/header.jpg">
+    <!--<img src="../assets/header.jpg">-->
+    Image
     <DescriptionPlate/>
     <div class="row justify-content-center">
       <h2>

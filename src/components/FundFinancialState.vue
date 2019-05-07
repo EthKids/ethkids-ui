@@ -2,14 +2,14 @@
   <div class="container">
     <dl class="row">
       <dt class="col-sm-7">Token</dt>
-      <dd class="col-sm-5"><a href="https://etherscan.io/address/0xcd979b552b46c49f01c0d0cb9a481976bcd50f7d">CHANCE</a></dd>
+      <dd class="col-sm-5"><a v-bind:href="getTokenLink">CHANCE</a></dd>
 
       <dt class="col-sm-7">Total raised up to now</dt>
-      <dd class="col-sm-5"><a href>{{100}} ETH </a></dd>
+      <dd class="col-sm-5"><a v-bind:href="getCommunityAddressLink">{{this.$store.state.totalDonationsRaised}} ETH </a></dd>
 
 
-      <dt class="col-sm-7">Current donation fund</dt>
-      <dd class="col-sm-5"><a href>{{10}} ETH</a></dd>
+      <dt class="col-sm-7">Current charity fund</dt>
+      <dd class="col-sm-5"><a v-bind:href="getCharityVaultLink">{{this.$store.state.charityVaultBalance}} ETH</a></dd>
 
       <dt class="col-sm-7">Community funds</dt>
       <dd class="col-sm-5"><a href>{{2}} ETH</a></dd>
@@ -30,8 +30,20 @@
 </template>
 
 <script>
+
 export default {
-  name: 'FundFinancialState'
+  name: 'FundFinancialState',
+  computed: {
+    getTokenLink() {
+      return `https://etherscan.io/address/${this.$store.state.tokenAddress}`;
+    },
+    getCommunityAddressLink() {
+      return `https://etherscan.io/address/${this.$store.state.communityAddress}`;
+    },
+    getCharityVaultLink() {
+      return `https://etherscan.io/address/${this.$store.state.charityVaultAddress}`;
+    },
+  },
 }
 </script>
 

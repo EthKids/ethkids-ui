@@ -11,7 +11,7 @@ import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 Vue.use(BootstrapVue)
 library.add(faLink, faTelegramPlane, faTwitter, faVk, faFacebookF, faYoutube, faInstagram, faGithub);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 new Vue({
   router,
