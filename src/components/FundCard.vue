@@ -1,5 +1,6 @@
 <template>
   <div class="container fundContainer">
+    <donate-modal @show-loading="onShowLoading" @hide-loading="onHideLoading"/>
     <div class="row">
       <div class="col-sm-8">
         <div class="media">
@@ -76,7 +77,6 @@
           @click="donate()"/>
       </div>
     </div>
-
     <hr>
 
     <LogTrail/>
@@ -86,9 +86,11 @@
 </template>
 
 <script>
+import EventBus from '@/utils/event-bus';
 import FundFinancialState from '@/components/FundFinancialState'
 import LogTrail from '@/components/LogTrail'
 import Scoreboard from '@/components/Scoreboard'
+import DonateModal from '@/components/DonateModal';
 
 export default {
   name: 'FundCard',
@@ -98,14 +100,15 @@ export default {
     shortDescription: String
   },
   methods: {
-    onClickButton() {
-      this.$router.push({path: `/fund/${this.fundAddress}`})
+    donate() {
+      EventBus.publish('OPEN_DONATE');
     }
   },
   components: {
     FundFinancialState,
     LogTrail,
     Scoreboard,
+    DonateModal,
   }
 }
 </script>

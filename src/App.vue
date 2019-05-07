@@ -15,6 +15,15 @@
     </fixed-header>
     <router-view/>
     <custom-footer/>
+    <loading
+      :active.sync="isLoading"
+      loader="dots"
+      color="#fcb12b"
+      background-color="#1c2020">
+      <div slot="after" class="vld-text">
+        {{loaderText}}
+      </div>
+    </loading>
   </div>
 </template>
 
@@ -22,14 +31,19 @@
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import FixedHeader from 'vue-fixed-header'
+import Loading from 'vue-loading-overlay';
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 import CustomFooter from '@/components/CustomFooter'
+import Modal from '@/components/Modal';
+import EventBus from '@/utils/event-bus';
 
 export default {
   components: {
+    Loading,
     FixedHeader,
     FontAwesomeIcon,
-    CustomFooter
+    CustomFooter,
+    Modal,
   },
   data() {
     return {
@@ -49,11 +63,22 @@ export default {
       this.$store.dispatch('registerContracts');
     });
 
-  }
+  },
+  methods: {
+    onShowLoading(text) {
+      this.isLoading = true;
+      this.loaderText = text;
+    },
+    onHideLoading() {
+      this.isLoading = false;
+    },
+  },
 }
 </script>
 
-<style>
+<style lang="scss">
+  @import '../node_modules/vue-loading-overlay/dist/vue-loading.css';
+
 #app {
   font-family: 'Cairo', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

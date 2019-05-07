@@ -24,7 +24,7 @@
           class="btn btn-primary btn-sm custom-btn-action"
           type="button"
           value="Sell back"
-          @click="donate()"/></dd>
+          @click="sellBack()"/></dd>
     </dl>
   </div>
 </template>
@@ -53,10 +53,10 @@ export default {
       if (mutation.type === 'registerToken') {
         let tokenInstance = mutation.payload;
         tokenInstance.methods.balanceOf(self.$store.state.web3.coinbase).call().then((tokenBalance) => {
-          self.$store.commit('registerTokenMyBalance', window.web3.utils.fromWei(tokenBalance.toString(), 'ether'))
+          self.$store.commit('registerTokenMyBalance', parseFloat(window.web3.utils.fromWei(tokenBalance.toString(), 'ether')).toFixed(3));
         });
         tokenInstance.methods.totalSupply().call().then((totalSupply) => {
-          self.$store.commit('registerTokenTotalSupply', window.web3.utils.fromWei(totalSupply.toString(), 'ether'))
+          self.$store.commit('registerTokenTotalSupply', window.web3.utils.fromWei(totalSupply.toString(), 'ether'));
         });
       }
     });
