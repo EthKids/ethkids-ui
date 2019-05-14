@@ -1,0 +1,290 @@
+[
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "AWARD_RATIO",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function",
+    "signature": "0x0ec09d0f"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "recipient",
+        "type": "address"
+      }
+    ],
+    "name": "transferPrimary",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function",
+    "signature": "0x2348238c"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "communityToken",
+    "outputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function",
+    "signature": "0x29aa1617"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "exponentContract",
+    "outputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function",
+    "signature": "0xbb2e199a"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "primary",
+    "outputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function",
+    "signature": "0xc6dbdf61"
+  },
+  {
+    "inputs": [
+      {
+        "name": "_tokenName",
+        "type": "string"
+      },
+      {
+        "name": "_tokenSymbol",
+        "type": "string"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "constructor",
+    "signature": "constructor"
+  },
+  {
+    "payable": true,
+    "stateMutability": "payable",
+    "type": "fallback"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "LogEthReceived",
+    "type": "event",
+    "signature": "0x8a68b2fe3158c268b3e8da102cd572ce692127bcc589402f0e06e2bfc0c3a9cf"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "LogEthSent",
+    "type": "event",
+    "signature": "0xdf5983565e1f67d7cfa297d3729a3e95ec39dc41c53cfaf9f92bf23e9ad589bd"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "name": "byWhom",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "name": "price",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "name": "amountOfEth",
+        "type": "uint256"
+      }
+    ],
+    "name": "LogTokenSell",
+    "type": "event",
+    "signature": "0xe8b430f755940e4008739f3cb076b2a37d0385a4e5d33ede4c7e9e799604a964"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "name": "recipient",
+        "type": "address"
+      }
+    ],
+    "name": "PrimaryTransferred",
+    "type": "event",
+    "signature": "0x4101e71e974f68df5e9730cc223280b41654676bbb052cdcc735c3337e64d2d9"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_donator",
+        "type": "address"
+      }
+    ],
+    "name": "fundWithAward",
+    "outputs": [],
+    "payable": true,
+    "stateMutability": "payable",
+    "type": "function",
+    "signature": "0xb39824a7"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_amount",
+        "type": "uint256"
+      },
+      {
+        "name": "_donator",
+        "type": "address"
+      }
+    ],
+    "name": "sell",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function",
+    "signature": "0x4189a68e"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_operator",
+        "type": "address"
+      }
+    ],
+    "name": "sweepVault",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function",
+    "signature": "0x9d5dfe8b"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "_ethAmount",
+        "type": "uint256"
+      },
+      {
+        "name": "_donator",
+        "type": "address"
+      }
+    ],
+    "name": "myBuyPrice",
+    "outputs": [
+      {
+        "name": "_finalPrice",
+        "type": "uint256"
+      },
+      {
+        "name": "_tokenAmount",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function",
+    "signature": "0xcdeb2df2"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "_tokenAmount",
+        "type": "uint256"
+      },
+      {
+        "name": "_donator",
+        "type": "address"
+      }
+    ],
+    "name": "mySellPrice",
+    "outputs": [
+      {
+        "name": "_finalPrice",
+        "type": "uint256"
+      },
+      {
+        "name": "_redeemableEth",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function",
+    "signature": "0xa6827611"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "getCommunityToken",
+    "outputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function",
+    "signature": "0x99efcaec"
+  }
+]

@@ -14,7 +14,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    registryAddress: '0xf299B3BddE0D35c7837B7EaC408C4E6E54EdA64D',
+    registryAddress: '0x51ca6C9da9460B03C44fb14B5c1e1f89e9b23C28',
     web3: {
       isInjected: false,
       web3Instance: null,
@@ -43,7 +43,7 @@ export default new Vuex.Store({
     tokenSym: null,
     tokenTotalSupply: null,
     tokenMyBalance: null,
-    tokenMyETHSell: null,
+    tokenMyETHValue: null,
 
   },
   mutations: {
@@ -109,6 +109,9 @@ export default new Vuex.Store({
     },
     registerTokenMyBalance(state, payload) {
       state.tokenMyBalance = payload;
+    },
+    registerTokenMyETHValue(state, payload) {
+      state.tokenMyETHValue = payload;
     },
     registerTotalDonationsRaised(state, payload) {
       state.totalDonationsRaised = payload;

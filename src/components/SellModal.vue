@@ -66,10 +66,10 @@ export default {
   },
   methods: {
     estimateSell() {
-      if (self.amount > 0) {
+      if (this.amount > 0) {
         this.$store.state.communityInstance().methods.myReturn(window.web3.utils.toWei(this.amount.toString(), 'ether'))
-          .call().then((result) => {
-          this.myReturn = parseFloat(window.web3.utils.fromWei(result[1].toString(), 'ether')).toFixed(3)
+          .call({from: this.$store.state.web3.coinbase}).then((result) => {
+          this.myReturn = parseFloat(window.web3.utils.fromWei(result.amountOfEth.toString(), 'ether')).toFixed(3)
         });
       } else {
         this.myReturn = 0;

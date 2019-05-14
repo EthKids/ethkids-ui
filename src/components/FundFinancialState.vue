@@ -6,14 +6,14 @@
       <dd class="col-sm-5"><a v-bind:href="getTokenLink">{{this.$store.state.tokenSym}}</a></dd>
 
       <dt class="col-sm-7">Total raised up to now</dt>
-      <dd class="col-sm-5"><a v-bind:href="getCommunityAddressLink">{{this.$store.state.totalDonationsRaised}} ETH </a></dd>
+      <dd class="col-sm-5"><a v-bind:href="getCommunityAddressLink">{{this.$store.state.totalDonationsRaised}} ΞTH </a></dd>
 
 
       <dt class="col-sm-7">Current charity fund</dt>
-      <dd class="col-sm-5"><a v-bind:href="getCharityVaultLink">{{this.$store.state.charityVaultBalance}} ETH</a></dd>
+      <dd class="col-sm-5"><a v-bind:href="getCharityVaultLink">{{this.$store.state.charityVaultBalance}} ΞTH</a></dd>
 
       <dt class="col-sm-7">Community funds</dt>
-      <dd class="col-sm-5"><a v-bind:href="getBondingVaultAddressLink">{{this.$store.state.bondingVaultBalance}} ETH</a></dd>
+      <dd class="col-sm-5"><a v-bind:href="getBondingVaultAddressLink">{{this.$store.state.bondingVaultBalance}} ΞTH</a></dd>
 
 
       <dt class="col-sm-7">My tokens</dt>
@@ -22,8 +22,8 @@
       <dt class="col-sm-7">My stake</dt>
       <dd class="col-sm-5"> {{getMyTokenPercent}}</dd>
 
-      <dt class="col-sm-7">My current price</dt>
-      <dd class="col-sm-5"> XYX</dd>
+      <dt class="col-sm-7">My tokens' value</dt>
+      <dd class="col-sm-5">{{this.$store.state.tokenMyETHValue}} ΞTH</dd>
 
       <dt class="col-sm-7"></dt>
       <dd class="col-sm-5">
@@ -113,13 +113,25 @@ export default {
     loadMyTokenBalance() {
       let tokenInstance = this.$store.state.tokenInstance();
       tokenInstance.methods.balanceOf(this.$store.state.web3.coinbase).call().then((tokenBalance) => {
-        this.$store.commit('registerTokenMyBalance', parseFloat(window.web3.utils.fromWei(tokenBalance.toString(), 'ether')).toFixed(3));
+        this.$store.commit('registerTokenMyBalance',
+          Math.floor(parseFloat(window.web3.utils.fromWei(tokenBalance.toString(), 'ether')).toFixed(3) * 100) / 100);
+
+        if (Number(tokenBalance) > 0) {
+          this.$store.state.communityInstance().methods.myReturn(tokenBalance)
+            .call({from: this.$store.state.web3.coinbase}).then((result) => {
+            this.$store.commit('registerTokenMyETHValue', parseFloat(window.web3.utils.fromWei(result.amountOfEth.toString(), 'ether')).toFixed(3));
+          }).catch((e) => {
+            throw e;
+          });
+        }
+
       });
     },
     loadTokenSupply() {
       let tokenInstance = this.$store.state.tokenInstance();
       tokenInstance.methods.totalSupply().call().then((totalSupply) => {
-        this.$store.commit('registerTokenTotalSupply', window.web3.utils.fromWei(totalSupply.toString(), 'ether'));
+        this.$store.commit('registerTokenTotalSupply',
+          Math.floor(parseFloat(window.web3.utils.fromWei(totalSupply.toString(), 'ether')).toFixed(3) * 100) / 100);
       });
     },
     loadCharityVault() {
