@@ -24,7 +24,7 @@
       <b-button class="btn-primary custom-btn-action"
                 variant="primary"
                 @click="donate()">
-        Donate
+        {{this.btnText}}
       </b-button>
     </div>
   </modal>
@@ -43,6 +43,7 @@ export default {
   },
   data() {
     return {
+      btnText: 'Donate',
       donateModal: false,
       donation: 0.1,
     };
@@ -57,11 +58,13 @@ export default {
     donate() {
       const self = this;
       self.donateModal = false;
-      EventBus.publish('OPEN_LOADING', 'Processing your transaction...');
+      EventBus.publish('OPEN_LOADING', 'Waiting for sending...');
       self.$store.state.communityInstance().methods
         .donate()
         .send({from: self.$store.state.web3.coinbase, value: window.web3.utils.toWei(self.donation.toString(), 'ether')})
         .on('confirmation', () => {
+          EventBus.publish('CLOSE_LOADING');
+          EventBus.publish('OPEN_LOADING', 'Waiting for the confirmation...');
         })
         .on('receipt', () => {
           EventBus.publish('CLOSE_LOADING');
