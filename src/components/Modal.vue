@@ -75,7 +75,7 @@ export default {
 
   .modal-container {
     margin: 0px auto;
-    padding: 20px 30px;
+    padding: 10px 20px;
     color: #382e2e;
     background-color: rgba(241, 215, 173, 0.9);
     border-radius: 7px;
@@ -85,6 +85,7 @@ export default {
   }
 
   .modal-header {
+    padding-top: 36px;
     display: block;
     text-align: center;
     border: none;

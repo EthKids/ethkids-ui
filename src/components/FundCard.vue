@@ -2,8 +2,9 @@
   <div class="container fundContainer">
     <donate-modal/>
     <pass-charity-modal/>
+    <sell-modal/>
     <div class="row">
-      <div class="col-sm-8">
+      <div class="col-12">
         <div class="media">
           <div class="col-sm">
             <img class="mr-3" src="http://www.chance.by/upload/iblock/a0c/320h200_cvetnoy.jpg" title="Фонд 'ШАНС'">
@@ -63,10 +64,8 @@
           <p>11 employees</p>
         </div>
       </div>
-      <div class="col-sm">
-        <FundFinancialState/>
-      </div>
     </div>
+    <FundFinancialState/>
     <div class="row justify-content-center">
       <div class="actions">
         <input
@@ -97,6 +96,7 @@ import LogTrail from '@/components/LogTrail'
 import Scoreboard from '@/components/Scoreboard'
 import DonateModal from '@/components/DonateModal';
 import PassCharityModal from '@/components/PassCharityModal';
+import SellModal from '@/components/SellModal';
 
 export default {
   name: 'FundCard',
@@ -134,6 +134,7 @@ export default {
     Scoreboard,
     DonateModal,
     PassCharityModal,
+    SellModal
   }
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <!--<img src="../assets/header.jpg">-->
+    <img src="../assets/header.jpg">
     <metamask-warning v-if="!this.$store.state.web3.isInjected || !this.$store.state.web3.coinbase"/>
     <network-warning v-if="!(!this.$store.state.web3.isInjected || !this.$store.state.web3.coinbase) &&
               this.$store.state.web3.networkId != this.$store.state.requiredNetwork"/>

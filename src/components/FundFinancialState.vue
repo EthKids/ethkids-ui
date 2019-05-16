@@ -1,50 +1,59 @@
 <template>
   <div class="container">
-    <sell-modal/>
-    <dl class="row">
-      <dt class="col-sm-7">Token</dt>
-      <dd class="col-sm-5"><a v-bind:href="getTokenLink">{{this.$store.state.tokenSym}}</a></dd>
+    <div class="row">
+      <div class="col-sm-4">
+        <h3>Community token</h3>
+        <dl class="row">
+          <dt class="col-sm-7">Symbol</dt>
+          <dd class="col-sm-5"><a v-bind:href="getTokenLink">{{this.$store.state.tokenSym}}</a></dd>
+        </dl>
+      </div>
+      <div class="col-sm-4">
+        <h3>Vaults</h3>
+        <dl class="row">
+          <dt class="col-sm-7">Total donated up to now</dt>
+          <dd class="col-sm-5"><a v-bind:href="getCommunityAddressLink">{{this.$store.state.totalDonationsRaised}} ΞTH </a></dd>
 
-      <dt class="col-sm-7">Total raised up to now</dt>
-      <dd class="col-sm-5"><a v-bind:href="getCommunityAddressLink">{{this.$store.state.totalDonationsRaised}} ΞTH </a></dd>
 
+          <dt class="col-sm-7">Charity fund</dt>
+          <dd class="col-sm-5"><a v-bind:href="getCharityVaultLink">{{this.$store.state.charityVaultBalance}} ΞTH</a></dd>
 
-      <dt class="col-sm-7">Current charity fund</dt>
-      <dd class="col-sm-5"><a v-bind:href="getCharityVaultLink">{{this.$store.state.charityVaultBalance}} ΞTH</a></dd>
+          <dt class="col-sm-7">Community funds</dt>
+          <dd class="col-sm-5"><a v-bind:href="getBondingVaultAddressLink">{{this.$store.state.bondingVaultBalance}} ΞTH</a></dd>
+        </dl>
+      </div>
+      <div class="col-sm-4">
+        <h3>My assets</h3>
+        <dl class="row">
+          <dt class="col-sm-7">My tokens</dt>
+          <dd class="col-sm-5"> {{this.$store.state.tokenMyBalance + '/' + this.$store.state.tokenTotalSupply}} {{this.$store.state.tokenSym}}</dd>
 
-      <dt class="col-sm-7">Community funds</dt>
-      <dd class="col-sm-5"><a v-bind:href="getBondingVaultAddressLink">{{this.$store.state.bondingVaultBalance}} ΞTH</a></dd>
+          <dt class="col-sm-7">My stake</dt>
+          <dd class="col-sm-5"> {{getMyTokenPercent}}</dd>
 
+          <dt class="col-sm-7">My tokens' value</dt>
+          <dd class="col-sm-5">{{this.$store.state.tokenMyETHValue}} ΞTH</dd>
 
-      <dt class="col-sm-7">My tokens</dt>
-      <dd class="col-sm-5"> {{this.$store.state.tokenMyBalance + '/' + this.$store.state.tokenTotalSupply}} {{this.$store.state.tokenSym}}</dd>
-
-      <dt class="col-sm-7">My stake</dt>
-      <dd class="col-sm-5"> {{getMyTokenPercent}}</dd>
-
-      <dt class="col-sm-7">My tokens' value</dt>
-      <dd class="col-sm-5">{{this.$store.state.tokenMyETHValue}} ΞTH</dd>
-
-      <dt class="col-sm-7"></dt>
-      <dd class="col-sm-5">
-        <input
-          class="btn btn-primary btn-sm custom-btn-action"
-          type="button"
-          value="Sell my tokens"
-          @click="sellBack()"/></dd>
-    </dl>
+          <dt class="col-sm-7"></dt>
+          <dd class="col-sm-5">
+            <input
+              class="btn btn-primary btn-sm custom-btn-action"
+              type="button"
+              value="Sell my tokens"
+              @click="sellBack()"/></dd>
+        </dl>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import SellModal from '@/components/SellModal';
 import EventBus from '@/utils/event-bus';
 
 export default {
   name: 'FundFinancialState',
   components: {
     EventBus,
-    SellModal,
   },
   computed: {
     getTokenLink() {
