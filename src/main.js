@@ -9,6 +9,7 @@ import {faTelegramPlane, faTwitter, faVk, faFacebookF, faYoutube, faInstagram, f
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 import moment from 'moment'
 
+
 Vue.use(BootstrapVue)
 library.add(faLink, faTelegramPlane, faTwitter, faVk, faFacebookF, faYoutube, faInstagram, faGithub);
 Vue.component('font-awesome-icon', FontAwesomeIcon);

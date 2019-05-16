@@ -1,6 +1,7 @@
 <template>
   <div class="container fundContainer">
     <donate-modal/>
+    <pass-charity-modal/>
     <div class="row">
       <div class="col-sm-8">
         <div class="media">
@@ -74,11 +75,17 @@
           value="Donate"
           @click="donate()"/>
       </div>
+      <div v-show="this.isAdmin" class="actions">
+        <input
+          class="btn btn-primary btn-lg custom-btn-action"
+          type="button"
+          value="Pass to charity"
+          @click="passCharity()"/>
+      </div>
     </div>
     <hr>
 
     <LogTrail/>
-    <Scoreboard/>
   </div>
 
 </template>
@@ -89,6 +96,7 @@ import FundFinancialState from '@/components/FundFinancialState'
 import LogTrail from '@/components/LogTrail'
 import Scoreboard from '@/components/Scoreboard'
 import DonateModal from '@/components/DonateModal';
+import PassCharityModal from '@/components/PassCharityModal';
 
 export default {
   name: 'FundCard',
@@ -97,16 +105,35 @@ export default {
     fundAddress: String,
     shortDescription: String
   },
+  data() {
+    return {
+      isAdmin: false,
+    };
+  },
   methods: {
     donate() {
       EventBus.publish('OPEN_DONATE');
     },
+    passCharity() {
+      EventBus.publish('PASS_CHARITY');
+    },
+  },
+  mounted() {
+    const self = this;
+    this.$store.subscribe((mutation) => {
+      if (mutation.type == 'registerCommunity') {
+        self.$store.state.communityInstance().methods.isSigner(this.$store.state.web3.coinbase).call().then((isSigner) => {
+          self.isAdmin = isSigner;
+        });
+      }
+    });
   },
   components: {
     FundFinancialState,
     LogTrail,
     Scoreboard,
     DonateModal,
+    PassCharityModal,
   }
 }
 </script>

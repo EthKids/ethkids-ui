@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-sm">
       <h3>
-        Log trail
+        Audit trail
       </h3>
       <div class="row">
         <div class="col-sm-6">
@@ -49,21 +49,26 @@ export default {
   data() {
     return {
       donations: [],
-
     };
   },
   mounted() {
     const self = this;
     this.$store.subscribe((mutation) => {
       if (mutation.type == 'registerCommunity') {
+        var eventTxs = new Set()
         self.$store.state.communityInstance().events.LogDonationReceived({fromBlock: self.$store.state.communityCreationBlock}, (e, event) => {
+          //dodgy duplicates
+          if (eventTxs.has(event.transactionHash)) return;
+          eventTxs.add(event.transactionHash);
+
           window.web3.eth.getBlockNumber().then((currentBlock) => {
-            self.donations.push({
+            self.donations.unshift({
               from: event.returnValues.from.toString().substr(0, 16) + '...',
               link: `https://etherscan.io/tx/${event.transactionHash}`,
               amount: parseFloat(window.web3.utils.fromWei(event.returnValues.amount.toString(), 'ether')).toFixed(3),
-              when: self.moment(Number(currentBlock) - Number(event.blockNumber) * 14, "s").fromNow(),
-            })
+              when: self.moment().subtract((Number(currentBlock) - Number(event.blockNumber)) * 14, 's').fromNow(),
+            });
+
           });
 
         })

@@ -53,10 +53,6 @@ export default {
   },
   beforeCreate() {
     const self = this;
-    //subscriptions
-    this.$store.subscribe((mutation) => {
-
-    });
 
     //dispatchers
     this.$store.dispatch('registerWeb3').then(() => {
@@ -71,7 +67,7 @@ export default {
       self.isLoading = false;
     });
 
-  },
+  }
 }
 </script>
 

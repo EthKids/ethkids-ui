@@ -97,6 +97,14 @@ export default {
             latestSoldBlock = res.blockNumber;
           }
         });
+
+        let latestPassToCharityBlock = 0;
+        self.$store.state.communityInstance().events.LogPassToCharity({}, (e, res) => {
+          if (!e && latestPassToCharityBlock < res.blockNumber) {
+            this.reloadFinancialState();
+            latestPassToCharityBlock = res.blockNumber;
+          }
+        });
       }
     });
   },
@@ -138,19 +146,20 @@ export default {
       let charityVaultContract = this.$store.state.charityVaultInstance();
       charityVaultContract.methods.sumStats().call().then((sumRaised) => {
         let balanceEth = window.web3.utils.fromWei(sumRaised.toString(), 'ether');
-        this.$store.commit('registerTotalDonationsRaised', parseFloat(balanceEth).toFixed(3));
+        this.$store.commit('registerTotalDonationsRaised', parseFloat(balanceEth).toFixed(2));
       });
 
       window.web3.eth.getBalance(charityVaultContract.options.address, (err, charityBalance) => {
         let balanceEth = window.web3.utils.fromWei(charityBalance.toString(), 'ether');
-        this.$store.commit('registerCharityVaultBalance', parseFloat(balanceEth).toFixed(3));
+        this.$store.commit('registerCharityVaultBalance',
+          Math.floor(parseFloat(balanceEth).toFixed(3) * 100) / 100);
       });
     },
     loadBondingVault() {
       let bondingVaultContract = this.$store.state.bondingVaultInstance();
       window.web3.eth.getBalance(bondingVaultContract.options.address, (err, bondingVaultBalance) => {
         let balanceEth = window.web3.utils.fromWei(bondingVaultBalance.toString(), 'ether');
-        this.$store.commit('registerBondingVaultBalance', parseFloat(balanceEth).toFixed(3));
+        this.$store.commit('registerBondingVaultBalance', parseFloat(balanceEth).toFixed(2));
       });
     }
   }

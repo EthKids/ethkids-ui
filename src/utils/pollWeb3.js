@@ -34,7 +34,7 @@ const pollWeb3 = () => {
       });
       web3.eth.net.getId().then((networkId) => {
         if (store.state.web3.networkId !== networkId) {
-          store.commit('registerNetworkId', networkId);
+          store.commit('registerNetworkId', Number(networkId));
         }
       }).catch((e) => {
         throw e;

@@ -14,9 +14,9 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    registryAddress: '0x51ca6C9da9460B03C44fb14B5c1e1f89e9b23C28',
-    communityCreationBlock: 25,
-    requiredNetwork: '5777',
+    registryAddress: '0x1cCE94990CcAd464d3263C0f9Ae638fca12230E5',
+    communityCreationBlock: 1,
+    requiredNetwork: 5777,
     web3: {
       isInjected: false,
       web3Instance: null,
@@ -43,9 +43,9 @@ export default new Vuex.Store({
     tokenAddress: null,
     tokenInstance: null,
     tokenSym: null,
-    tokenTotalSupply: null,
-    tokenMyBalance: null,
-    tokenMyETHValue: null,
+    tokenTotalSupply: 0,
+    tokenMyBalance: 0,
+    tokenMyETHValue: 0,
 
   },
   mutations: {
