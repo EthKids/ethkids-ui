@@ -5,10 +5,10 @@
         <router-link to="/">Home</router-link>
         |
         <router-link to="/about">About</router-link>
-        <a href="teleta" class="icon">
+        <a href="https://t.me/joinchat/K1v4ShPV57D0zfjybfRFDQ" target="_blank" class="icon">
           <font-awesome-icon size="lg" :icon="['fab', 'telegram-plane']"/>
         </a>
-        <a href="github" class="icon">
+        <a href="https://github.com/kivanov82/ethkids-contracts" class="icon">
           <font-awesome-icon size="lg" :icon="['fab', 'github']"/>
         </a>
       </div>

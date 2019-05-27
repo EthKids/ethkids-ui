@@ -210,6 +210,30 @@
     "constant": true,
     "inputs": [
       {
+        "name": "_ethAmount",
+        "type": "uint256"
+      }
+    ],
+    "name": "myBuy",
+    "outputs": [
+      {
+        "name": "finalPrice",
+        "type": "uint256"
+      },
+      {
+        "name": "tokenAmount",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function",
+    "signature": "0x9c796684"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
         "name": "_sellAmount",
         "type": "uint256"
       }

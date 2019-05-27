@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1>{{msg}}</h1>
+    <h1>How it works</h1>
 
     <h3>
       What is it for
@@ -13,17 +13,16 @@
     <h3>
       How funds get to the charity fund
     </h3>
+
+    <h3>
+      How to list a new community
+    </h3>
   </div>
 </template>
 
 <script>
 export default {
   name: 'About',
-  data() {
-    return {
-      msg: 'This is an about page',
-    };
-  },
 };
 </script>
 

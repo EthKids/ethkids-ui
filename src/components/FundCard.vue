@@ -7,7 +7,7 @@
       <div class="col-12">
         <div class="media">
           <div class="col-sm">
-            <img class="mr-3" src="http://www.chance.by/upload/iblock/a0c/320h200_cvetnoy.jpg" title="Фонд 'ШАНС'">
+            <img class="mr-3 mt-3" src="http://www.chance.by/upload/iblock/a0c/320h200_cvetnoy.jpg" title="Фонд 'ШАНС'">
             <ul class="social">
               <li>
                 <a href="https://twitter.com/FondChance" class="icon">
@@ -41,27 +41,25 @@
             <h6>
               <a href="https://www.chance.by/">https://www.chance.by</a>
             </h6>
-            Lorem ipsum dolor sit amet, sed te brute deserunt vulputate, singulis reprehendunt ei vim.
-
-            Lorem ipsum dolor sit amet, sed te brute deserunt vulputate, singulis reprehendunt ei vim.
+            Chance.by is the charity fund that helps children with serious deceases to raise funds for urgently needed medicine or surgeries.
           </div>
         </div>
 
         <div class="fundDescription">
           <p>
-            Lorem ipsum dolor sit amet, sed te brute deserunt vulputate, singulis reprehendunt ei vim.
-
-            Lorem ipsum dolor sit amet, sed te brute deserunt vulputate, singulis reprehendunt ei vim. Ei sit laoreet perpetua. Causae explicari vim
-            an, per te percipit appellantur, quo ad suas omnesque. An illud labore pri, fabulas volutpat per ut. Duo ea utamur adipiscing, mel eu
-            eligendi menandri, et doming mnesarchum dissentias pro. Verterem maluisset has te, duo epicurei dissentias id.
-
-            Mel te esse tractatos. Has ea omnes percipitur, odio doctus integre ex pro. Et mea aeque nostrud delenit. Ius ne numquam quaerendum
-            ullamcorper.
+            The fund in established back in 2008 in Belarus by a group of self-minded people under a common idea:
+            to make sure children who need medical care will get it regardless of the financial situation of their family.
+            Since 2009 the amount of people and companies who donate to the fund has been continually growing.
+            In 2013 Chance.by has signed the partnership with the Ministry of Health of Republic Belarus to find the systematic solution for helping
+            children.
+            <br>
+            During the past years, over <strong>870 children</strong> got medical help for a total amount of <strong>$12 890 000</strong>
           </p>
-          <p>906 children helped</p>
-          <p>10 years active</p>
-          <p>$13,615,100 raised in donations</p>
-          <p>11 employees</p>
+        </div>
+
+        <div class="ethKidsDescription">
+          This community has registered on EthKids protocol to increase the charity funds with
+          putting a portion on donations in the rewarding fund that will be tokenized and used as an incentive
         </div>
       </div>
     </div>
@@ -102,8 +100,6 @@ export default {
   name: 'FundCard',
   props: {
     name: String,
-    fundAddress: String,
-    shortDescription: String
   },
   data() {
     return {
@@ -147,6 +143,8 @@ export default {
   }
 
   .social {
+    display: flex;
+    justify-content: center;
     margin-top: 20px;
   }
 
@@ -161,6 +159,12 @@ export default {
   .fundDescription {
     text-align: left;
     text-justify: inter-word;
+  }
+
+  .ethKidsDescription {
+    margin: 40px;
+    padding-top: 30px;
+    border-top: 1px dashed #b8b8b8;
   }
 
 </style>

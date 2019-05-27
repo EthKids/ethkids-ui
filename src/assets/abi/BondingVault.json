@@ -1,20 +1,5 @@
 [
   {
-    "constant": true,
-    "inputs": [],
-    "name": "AWARD_RATIO",
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function",
-    "signature": "0x0ec09d0f"
-  },
-  {
     "constant": false,
     "inputs": [
       {
@@ -47,7 +32,7 @@
   {
     "constant": true,
     "inputs": [],
-    "name": "exponentContract",
+    "name": "buyFormula",
     "outputs": [
       {
         "name": "",
@@ -57,7 +42,22 @@
     "payable": false,
     "stateMutability": "view",
     "type": "function",
-    "signature": "0xbb2e199a"
+    "signature": "0xa9e944d4"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "liquidationFormula",
+    "outputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function",
+    "signature": "0xb9fb8825"
   },
   {
     "constant": true,
@@ -83,10 +83,22 @@
       {
         "name": "_tokenSymbol",
         "type": "string"
+      },
+      {
+        "name": "_buyFormulaAddress",
+        "type": "address"
+      },
+      {
+        "name": "_liquidationFormulaAddress",
+        "type": "address"
+      },
+      {
+        "name": "_initialMint",
+        "type": "uint256"
       }
     ],
-    "payable": false,
-    "stateMutability": "nonpayable",
+    "payable": true,
+    "stateMutability": "payable",
     "type": "constructor",
     "signature": "constructor"
   },
@@ -231,11 +243,11 @@
     "name": "myBuyPrice",
     "outputs": [
       {
-        "name": "_finalPrice",
+        "name": "finalPrice",
         "type": "uint256"
       },
       {
-        "name": "_tokenAmount",
+        "name": "tokenAmount",
         "type": "uint256"
       }
     ],
@@ -259,11 +271,11 @@
     "name": "mySellPrice",
     "outputs": [
       {
-        "name": "_finalPrice",
+        "name": "finalPrice",
         "type": "uint256"
       },
       {
-        "name": "_redeemableEth",
+        "name": "redeemableEth",
         "type": "uint256"
       }
     ],

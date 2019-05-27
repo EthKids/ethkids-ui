@@ -6,12 +6,17 @@
               this.$store.state.web3.networkId != this.$store.state.requiredNetwork"/>
     <div v-show="this.$store.state.web3.networkId === this.$store.state.requiredNetwork">
       <DescriptionPlate/>
-      <div class="row justify-content-center">
+      <div class="charityCounter row justify-content-center">
         <h2>
           1
         </h2>
       </div>
-      <FundCard name="Chance.by" fundAddress="0x" shortDescription="This is a charity donation fund whihi bla bla bla"/>
+      <FundCard name="Chance.by"/>
+      <div class="new-community">
+        <h5>
+          <router-link to="/about">Register new donation community for kids</router-link>
+        </h5>
+      </div>
     </div>
   </div>
 </template>
@@ -34,3 +39,11 @@ export default {
 
 }
 </script>
+
+<style lang="scss" scoped>
+  .new-community {
+    margin-top: 50px;
+    -ms-flex-pack: center !important;
+    justify-content: center !important;
+  }
+</style>

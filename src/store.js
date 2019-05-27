@@ -14,7 +14,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    registryAddress: '0x1cCE94990CcAd464d3263C0f9Ae638fca12230E5',
+    registryAddress: '0xC486FC7b5535d51ea3f8e92FE7d1BcEae6b28018',
     communityCreationBlock: 1,
     requiredNetwork: 5777,
     web3: {

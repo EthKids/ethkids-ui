@@ -2,31 +2,35 @@
   <div class="container">
     <div class="row">
       <div class="col-sm-4">
-        <h3>Community token</h3>
+        <h3>Community</h3>
         <dl class="row">
-          <dt class="col-sm-7">Symbol</dt>
-          <dd class="col-sm-5"><a v-bind:href="getTokenLink">{{this.$store.state.tokenSym}}</a></dd>
+          <dt class="col-sm-7">Token</dt>
+          <dd class="col-sm-5"><a target="_blank" v-bind:href="getTokenLink">{{this.$store.state.tokenSym}}</a></dd>
+          <dt class="col-sm-7">Available</dt>
+          <dd class="col-sm-5">{{this.$store.state.tokenTotalSupply}} {{this.$store.state.tokenSym}}</dd>
+          <dt class="col-sm-7">Total donated up to now</dt>
+          <dd class="col-sm-5"><a target="_blank" v-bind:href="getCommunityAddressLink">{{this.$store.state.totalDonationsRaised}} ΞTH </a></dd>
         </dl>
       </div>
       <div class="col-sm-4">
         <h3>Vaults</h3>
         <dl class="row">
-          <dt class="col-sm-7">Total donated up to now</dt>
-          <dd class="col-sm-5"><a v-bind:href="getCommunityAddressLink">{{this.$store.state.totalDonationsRaised}} ΞTH </a></dd>
-
-
           <dt class="col-sm-7">Charity fund</dt>
-          <dd class="col-sm-5"><a v-bind:href="getCharityVaultLink">{{this.$store.state.charityVaultBalance}} ΞTH</a></dd>
+          <dd class="col-sm-5"><a target="_blank" v-bind:href="getCharityVaultLink">{{this.$store.state.charityVaultBalance}} ΞTH</a></dd>
+          <dt class="col-sm-7"></dt>
+          <dd class="col-sm-5"><a target="_blank" v-bind:href="getCharityVaultStatsLink">See stats</a></dd>
 
-          <dt class="col-sm-7">Community funds</dt>
-          <dd class="col-sm-5"><a v-bind:href="getBondingVaultAddressLink">{{this.$store.state.bondingVaultBalance}} ΞTH</a></dd>
+          <dt class="col-sm-7">Community fund</dt>
+          <dd class="col-sm-5"><a target="_blank" v-bind:href="getBondingVaultAddressLink">{{this.$store.state.bondingVaultBalance}} ΞTH</a></dd>
+          <dt class="col-sm-7"></dt>
+          <dd class="col-sm-5"><a target="_blank" v-bind:href="getBondingVaultStatsLink">See stats</a></dd>
         </dl>
       </div>
       <div class="col-sm-4">
         <h3>My assets</h3>
         <dl class="row">
           <dt class="col-sm-7">My tokens</dt>
-          <dd class="col-sm-5"> {{this.$store.state.tokenMyBalance + '/' + this.$store.state.tokenTotalSupply}} {{this.$store.state.tokenSym}}</dd>
+          <dd class="col-sm-5"> {{this.$store.state.tokenMyBalance}} {{this.$store.state.tokenSym}}</dd>
 
           <dt class="col-sm-7">My stake</dt>
           <dd class="col-sm-5"> {{getMyTokenPercent}}</dd>
@@ -65,8 +69,14 @@ export default {
     getCharityVaultLink() {
       return `https://etherscan.io/address/${this.$store.state.charityVaultAddress}`;
     },
+    getCharityVaultStatsLink() {
+      return `https://etherscan.io/address/${this.$store.state.charityVaultAddress}#analytics`;
+    },
     getBondingVaultAddressLink() {
       return `https://etherscan.io/address/${this.$store.state.bondingVaultAddress}`;
+    },
+    getBondingVaultStatsLink() {
+      return `https://etherscan.io/address/${this.$store.state.bondingVaultAddress}#analytics`;
     },
     getMyTokenPercent() {
       if (this.$store.state.tokenTotalSupply > 0) {
