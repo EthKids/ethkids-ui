@@ -94,6 +94,12 @@ export default {
         self.loadMyTokenBalance();
         self.loadTokenSupply();
       }
+      if (mutation.type === 'pollWeb3Instance') {
+        //happens initially or upon changing account
+        if (self.$store.state.tokenInstance) {
+          self.loadMyTokenBalance();
+        }
+      }
       if (mutation.type === 'registerCharityVault') {
         self.loadCharityVault();
       }
@@ -150,6 +156,8 @@ export default {
           }).catch((e) => {
             throw e;
           });
+        } else {
+          this.$store.commit('registerTokenMyETHValue', parseFloat(0).toFixed(3));
         }
 
       });

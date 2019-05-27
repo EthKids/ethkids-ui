@@ -58,16 +58,18 @@ export default {
     donate() {
       const self = this;
       self.donateModal = false;
-      EventBus.publish('OPEN_LOADING', 'Waiting for sending...');
+      EventBus.publish('OPEN_LOADING', 'Sending...');
       self.$store.state.communityInstance().methods
         .donate()
         .send({from: self.$store.state.web3.coinbase, value: window.web3.utils.toWei(self.donation.toString(), 'ether')})
-        .on('confirmation', () => {
-          EventBus.publish('CLOSE_LOADING');
-          EventBus.publish('OPEN_LOADING', 'Waiting for the confirmation...');
-        })
         .on('receipt', () => {
           EventBus.publish('CLOSE_LOADING');
+          EventBus.publish('OPEN_LOADING', 'Thank you for your donation!');
+          setTimeout(() => {
+            EventBus.publish('CLOSE_LOADING');
+          }, 500);
+        })
+        .on('confirmation', () => {
         })
         .on('error', () => {
           EventBus.publish('CLOSE_LOADING');

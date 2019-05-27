@@ -80,8 +80,6 @@ export default {
         .passToCharity(window.web3.utils.toWei(self.passFunds.toString(), 'ether'), self.intermediary, self.ipfsHash)
         .send({from: self.$store.state.web3.coinbase})
         .on('confirmation', () => {
-          EventBus.publish('CLOSE_LOADING');
-          EventBus.publish('OPEN_LOADING', 'Waiting for the confirmation...');
         })
         .on('receipt', () => {
           EventBus.publish('CLOSE_LOADING');
