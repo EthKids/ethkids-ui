@@ -3,10 +3,16 @@
     <div v-if="!this.$store.state.web3.isInjected">
       <h2 class="highlighted">Please install Metamask</h2>
       <p>You need <a href="https://metamask.io/" target="_blank">Metamask</a> extension to donate on EthKids.</p>
+      <p>
+        <router-link to="/about">What is EthKids</router-link>
+      </p>
     </div>
     <div v-if="this.$store.state.web3.isInjected && !this.$store.state.web3.coinbase">
       <h2>Please login into Metamask</h2>
       <p>You are not connected to Ethereum node. Please login into Metamask.</p>
+      <p>
+        <router-link to="/about">What is EthKids</router-link>
+      </p>
     </div>
   </div>
 </template>

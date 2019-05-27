@@ -39,7 +39,7 @@
           <div class="media-body">
             <h2 class="mt-0">{{name}}</h2>
             <h6>
-              <a href="https://www.chance.by/">https://www.chance.by</a>
+              <a href="https://www.chance.by/" target="_blank">https://www.chance.by</a>
             </h6>
             Chance.by is the charity fund that helps children with serious deceases to raise funds for urgently needed medicine or surgeries.
           </div>
@@ -49,7 +49,9 @@
           <p>
             The fund in established back in 2008 in Belarus by a group of self-minded people under a common idea:
             to make sure children who need medical care will get it regardless of the financial situation of their family.
+            <br>
             Since 2009 the amount of people and companies who donate to the fund has been continually growing.
+            <br>
             In 2013 Chance.by has signed the partnership with the Ministry of Health of Republic Belarus to find the systematic solution for helping
             children.
             <br>

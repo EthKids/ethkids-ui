@@ -1,7 +1,7 @@
 <template>
   <div class="descriptionContainer">
     <h1 class="display-3 highlighted">EthKids</h1>
-    <p>EthKids is a decentralized protocol for charity donations for children.
+    <p>EthKids is a open source non-commercial decentralized protocol for charity donations for children.
       <br>
       Using the <a href="https://tokeneconomy.co/dynamic-token-bonding-curves-41d36e43befa" target="_blank"> dynamic bonding curve model</a> for
       donations,

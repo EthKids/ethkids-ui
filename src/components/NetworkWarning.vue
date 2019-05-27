@@ -3,6 +3,9 @@
     <div>
       <h2 class="highlighted">Mainnet only</h2>
       <p>Hooray! We're running on <b>Mainnet</b> now, please switch the network.</p>
+      <p>
+        <router-link to="/about">What is EthKids</router-link>
+      </p>
     </div>
   </div>
 </template>
