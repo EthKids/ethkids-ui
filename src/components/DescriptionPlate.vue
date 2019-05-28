@@ -7,7 +7,7 @@
       donations,
       EthKids tries to solve the problem of short-lasting relations with the donators.
       <br>
-      With the power of Ethereum Blockchain, Decentralized Finance approach, EthKids puts in action conceptually new donation mechanism,
+      With the power of Ethereum Blockchain, Decentralized Finance concept, EthKids puts in action conceptually new donation mechanism,
       where active regular contributors're rewarded in a fair way
     </p>
     <p>
