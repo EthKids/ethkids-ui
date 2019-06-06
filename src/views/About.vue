@@ -3,162 +3,255 @@
     <div class="col-md-8">
       <h1>How EthKids works</h1>
 
-      <h3>
-        1. What this all for
-      </h3>
-      <p>
-        To make this world a bit of a better place. At least for children.
-      </p>
+      <div role="tablist">
+        <b-card no-body class="mb-1">
+          <b-card-header header-tag="header" class="p-1" role="tab">
+            <b-button block href="#" v-b-toggle.accordion-1 variant="warn">1. What this is all for</b-button>
+          </b-card-header>
+          <b-collapse id="accordion-1" visible accordion="my-accordion" role="tabpanel">
+            <b-card-body>
+              <b-card-text>To make this world a bit of a better place. At least for children.</b-card-text>
+            </b-card-body>
+          </b-collapse>
+        </b-card>
 
-      <h3>
-        2. Why Blockchain?
-      </h3>
-      Although, use of Blockchain is not that straighforward yet as the mass adoption is still ahead, there is a number of unbeatable reasons to use
-      it.
-      <br>
-      To name a few:
-      <br><br>
-      <ul>
-        <li><strong>Transparency of funds collected.</strong>
-        </li>
-        Everyone can see how much and when came in, what't the state of fund is right now, and what was taken out by whom.
-        <br>
-        This history is stored in Blockchain forever, cryptographically secured and cannot be tampered by anyone.
-        <br><br>
-        <li><strong>Programmable funds distribution</strong>
-        </li>
-        Blockchain fits perfectly when the money flow is happening in many-to-many manner. When, for example, there is a trusted pot, which collects
-        the funds from the multiple routes, and under a specific programmable condition splits them over to a group of recipients.
-        <br><br>
-        <li><strong>Smart programmable appreciation</strong>
-        </li>
-        Every donator is appreciated according to a single rule, in a fair way. More about it down further.
-        <br><br>
-        <li><strong>Open source</strong>
-        </li>
-        All the programmable rules are open sourced, and cryptographically proven to be the ones that are used
-        <br><br>
-        <li><strong>Cheap and fast transfers</strong>
-        </li>
-        Donations in cryptocurrencies can be send at fairly low transaction costs, regardless of the amounts and geographical location
-      </ul>
+        <b-card no-body class="mb-1">
+          <b-card-header header-tag="header" class="p-1" role="tab">
+            <b-button block href="#" v-b-toggle.accordion-2 variant="warn">2. Why Blockchain?</b-button>
+          </b-card-header>
+          <b-collapse id="accordion-2" accordion="my-accordion" role="tabpanel">
+            <b-card-body>
+              <b-card-text>
+                Although the use of Blockchain is not that straightforward yet as the mass adoption is still ahead, there are some unbeatable grounds
+                to use it.
+                <br>
+                To name a few:
+                <br><br>
+                <ul>
+                  <li><code>Transparency of funds collected.</code>
+                  </li>
+                  Everyone can see how much and when came in, what's the status of the fund is right now, and what was taken out by whom.
+                  <br>
+                  This history is stored in Blockchain forever, cryptographically ensured and no one can tamper it.
+                  <br><br>
+                  <li><code>Programmable funds distribution</code>
+                  </li>
+                  Blockchain fits ideally when the money flow is occurring in a many-to-many fashion. When, for example, there is a trusted pot, which
+                  secures
+                  the funds from the multiple routes, and under a specific programmable condition splits them over to a group of recipients.
+                  <br><br>
+                  <li><code>Smart programmable appreciation</code>
+                  </li>
+                  Every donator gets appreciation according to a single rule, in a fair way. More about it down further.
+                  <br><br>
+                  <li><code>Open source</code>
+                  </li>
+                  All the programmable rules are open sourced and cryptographically proven to be the ones that are used
+                  <br><br>
+                  <li><code>Cheap and fast transfers</code>
+                  </li>
+                  Donations in cryptocurrencies can be sent at reasonably low transaction costs, regardless of the amounts and geographical location
+                </ul>
+              </b-card-text>
+            </b-card-body>
+          </b-collapse>
+        </b-card>
 
-      <h3>
-        3. How it works
-      </h3>
-      The charity donations can be sent per charity community, any amount, using the corresponding
-      <mark>'Donate'</mark>
-      button.
-      <br><br>
-      Once the transaction is confirmed, the donator will receive the <strong> community token</strong>, as a matter of an appreciation.
-      <br><br>
-      And then the <strong>magic</strong> begins!
-      <br><br>
-      <strong>90%</strong> of the funds will land in the <strong>Charity Vault</strong> and will stay there until the <em>community leader</em>
-      move it further to the actual charity organisation.
-      <br><br>
-      The remaining <strong>10%</strong> get into the <strong>Community Vault</strong>, which serves as a sort of a rewards pot and used to
-      backup the minted <em>community tokens</em>.
-      <br>
-      In other words, the donator gets some sort of a cashback, but in <em>community tokens.</em>
-      <br><br>
-      <strong>How this tokens can be used?</strong>
-      <br>
-      The only use case for such tokens at the moment is to <strong>sell them back</strong> (or, actually, <em>liquidate</em>).
-      <br><br>
-      <strong>At what price?</strong>
-      <br>
-      And this is a cool thing: <em>the price depends on the personal portion of tokens hold, comparing to the total amount of tokens</em>
-      <br>
-      <em>Higher</em> the portion, <em>higher</em> the price.
-      <br>
-      Again, the more you've got, percent wise, the higher your selling price is.
-      <br><br>
-      The beauty of this concept:
-      <ul>
-        <li>Donators are incentivised to keep their persent of tokens, i.e. donate more often
-        </li>
-        <li>Donator's total return grows along with the Community Vault. More funds mean higher return in case of selling,
-          even of the personal price has decreased over the time
-        </li>
-        <li>New donators have incentive to start donating, because they simpy get more tokens in the beginning
-          (personal portion is very low, or actually zero at start)
-        </li>
-      </ul>
+        <b-card no-body class="mb-1">
+          <b-card-header header-tag="header" class="p-1" role="tab">
+            <b-button block href="#" v-b-toggle.accordion-3 variant="warn">3. How it works</b-button>
+          </b-card-header>
+          <b-collapse id="accordion-3" accordion="my-accordion" role="tabpanel">
+            <b-card-body>
+              <b-card-text>
+                The charity donations can be sent per charity community, any amount, using the corresponding
+                <mark>'Donate'</mark>
+                button.
+                <br><br>
+                Once the transaction is confirmed, the donator will receive the <code> community token</code>, as a matter of an appreciation.
+                <br><br>
+                And then the <code>magic</code> begins!
+                <br><br>
+                <code>90%</code> of the funds will land in the <strong>Charity Vault</strong> and will stay there until the <em>community leader</em>
+                moves it further to the actual charity organization.
+                <br><br>
+                The remaining <code>10%</code> get into the <strong>Community Vault</strong>which serves as a sort of a rewards pot
+                and backs up the minted <em>community tokens</em>.
+                <br>
+                In other words, the donator gets some cashback, but in <code>community tokens.</code>
+                <br><br>
+                <code>How this tokens can be used?</code>
+                <br>
+                The only use case for such tokens at the moment is to <code>sell them back</code> (or <em>liquidate</em>).
+                <br><br>
+                <code>At what price?</code>
+                <br>
+                And this is a cool thing: <em>the price depends on the personal portion of tokens held, compared to the entire amount of tokens</em>.
+                <br>
+                <em>Higher</em> the portion, <em>higher</em> the price.
+                <br>
+                Again, the more you've got, percent wise, the higher your selling price is.
+                <br><br>
+                The beauty of this concept:
+                <ul>
+                  <li>Donators are incentivized to keep their percent of tokens, i.e., donate more often
+                  </li>
+                  <li>Donator's total return rises along with the Community Vault. More substantial funds mean higher performance in case of selling,
+                    even if the individual price has decreased over time
+                  </li>
+                  <li>New donators have the incentive to start donating because they get more tokens at the start
+                    (a personal portion is shallow, or 'zero' originally)
+                  </li>
+                </ul>
+              </b-card-text>
+            </b-card-body>
+          </b-collapse>
+        </b-card>
 
-      <h3>
-        4. Example
-      </h3>
-      <p>
-        Let's see how a hypothetical year with 3 donators would look like, where all donate in different patterns:
-      </p>
-      <p>
-        <strong>Bob</strong> - early adopter, donates a big portion in the beginning
-      </p>
-      <p>
-        <strong>Alice</strong> - constantly donates throughout the whole year
-      </p>
-      <p>
-        <strong>Tom</strong> - steps in at the end of the year putting small amounts
-      </p>
-      <blockquote class="blockquote text-center">
-        <img src="../assets/about-donations.png" width="600px">
-        <footer class="blockquote-footer">Community vault growth steadily</footer>
-      </blockquote>
-      <p>
-        The 'buy' price changes depending on their current holdings.
-        <br>
-        For <strong>Bob</strong> is raises significantly at the beginning, along with his initial donation. and decreases over the time,
-        effectively making new donation more attractive
-        <br>
-        For <strong>Alice</strong> is's constantly and slowly growing while she's the only active donator, but with drops when new ones contributing
-        <br>
-        For <strong>Ted</strong> it is very cheap and easy to build up his stake when he decides to donate first time, and this is the way to attract
-        new donators.
-      </p>
-      <p>
-        <img src="../assets/about-price.png" width="600px">
-      </p>
-      <p>
-        The ETH return differs based on the personal token holdings.
-        <br>
-        <strong>Bob</strong> can liquidate his tokens right after his first donation for a pretty good price, especially if he knows that he won't
-        donate more in near future.
-        But, this might not be the smartest move, since the the funds backing the bonding curve with be constantly growing when new donations happen.
-        In fact, Bob dropping in price, but still growing in ETH value.
-        <br>
-        <strong>Alice</strong> is growing steadily in her token return as she's chosen the best tacktics and rewarded the most as a constant
-        contributor.
-        <br>
-        <strong>Ted</strong> is rewarded fairly fast at the moment when he's stepping in, but will slow down if he stops.
-      </p>
-      <p>
-        <img src="../assets/about-liquidation.png" width="600px">
-      </p>
-      <p>
-        <strong>Note:</strong> If either <strong>Bob</strong>, <strong>Alice</strong> or <strong>Ted</strong>
-        will liquidate their tokens, the rest of the community will effectively grow
-        in their returns, since each of their's portion of tokens will increase.
-      </p>
-      <p>
-        <strong>Advice?</strong> The best strategy is to constantly donate to the community,
-        take an active position in growing the member's base, contribute in a variaty of the ways, and, perhaps, HODL.
-      </p>
+        <b-card no-body class="mb-1">
+          <b-card-header header-tag="header" class="p-1" role="tab">
+            <b-button block href="#" v-b-toggle.accordion-4 variant="warn">4. Example</b-button>
+          </b-card-header>
+          <b-collapse id="accordion-4" accordion="my-accordion" role="tabpanel">
+            <b-card-body>
+              <b-card-text>
+                <p>
+                  Let's see how a hypothetical year with three donators would look like, where all donate in different patterns:
+                </p>
+                <p>
+                  <code>Bob</code> - early adopter, donates a big portion in the beginning
+                </p>
+                <p>
+                  <code>Alice</code> - constantly donates throughout the whole year
+                </p>
+                <p>
+                  <code>Tom</code> - steps in at the end of the year putting small amounts
+                </p>
+                <blockquote class="blockquote text-center">
+                  <img src="../assets/about-donations.png" width="600px">
+                  <footer class="blockquote-footer">Community vault grows steadily</footer>
+                </blockquote>
+                <p>
+                  At whenever a donator sends some funds to the charity, the individual 'buy' token price calculates to
+                  find the number of community tokens he/she will receive.
+                  <br><br>
+                  As was explained earlier, the price
+                  <um>depends on the personal token balance compared to the total amount minted.</um>
+                </p>
+                <blockquote class="blockquote text-center">
+                  <img src="../assets/about-price.png" width="600px">
+                  <footer class="blockquote-footer">'Buy' price is calculated for each donator individually</footer>
+                </blockquote>
+                <p>
+                  For <code>Bob</code>, the price rises significantly at the beginning,
+                  along with his initial donation. and reduces over time (every month his portion decreases),
+                  effectively making a new donation more attractive
+                  <br><br>
+                  For <code>Alice</code>, it's continuously and slowly growing while she's the only active donator,
+                  but then drops whenever new ones contributing
+                  <br><br>
+                  For <code>Ted</code>, it is very cheap and easy to build up his stake initially.
+                </p>
+                <p>
+                  These dynamics explain how donators grow in their rewards.
+                  <br>
+                  But how their possible return changes if they want to liquidate what they've got?
+                </p>
+                <p>
+                  Well, this also depends on the personal portion: higher the stake, higher the selling price.
+                </p>
+                <blockquote class="blockquote text-center">
+                  <img src="../assets/about-liquidation.png" width="600px">
+                  <footer class="blockquote-footer">Changes of personal return in case of token liquidation</footer>
+                </blockquote>
+                <p>
+                  <code>Bob</code> can liquidate his tokens right after his first donation for a notable reasonable price,
+                  especially if he knows that he won't donate more in the future.
+                  <br>
+                  But, this might not be the brightest move, since the funds backing the bonding curve will continuously be growing when new donations
+                  arrive.
+                  Bob is moving down in his 'sell' price, but still growing in ETH return value.
+                  <br><br>
+                  <code>Alice</code> is growing steadily in her token return as she's chosen the best tactics and rewarded the most as a continuous
+                  contributor.
+                  <br><br>
+                  <code>Ted's</code> reward skyrockets at the moment when he's stepping in, but will slow down if he stops with donations.
+                </p>
+                <p>
+                  <strong>Note:</strong> If either <code>Bob</code>, <code>Alice</code> or <code>Ted</code>
+                  liquidate some of their tokens, the rest of the community will effectively grow in their returns,
+                  since each of their portions will rise.
+                </p>
+                <p>
+                  <strong>Advice?</strong> The best strategy is to donate to the community continuously,
+                  take an active position in building the member's base, contribute in a variety of the ways, and, perhaps, HODL.
+                </p>
+              </b-card-text>
+            </b-card-body>
+          </b-collapse>
+        </b-card>
 
-      <h3>
-        4. How raised funds get to the charity organisation
-      </h3>
-      TODO
+        <b-card no-body class="mb-1">
+          <b-card-header header-tag="header" class="p-1" role="tab">
+            <b-button block href="#" v-b-toggle.accordion-5 variant="warn">5. How raised funds get to the charity organisation</b-button>
+          </b-card-header>
+          <b-collapse id="accordion-5" accordion="my-accordion" role="tabpanel">
+            <b-card-body>
+              <b-card-text>
+                <code>EthKids</code> is a decentralized registry of multiple charity communities.
+                Every community has one or many community leaders who have the power to take the funds from the <strong>Charity Vault</strong> at any
+                time
+                and pass them further to the actual charity organization they represent.
+                <br>
+                Community leaders are obliged to provide additional information on what the exact reason for taking these funds and how they will be
+                used.
+                <br><br>
+                <strong>Note:</strong> there will be a more sophisticated mechanism of storing the full track of fund movements soon, which will
+                save in <a href="https://ipfs.io/" target="_blank">IPFS</a> or similar decentralized data storage.
+              </b-card-text>
+            </b-card-body>
+          </b-collapse>
+        </b-card>
 
-      <h3>
-        5, How to list a new community
-      </h3>
-      TODO
+        <b-card no-body class="mb-1">
+          <b-card-header header-tag="header" class="p-1" role="tab">
+            <b-button block href="#" v-b-toggle.accordion-6 variant="warn">6, How to list a new community</b-button>
+          </b-card-header>
+          <b-collapse id="accordion-6" accordion="my-accordion" role="tabpanel">
+            <b-card-body>
+              <b-card-text>
+                Been effectively a nonprofit <a href="https://en.wikipedia.org/wiki/The_DAO_(organization)" target="_blank">ĐAO</a>,
+                EthKids doesn't have a moderator or an admin.
+                <br>
+                Every charity organization can register on EthKids protocol as long as they: a nonprofit charity raising funds to help children.
+                <br>
+                For listing inquiries, please contact <a href="mailto:info.ethkids@gmail.com"> info.ethkids@gmail.com</a> or join our
+                <a href="https://t.me/joinchat/K1v4ShPV57D0zfjybfRFDQ" target="_blank">Telegram</a> channel.
+              </b-card-text>
+            </b-card-body>
+          </b-collapse>
+        </b-card>
 
-      <h3>
-        6, Why can't I send my tokens to someone else?
-      </h3>
-      TODO
+        <b-card no-body class="mb-1">
+          <b-card-header header-tag="header" class="p-1" role="tab">
+            <b-button block href="#" v-b-toggle.accordion-7 variant="warn">7, Why can't I send my community tokens to someone else?</b-button>
+          </b-card-header>
+          <b-collapse id="accordion-7" accordion="my-accordion" role="tabpanel">
+            <b-card-body>
+              <b-card-text>
+                Transfers of the <strong>Community tokens</strong> are disabled by design to prevent the possible
+                <a href="https://en.wikipedia.org/wiki/Sybil_attack" target="_blank"> Sybil attack</a> vector.
+                <br>
+                Transfers might be enabled later, allowing sending for specific good causes only.
+                <br>
+                Open for discussion.
+              </b-card-text>
+            </b-card-body>
+          </b-collapse>
+        </b-card>
+
+      </div>
+
     </div>
   </div>
 </template>
