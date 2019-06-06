@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container stateContainer">
     <div class="row">
       <div class="col-sm-4">
         <h3>Community</h3>
@@ -194,5 +194,10 @@ export default {
 </script>
 
 <style scoped>
+
+  .stateContainer {
+    padding-top: 30px;
+    border-top: 1px dashed #b8b8b8;
+  }
 
 </style>

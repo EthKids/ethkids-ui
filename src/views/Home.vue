@@ -1,9 +1,16 @@
 <template>
   <div class="container">
-    <img src="../assets/header.jpg">
+    <header class="masthead">
+      <div class="container h-100">
+        <div class="row h-100 align-items-center">
+          <div class="col-12 text-center">
+          </div>
+        </div>
+      </div>
+    </header>
     <metamask-warning v-if="!this.$store.state.web3.isInjected || !this.$store.state.web3.coinbase"/>
     <network-warning v-if="!(!this.$store.state.web3.isInjected || !this.$store.state.web3.coinbase) &&
-              this.$store.state.web3.networkId != this.$store.state.requiredNetwork"/>
+                this.$store.state.web3.networkId != this.$store.state.requiredNetwork"/>
     <div v-show="this.$store.state.web3.networkId === this.$store.state.requiredNetwork">
       <DescriptionPlate/>
       <div class="charityCounter row justify-content-center">
@@ -41,6 +48,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .masthead {
+    height: 20vh;
+    min-height: 350px;
+    background-image: url('../assets/header.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
   .new-community {
     margin-top: 50px;
     -ms-flex-pack: center !important;

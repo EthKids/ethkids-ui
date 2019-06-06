@@ -3,66 +3,57 @@
     <donate-modal/>
     <pass-charity-modal/>
     <sell-modal/>
-    <div class="row">
-      <div class="col-12">
-        <div class="media">
-          <div class="col-sm">
-            <img class="mr-3 mt-3" src="http://www.chance.by/upload/iblock/a0c/320h200_cvetnoy.jpg" title="Фонд 'ШАНС'">
-            <ul class="social">
-              <li>
-                <a href="https://twitter.com/FondChance" class="icon">
-                  <font-awesome-icon size="lg" :icon="['fab', 'twitter']"/>
-                </a>
-              </li>
-              <li>
-                <a href="https://vk.com/chance_foundation" class="icon">
-                  <font-awesome-icon size="lg" :icon="['fab', 'vk']"/>
-                </a>
-              </li>
-              <li>
-                <a href="https://www.facebook.com/FoundationChanceBelarus" class="icon">
-                  <font-awesome-icon size="lg" :icon="['fab', 'facebook-f']"/>
-                </a>
-              </li>
-              <li>
-                <a href="http://www.youtube.com/user/chancefond" class="icon">
-                  <font-awesome-icon size="lg" :icon="['fab', 'youtube']"/>
-                </a>
-              </li>
-              <li>
-                <a href="https://www.instagram.com/chance_foundation/" class="icon">
-                  <font-awesome-icon size="lg" :icon="['fab', 'instagram']"/>
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div class="media-body">
-            <h2 class="mt-0">{{name}}</h2>
-            <h6>
-              <a href="https://www.chance.by/" target="_blank">https://www.chance.by</a>
-            </h6>
-            Chance.by is the charity fund that helps children with serious deceases to raise funds for urgently needed medicine or surgeries.
-          </div>
-        </div>
+    <div class="col-12">
+      <div>
+        <h2 class="mt-0">{{name}}</h2>
+        <h6>
+          <a href="https://www.chance.by/" target="_blank">https://www.chance.by</a>
+        </h6>
+        <ul class="social list-inline">
+          <li class="list-inline-item">
+            <a href="https://twitter.com/FondChance" class="icon">
+              <font-awesome-icon size="lg" :icon="['fab', 'twitter']"/>
+            </a>
+          </li>
+          <li class="list-inline-item">
+            <a href="https://vk.com/chance_foundation" class="icon">
+              <font-awesome-icon size="lg" :icon="['fab', 'vk']"/>
+            </a>
+          </li>
+          <li class="list-inline-item">
+            <a href="https://www.facebook.com/FoundationChanceBelarus" class="icon">
+              <font-awesome-icon size="lg" :icon="['fab', 'facebook-f']"/>
+            </a>
+          </li>
+          <li class="list-inline-item">
+            <a href="http://www.youtube.com/user/chancefond" class="icon">
+              <font-awesome-icon size="lg" :icon="['fab', 'youtube']"/>
+            </a>
+          </li>
+          <li class="list-inline-item">
+            <a href="https://www.instagram.com/chance_foundation/" class="icon">
+              <font-awesome-icon size="lg" :icon="['fab', 'instagram']"/>
+            </a>
+          </li>
+        </ul>
 
-        <div class="fundDescription">
-          <p>
-            The fund in established back in 2008 in Belarus by a group of self-minded people under a common idea:
-            to make sure children who need medical care will get it regardless of the financial situation of their family.
-            <br>
-            Since 2009 the amount of people and companies who donate to the fund has been continually growing.
-            <br>
-            In 2013 Chance.by has signed the partnership with the Ministry of Health of Republic Belarus to find the systematic solution for helping
-            children.
-            <br>
-            During the past years, over <strong>870 children</strong> got medical help for a total amount of <strong>$12 890 000</strong>
-          </p>
-        </div>
+      </div>
 
-        <div class="ethKidsDescription">
-          This community has registered on EthKids protocol to increase the charity funds with
-          putting a portion on donations in the rewarding fund that will be tokenized and used as an incentive
-        </div>
+      <div class="fundDescription">
+        <p>
+          Chance.by is the charity fund that helps children with serious deceases to raise funds for urgently needed medicine or surgeries.
+        </p>
+        <p>
+          The fund in established back in 2008 in Belarus by a group of self-minded people under a common idea:
+          to make sure children who need medical care will get it regardless of the financial situation of their family.
+          <br>
+          Since 2009 the amount of people and companies who donate to the fund has been continually growing.
+          <br>
+          In 2013 Chance.by has signed the partnership with the Ministry of Health of Republic Belarus to find the systematic solution for helping
+          children.
+          <br>
+          During the past years, over <strong>870 children</strong> got medical help for a total amount of <strong>$12 890 000</strong>
+        </p>
       </div>
     </div>
     <FundFinancialState/>
@@ -161,12 +152,6 @@ export default {
   .fundDescription {
     text-align: left;
     text-justify: inter-word;
-  }
-
-  .ethKidsDescription {
-    margin: 40px;
-    padding-top: 30px;
-    border-top: 1px dashed #b8b8b8;
   }
 
 </style>
