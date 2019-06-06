@@ -6,20 +6,17 @@
       <div role="tablist">
         <b-card no-body class="mb-1">
           <b-card-header header-tag="header" class="p-1" role="tab">
-            <b-button block href="#" v-b-toggle.accordion-1 variant="warn">1. What this is all for</b-button>
+            <b-button block href="#" variant="warn">1. What this is all for</b-button>
           </b-card-header>
-          <b-collapse id="accordion-1" visible accordion="my-accordion" role="tabpanel">
             <b-card-body>
               <b-card-text>To make this world a bit of a better place. At least for children.</b-card-text>
             </b-card-body>
-          </b-collapse>
         </b-card>
 
         <b-card no-body class="mb-1">
           <b-card-header header-tag="header" class="p-1" role="tab">
-            <b-button block href="#" v-b-toggle.accordion-2 variant="warn">2. Why Blockchain?</b-button>
+            <b-button block href="#" variant="warn">2. Why Blockchain?</b-button>
           </b-card-header>
-          <b-collapse id="accordion-2" accordion="my-accordion" role="tabpanel">
             <b-card-body>
               <b-card-text>
                 Although the use of Blockchain is not that straightforward yet as the mass adoption is still ahead, there are some unbeatable grounds
@@ -54,14 +51,12 @@
                 </ul>
               </b-card-text>
             </b-card-body>
-          </b-collapse>
         </b-card>
 
         <b-card no-body class="mb-1">
           <b-card-header header-tag="header" class="p-1" role="tab">
-            <b-button block href="#" v-b-toggle.accordion-3 variant="warn">3. How it works</b-button>
+            <b-button block href="#" variant="warn">3. How it works</b-button>
           </b-card-header>
-          <b-collapse id="accordion-3" accordion="my-accordion" role="tabpanel">
             <b-card-body>
               <b-card-text>
                 The charity donations can be sent per charity community, any amount, using the corresponding
@@ -105,14 +100,12 @@
                 </ul>
               </b-card-text>
             </b-card-body>
-          </b-collapse>
         </b-card>
 
         <b-card no-body class="mb-1">
           <b-card-header header-tag="header" class="p-1" role="tab">
-            <b-button block href="#" v-b-toggle.accordion-4 variant="warn">4. Example</b-button>
+            <b-button block href="#" variant="warn">4. Example</b-button>
           </b-card-header>
-          <b-collapse id="accordion-4" accordion="my-accordion" role="tabpanel">
             <b-card-body>
               <b-card-text>
                 <p>
@@ -188,14 +181,12 @@
                 </p>
               </b-card-text>
             </b-card-body>
-          </b-collapse>
         </b-card>
 
         <b-card no-body class="mb-1">
           <b-card-header header-tag="header" class="p-1" role="tab">
-            <b-button block href="#" v-b-toggle.accordion-5 variant="warn">5. How raised funds get to the charity organisation</b-button>
+            <b-button block href="#" variant="warn">5. How raised funds get to the charity organisation</b-button>
           </b-card-header>
-          <b-collapse id="accordion-5" accordion="my-accordion" role="tabpanel">
             <b-card-body>
               <b-card-text>
                 <code>EthKids</code> is a decentralized registry of multiple charity communities.
@@ -210,14 +201,12 @@
                 save in <a href="https://ipfs.io/" target="_blank">IPFS</a> or similar decentralized data storage.
               </b-card-text>
             </b-card-body>
-          </b-collapse>
         </b-card>
 
         <b-card no-body class="mb-1">
           <b-card-header header-tag="header" class="p-1" role="tab">
-            <b-button block href="#" v-b-toggle.accordion-6 variant="warn">6, How to list a new community</b-button>
+            <b-button block href="#" variant="warn">6, How to list a new community</b-button>
           </b-card-header>
-          <b-collapse id="accordion-6" accordion="my-accordion" role="tabpanel">
             <b-card-body>
               <b-card-text>
                 Been effectively a nonprofit <a href="https://en.wikipedia.org/wiki/The_DAO_(organization)" target="_blank">ĐAO</a>,
@@ -229,14 +218,12 @@
                 <a href="https://t.me/joinchat/K1v4ShPV57D0zfjybfRFDQ" target="_blank">Telegram</a> channel.
               </b-card-text>
             </b-card-body>
-          </b-collapse>
         </b-card>
 
         <b-card no-body class="mb-1">
           <b-card-header header-tag="header" class="p-1" role="tab">
-            <b-button block href="#" v-b-toggle.accordion-7 variant="warn">7, Why can't I send my community tokens to someone else?</b-button>
+            <b-button block href="#" variant="warn">7, Why can't I send my community tokens to someone else?</b-button>
           </b-card-header>
-          <b-collapse id="accordion-7" accordion="my-accordion" role="tabpanel">
             <b-card-body>
               <b-card-text>
                 Transfers of the <strong>Community tokens</strong> are disabled by design to prevent the possible
@@ -247,7 +234,6 @@
                 Open for discussion.
               </b-card-text>
             </b-card-body>
-          </b-collapse>
         </b-card>
 
       </div>

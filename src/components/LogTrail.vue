@@ -20,7 +20,8 @@
               When
             </div>
           </div>
-          <div class="row" v-for="item in donations" v-bind:class="{ highlighted: item.fullAddress == $store.state.web3.coinbase}">
+          <div class="row" v-for="item in this.$store.state.communityDonations"
+               v-bind:class="{ highlighted: item.fullAddress == $store.state.web3.coinbase}">
             <div class="col-sm-4">
               {{ item.from }}
             </div>
@@ -47,7 +48,7 @@
               Notes
             </div>
           </div>
-          <div class="row" v-for="item in transfers">
+          <div class="row" v-for="item in this.$store.state.communityTransfers">
             <div class="col-sm-4">
               <a v-bind:href="item.link">{{ item.amount }} ΞTH</a>
             </div>
@@ -72,8 +73,7 @@ export default {
   name: "LogTrail",
   data() {
     return {
-      donations: [],
-      transfers: [],
+
     };
   },
   mounted() {
@@ -88,14 +88,13 @@ export default {
           eventTxs.add(event.transactionHash);
 
           window.web3.eth.getBlockNumber().then((currentBlock) => {
-            self.donations.unshift({
+            self.$store.commit('registerCommunityDonation', {
               from: event.returnValues.from.toString().substr(0, 16) + '...',
               fullAddress: event.returnValues.from.toString(),
               link: `https://etherscan.io/tx/${event.transactionHash}`,
               amount: parseFloat(window.web3.utils.fromWei(event.returnValues.amount.toString(), 'ether')).toFixed(3),
               when: self.moment().subtract((Number(currentBlock) - Number(event.blockNumber)) * 14, 's').fromNow(),
             });
-
           });
         })
         self.$store.state.communityInstance().events.LogPassToCharity({fromBlock: self.$store.state.communityCreationBlock}, (e, event) => {
@@ -104,7 +103,7 @@ export default {
           transfersTxs.add(event.transactionHash);
 
           window.web3.eth.getBlockNumber().then((currentBlock) => {
-            self.transfers.unshift({
+            self.$store.commit('registerCommunityTransfer', {
               link: `https://etherscan.io/tx/${event.transactionHash}`,
               amount: parseFloat(window.web3.utils.fromWei(event.returnValues.amount.toString(), 'ether')).toFixed(3),
               when: self.moment().subtract((Number(currentBlock) - Number(event.blockNumber)) * 14, 's').fromNow(),

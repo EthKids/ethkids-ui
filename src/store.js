@@ -46,6 +46,8 @@ export default new Vuex.Store({
     tokenTotalSupply: 0,
     tokenMyBalance: 0,
     tokenMyETHValue: 0,
+    communityDonations: [],
+    communityTransfers: [],
 
   },
   mutations: {
@@ -117,6 +119,12 @@ export default new Vuex.Store({
     },
     registerTotalDonationsRaised(state, payload) {
       state.totalDonationsRaised = payload;
+    },
+    registerCommunityDonation(state, payload) {
+      state.communityDonations.unshift(payload);
+    },
+    registerCommunityTransfer(state, payload) {
+      state.communityTransfers.unshift(payload);
     },
   },
   actions: {

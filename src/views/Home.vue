@@ -8,11 +8,11 @@
         </div>
       </div>
     </header>
+    <DescriptionPlate/>
     <metamask-warning v-if="!this.$store.state.web3.isInjected || !this.$store.state.web3.coinbase"/>
     <network-warning v-if="!(!this.$store.state.web3.isInjected || !this.$store.state.web3.coinbase) &&
                 this.$store.state.web3.networkId != this.$store.state.requiredNetwork"/>
-    <div v-show="this.$store.state.web3.networkId === this.$store.state.requiredNetwork">
-      <DescriptionPlate/>
+    <div class="communities" v-show="this.$store.state.web3.networkId === this.$store.state.requiredNetwork">
       <div class="charityCounter row justify-content-center">
         <h2>
           1

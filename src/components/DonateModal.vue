@@ -62,7 +62,7 @@ export default {
       self.$store.state.communityInstance().methods
         .donate()
         .send({from: self.$store.state.web3.coinbase, value: window.web3.utils.toWei(self.donation.toString(), 'ether')})
-        .on('receipt', () => {
+        .on('receipt', (receipt) => {
           EventBus.publish('CLOSE_LOADING');
           EventBus.publish('OPEN_LOADING', 'Thank you for your donation!');
           setTimeout(() => {

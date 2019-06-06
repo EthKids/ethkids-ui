@@ -2,10 +2,7 @@
   <div class="check-metamask" v-if="showMetamaskWarning">
     <div v-if="!this.$store.state.web3.isInjected">
       <h2 class="highlighted">Please install Metamask</h2>
-      <p>You need <a href="https://metamask.io/" target="_blank">Metamask</a> extension to donate on EthKids.</p>
-      <p>
-        <router-link to="/about">What is EthKids</router-link>
-      </p>
+      <p>You need <a href="https://metamask.io/" target="_blank">Metamask</a> extension to see the EthKids communities.</p>
     </div>
     <div v-if="this.$store.state.web3.isInjected && !this.$store.state.web3.coinbase">
       <h2>Please login into Metamask</h2>
