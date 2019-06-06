@@ -8,7 +8,7 @@
         <br>
         <a href="mailto:info.ethkids@gmail.com"> info.ethkids@gmail.com</a>
         <div>
-          Support us: 0x9c9550871C8d714e90eE03E610B21F156381bDF1
+          Support us: 0xDdC0E4931936d9F590Ccb29f7f4758751479d0A8
         </div>
       </div>
     </footer>
