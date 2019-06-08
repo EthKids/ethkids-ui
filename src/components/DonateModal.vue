@@ -63,13 +63,16 @@ export default {
         .donate()
         .send({from: self.$store.state.web3.coinbase, value: window.web3.utils.toWei(self.donation.toString(), 'ether')})
         .on('receipt', (receipt) => {
-          EventBus.publish('CLOSE_LOADING');
-          EventBus.publish('OPEN_LOADING', 'Thank you for your donation!');
-          setTimeout(() => {
-            EventBus.publish('CLOSE_LOADING');
-          }, 500);
+
         })
-        .on('confirmation', () => {
+        .on('confirmation', (confirmationNumber, receipt) => {
+          if (confirmationNumber == 1) {
+            EventBus.publish('CLOSE_LOADING');
+            EventBus.publish('OPEN_LOADING', 'Thank you for your donation!');
+            setTimeout(() => {
+              EventBus.publish('CLOSE_LOADING');
+            }, 500);
+          }
         })
         .on('error', () => {
           EventBus.publish('CLOSE_LOADING');

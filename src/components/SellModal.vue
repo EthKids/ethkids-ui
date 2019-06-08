@@ -83,9 +83,11 @@ export default {
         .sell(window.web3.utils.toWei(self.amount.toString(), 'ether'))
         .send({from: self.$store.state.web3.coinbase})
         .on('confirmation', () => {
+          if (confirmationNumber == 1) {
+            EventBus.publish('CLOSE_LOADING');
+          }
         })
         .on('receipt', () => {
-          EventBus.publish('CLOSE_LOADING');
         })
         .on('error', () => {
           EventBus.publish('CLOSE_LOADING');
