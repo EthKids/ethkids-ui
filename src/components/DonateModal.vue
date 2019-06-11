@@ -71,7 +71,7 @@ export default {
             EventBus.publish('OPEN_LOADING', 'Thank you for your donation!');
             setTimeout(() => {
               EventBus.publish('CLOSE_LOADING');
-            }, 500);
+            }, 1000);
           }
         })
         .on('error', () => {

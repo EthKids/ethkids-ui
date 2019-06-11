@@ -82,7 +82,7 @@ export default {
       self.$store.state.communityInstance().methods
         .sell(window.web3.utils.toWei(self.amount.toString(), 'ether'))
         .send({from: self.$store.state.web3.coinbase})
-        .on('confirmation', () => {
+        .on('confirmation', (confirmationNumber, receipt) => {
           if (confirmationNumber == 1) {
             EventBus.publish('CLOSE_LOADING');
           }
