@@ -10,25 +10,25 @@
             Last donations
           </h3>
           <div class="row header">
-            <div class="col-sm-4">
+            <div class="col-4">
               From
             </div>
-            <div class="col-sm-4">
+            <div class="col-4">
               Donated
             </div>
-            <div class="col-sm-4">
+            <div class="col-4">
               When
             </div>
           </div>
           <div class="row" v-for="item in this.$store.state.communityDonations"
                v-bind:class="{ highlighted: item.fullAddress == $store.state.web3.coinbase}">
-            <div class="col-sm-4">
+            <div class="col-4">
               {{ item.from }}
             </div>
-            <div class="col-sm-4">
+            <div class="col-4">
               <a v-bind:href="item.link">{{ item.amount }} ΞTH</a>
             </div>
-            <div class="col-sm-4">
+            <div class="col-4">
               {{ item.when }}
             </div>
           </div>
@@ -38,24 +38,24 @@
             Transferred to charity
           </h3>
           <div class="row header">
-            <div class="col-sm-4">
+            <div class="col-4">
               Amount
             </div>
-            <div class="col-sm-4">
+            <div class="col-4">
               When
             </div>
-            <div class="col-sm-4">
+            <div class="col-4">
               Notes
             </div>
           </div>
           <div class="row" v-for="item in this.$store.state.communityTransfers">
-            <div class="col-sm-4">
+            <div class="col-4">
               <a v-bind:href="item.link">{{ item.amount }} ΞTH</a>
             </div>
-            <div class="col-sm-4">
+            <div class="col-4">
               {{ item.when }}
             </div>
-            <div class="col-sm-4">
+            <div class="col-4">
               <div v-b-tooltip.hover v-bind:title="item.notes">
                 {{ item.notesShort }}
               </div>
@@ -89,7 +89,7 @@ export default {
 
           window.web3.eth.getBlockNumber().then((currentBlock) => {
             self.$store.commit('registerCommunityDonation', {
-              from: event.returnValues.from.toString().substr(0, 16) + '...',
+              from: event.returnValues.from.toString().substr(0, 12) + '...',
               fullAddress: event.returnValues.from.toString(),
               link: `https://etherscan.io/tx/${event.transactionHash}`,
               amount: parseFloat(window.web3.utils.fromWei(event.returnValues.amount.toString(), 'ether')).toFixed(3),
@@ -108,7 +108,7 @@ export default {
               amount: parseFloat(window.web3.utils.fromWei(event.returnValues.amount.toString(), 'ether')).toFixed(3),
               when: self.moment().subtract((Number(currentBlock) - Number(event.blockNumber)) * 14, 's').fromNow(),
               notes: event.returnValues.ipfsHash,
-              notesShort: event.returnValues.ipfsHash.toString().substr(0, 16) + '...',
+              notesShort: event.returnValues.ipfsHash.toString().substr(0, 12) + '...',
             });
 
           });

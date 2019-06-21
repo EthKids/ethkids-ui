@@ -107,28 +107,37 @@ export default {
         self.loadBondingVault();
       }
       if (mutation.type == 'registerCommunity') {
-        let latestDonationBlock = 0;
-        self.$store.state.communityInstance().events.LogDonationReceived({}, (e, res) => {
-          if (!e && latestDonationBlock < res.blockNumber) {
-            this.reloadFinancialState();
-            latestDonationBlock = res.blockNumber;
-          }
-        });
+        window.web3.eth.getBlockNumber().then((currentBlock) => {
 
-        let latestSoldBlock = 0;
-        self.$store.state.communityInstance().events.LogTokensSold({}, (e, res) => {
-          if (!e && latestSoldBlock < res.blockNumber) {
-            this.reloadFinancialState();
-            latestSoldBlock = res.blockNumber;
-          }
-        });
+          let latestDonationBlock = 0;
+          self.$store.state.communityInstance().events.LogDonationReceived({
+            fromBlock: currentBlock
+          }, (e, res) => {
+            if (!e && latestDonationBlock < res.blockNumber) {
+              this.reloadFinancialState();
+              latestDonationBlock = res.blockNumber;
+            }
+          });
 
-        let latestPassToCharityBlock = 0;
-        self.$store.state.communityInstance().events.LogPassToCharity({}, (e, res) => {
-          if (!e && latestPassToCharityBlock < res.blockNumber) {
-            this.reloadFinancialState();
-            latestPassToCharityBlock = res.blockNumber;
-          }
+          let latestSoldBlock = 0;
+          self.$store.state.communityInstance().events.LogTokensSold({
+            fromBlock: currentBlock
+          }, (e, res) => {
+            if (!e && latestSoldBlock < res.blockNumber) {
+              this.reloadFinancialState();
+              latestSoldBlock = res.blockNumber;
+            }
+          });
+
+          let latestPassToCharityBlock = 0;
+          self.$store.state.communityInstance().events.LogPassToCharity({
+            fromBlock: currentBlock
+          }, (e, res) => {
+            if (!e && latestPassToCharityBlock < res.blockNumber) {
+              this.reloadFinancialState();
+              latestPassToCharityBlock = res.blockNumber;
+            }
+          });
         });
       }
     });

@@ -7,7 +7,7 @@
       <div>
         <h2 class="mt-0">{{name}}</h2>
         <h6>
-          <a href="https://www.chance.by/" target="_blank">https://www.chance.by</a>
+          <a href="https://www.eng.chance.by/" target="_blank">https://www.chance.by</a>
         </h6>
         <ul class="social list-inline">
           <li class="list-inline-item">
