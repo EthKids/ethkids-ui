@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import _ from 'lodash';
 import getWeb3 from './utils/getWeb3';
 import pollWeb3 from './utils/pollWeb3';
 import {
@@ -121,10 +122,12 @@ export default new Vuex.Store({
       state.totalDonationsRaised = payload;
     },
     registerCommunityDonation(state, payload) {
-      state.communityDonations.unshift(payload);
+      state.communityDonations.push(payload);
+      state.communityDonations = _.orderBy(state.communityDonations, 'blockNo', 'desc');
     },
     registerCommunityTransfer(state, payload) {
-      state.communityTransfers.unshift(payload);
+      state.communityTransfers.push(payload);
+      state.communityTransfers = _.orderBy(state.communityTransfers, 'blockNo', 'desc');
     },
   },
   actions: {
