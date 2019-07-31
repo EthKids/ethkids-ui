@@ -7,9 +7,13 @@
         &copy; {{ currentYear }} EthKids.io. All Rights Reserved.
         <br>
         <a href="mailto:info.ethkids@gmail.com"> info.ethkids@gmail.com</a>
-        <div>
-          Support us: 0xDdC0E4931936d9F590Ccb29f7f4758751479d0A8
-        </div>
+      </div>
+      <div class="support">
+        <b>EthKids</b> is a non-commercial project run be a group of like-minded volunteers.
+        <br>
+        Your help will enable us to keep running and maintaining this project
+        <br>
+        Support us: <b>0xDdC0E4931936d9F590Ccb29f7f4758751479d0A8</b>
       </div>
     </footer>
   </div>
@@ -29,7 +33,7 @@ export default {
 
 <style scoped>
   footer {
-    margin-top: 100px;
+    margin-top: 50px;
     width: 100%;
     font-size: 14px;
     line-height: 22px;
@@ -37,5 +41,13 @@ export default {
 
   footer .copyright {
     margin-top: 10px;
+  }
+
+  .support {
+    width: 500px;
+    margin: 10px auto 20px auto;
+    padding: 1.25rem;
+    background-color: #f8f9fa;
+    border: 1px solid rgba(0, 0, 0, 0.125);
   }
 </style>
