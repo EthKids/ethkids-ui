@@ -44,7 +44,7 @@
           Chance.by is the charity fund that helps children with severe diseases to raise funds for urgently required medicine or surgeries.
         </p>
         <p>
-          The fund in established back in 2008 in Belarus by a group of self-minded people under a common idea:
+          The fund in established back in 2008 in Belarus by a group of like minded people under a common idea:
           to make sure children who need medical care will get it regardless of the financial situation of their family.
           <br>
           Since 2009 the number of people and companies who donate to the fund has been continually expanding.
