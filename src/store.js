@@ -19,10 +19,11 @@ export default new Vuex.Store({
     // communityCreationBlock: 7908102,
     // requiredNetwork: 1,
     // kyberConverterAddress: 0x
+    // kyberAPI: 'https://api.kyber.network',
     registryAddress: '0x02EA1A8FFA16f313d02b92941d87d30794793161',
     communityCreationBlock: 4455521,
     requiredNetwork: 3,
-    kyberConverterAddress: '0xcF5995328681c595E8e58860bF8a6972239279A2',
+    kyberConverterAddress: '0x9180494784b967112e3e43682e59fbce163ea448',
     kyberAPI: 'https://ropsten-api.kyber.network',
     web3: {
       isInjected: false,

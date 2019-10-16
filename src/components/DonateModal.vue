@@ -34,7 +34,9 @@
           </div>
         </div>
       </div>
-      <div class="form-group text-center fx" v-if="ethAmount">
+      <div class="form-group text-center fx bordered" v-if="ethAmount">
+        My wallet: <b>{{myBalance}} {{selectedToken.symbol}}</b>
+        <br><br>
         Token swap is powered by <a href="https://kyber.network/" target="_blank">Kyber Network </a>
         <br>
         <b>{{donation}} {{selectedToken.symbol}} = {{ethAmount}} ETH = {{usdAmount}} USD</b>
@@ -56,7 +58,7 @@ import VueNumeric from 'vue-numeric';
 import Modal from '@/components/Modal';
 import EventBus from '@/utils/event-bus';
 import axios from "axios";
-import {getIERC20Contract} from "../utils/getContract";
+import {getIERC20Contract, getKyberConverterContract} from "../utils/getContract";
 
 export default {
     name: 'DonateModal',
@@ -78,6 +80,7 @@ export default {
             },
             ethAmount: null,
             usdAmount: null,
+            myBalance: null,
         };
     },
     beforeCreate() {
@@ -110,6 +113,11 @@ export default {
             const self = this;
             this.insufficientFunds = false;
             if (!this.isETHSelected()) {
+                getIERC20Contract(this.selectedToken.address).then((erc20Instance) => {
+                    self.ercBalance(erc20Instance).then(balance => {
+                        self.myBalance = parseFloat(window.web3.utils.fromWei(balance, 'ether')).toFixed(2);
+                    });
+                });
                 axios.get(this.$store.state.kyberAPI + "/sell_rate", {
                     params: {
                         id: this.selectedToken.id,
@@ -121,6 +129,8 @@ export default {
                         this.fetchFxUSD();
                     })
             } else {
+                window.web3.eth.getBalance(this.$store.state.web3.coinbase).then(eth =>
+                    this.myBalance = parseFloat(window.web3.utils.fromWei(eth, 'ether')).toFixed(2));
                 this.ethAmount = this.donation;
                 this.fetchFxUSD();
             }
@@ -177,27 +187,30 @@ export default {
                         erc20Instance.methods
                             .approve(self.$store.state.kyberConverterAddress, window.web3.utils.toWei(self.donation.toString(), 'ether'))
                             .send({from: self.$store.state.web3.coinbase})
+                            .on('transactionHash', (hash) => {
+                                EventBus.publish('OPEN_LOADING', `(2/2) Transferring donation of ${this.ethAmount} ETH...`);
+                                getKyberConverterContract(self.$store.state.kyberConverterAddress).then(kyberConverter => {
+                                    let maxDestAmount = self.donation * 1.03; //max 3% up
+                                    kyberConverter.methods
+                                        .executeSwapAndDonate(self.selectedToken.address,
+                                            window.web3.utils.toWei(self.donation.toString(), 'ether'),
+                                            window.web3.utils.toWei(maxDestAmount.toString(), 'ether'),
+                                            self.$store.state.communityAddress
+                                        )
+                                        .send({from: self.$store.state.web3.coinbase})
+                                        .on('confirmation', (confirmationNumber, receipt) => {
+                                            if (confirmationNumber == 1) {
+                                                self.thanksAndGoodbye();
+                                            }
+                                        })
+                                        .on('error', () => {
+                                            EventBus.publish('CLOSE_LOADING');
+                                        });
+                                });
+                            })
                             .on('confirmation', (confirmationNumber, receipt) => {
                                 if (confirmationNumber == 1) {
-                                    EventBus.publish('OPEN_LOADING', `(2/2) Transferring donation of ${this.ethAmount} ETH...`);
-                                    getKyberConverterContract(self.$store.state.kyberConverterAddress).then(kyberConverter => {
-                                        let maxDestAmount = self.donation * 1.03; //max 3% up
-                                        kyberConverter.methods
-                                            .executeSwapAndDonate(this.selectedToken.address,
-                                                window.web3.utils.toWei(self.donation.toString(), 'ether'),
-                                                window.web3.utils.toWei(maxDestAmount.toString(), 'ether'),
-                                                self.$store.state.communityInstance().address
-                                            )
-                                            .send({from: self.$store.state.web3.coinbase})
-                                            .on('confirmation', (confirmationNumber, receipt) => {
-                                                if (confirmationNumber == 1) {
-                                                    self.thanksAndGoodbye();
-                                                }
-                                            })
-                                            .on('error', () => {
-                                                EventBus.publish('CLOSE_LOADING');
-                                            });
-                                    });
+
                                 }
                             })
                             .on('error', () => {
@@ -243,6 +256,9 @@ export default {
     width: 350px;
     margin: 10px auto 10px auto;
     padding: 1rem;
+  }
+
+  .bordered {
     border: 1px dashed rgba(0, 0, 0, 0.125);
     border-radius: 5px;
   }
