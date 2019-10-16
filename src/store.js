@@ -15,9 +15,15 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    registryAddress: '0xF14f67393bc32c8Da791636AC67Dc2907Fc59605',
-    communityCreationBlock: 7908102,
-    requiredNetwork: 1,
+    // registryAddress: '0xF14f67393bc32c8Da791636AC67Dc2907Fc59605',
+    // communityCreationBlock: 7908102,
+    // requiredNetwork: 1,
+    // kyberConverterAddress: 0x
+    registryAddress: '0x02EA1A8FFA16f313d02b92941d87d30794793161',
+    communityCreationBlock: 4455521,
+    requiredNetwork: 3,
+    kyberConverterAddress: '0xcF5995328681c595E8e58860bF8a6972239279A2',
+    kyberAPI: 'https://ropsten-api.kyber.network',
     web3: {
       isInjected: false,
       web3Instance: null,

@@ -41,41 +41,42 @@ import Modal from '@/components/Modal';
 import EventBus from '@/utils/event-bus';
 
 export default {
-  components: {
-    Loading,
-    FixedHeader,
-    FontAwesomeIcon,
-    CustomFooter,
-    Modal,
-  },
-  data() {
-    return {
-      isLoading: false,
-      loaderText: '',
-    };
-  },
-  beforeCreate() {
-    const self = this;
+    components: {
+        Loading,
+        FixedHeader,
+        FontAwesomeIcon,
+        CustomFooter,
+        Modal,
+    },
+    data() {
+        return {
+            isLoading: false,
+            loaderText: '',
+        };
+    },
+    beforeCreate() {
+        const self = this;
 
-    //dispatchers
-    this.$store.dispatch('registerWeb3').then(() => {
-      this.$store.dispatch('registerContracts');
-    });
+        //dispatchers
+        this.$store.dispatch('registerWeb3').then(() => {
+            this.$store.dispatch('registerContracts');
+        });
 
-    EventBus.subscribe('OPEN_LOADING', (text) => {
-      self.isLoading = true;
-      self.loaderText = text;
-    });
-    EventBus.subscribe('CLOSE_LOADING', (text) => {
-      self.isLoading = false;
-    });
+        EventBus.subscribe('OPEN_LOADING', (text) => {
+            self.isLoading = true;
+            self.loaderText = text;
+        });
+        EventBus.subscribe('CLOSE_LOADING', (text) => {
+            self.isLoading = false;
+        });
 
-  }
+    }
 }
 </script>
 
 <style lang="scss">
   @import '../node_modules/vue-loading-overlay/dist/vue-loading.css';
+  @import "../node_modules/vue-select/src/scss/vue-select.scss";
 
   #app {
     font-family: 'Cairo', Helvetica, Arial, sans-serif;

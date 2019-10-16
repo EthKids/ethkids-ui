@@ -38,8 +38,8 @@
           <dt class="col-sm-7">My tokens' value</dt>
           <dd class="col-sm-5">{{this.$store.state.tokenMyETHValue}} ΞTH</dd>
 
-          <dt class="col-sm-7"></dt>
-          <dd class="col-sm-5">
+          <dt class="col-lg-7 col-md-1"></dt>
+          <dd class="col-lg-5 col-md-11">
             <input
               class="btn btn-primary btn-sm custom-btn-action"
               type="button"

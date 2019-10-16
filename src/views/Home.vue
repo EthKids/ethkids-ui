@@ -21,7 +21,7 @@
       <FundCard name="Chance.by"/>
       <div class="new-community">
         <h5>
-          <router-link to="/about">Register new donation community for kids</router-link>
+          <router-link to="/about">Add your charity community on Ethkids.io</router-link>
         </h5>
       </div>
     </div>

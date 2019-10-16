@@ -212,7 +212,7 @@
                 Been effectively a nonprofit <a href="https://en.wikipedia.org/wiki/The_DAO_(organization)" target="_blank">ĐAO</a>,
                 EthKids doesn't have a moderator or an admin.
                 <br>
-                Every charity organization can register on EthKids protocol as long as they: a nonprofit charity raising funds to help children.
+                Every charity organization can register on EthKids protocol as long as they a nonprofit charity raising funds to help children.
                 <br>
                 For listing inquiries, please contact <a href="mailto:info.ethkids@gmail.com"> info.ethkids@gmail.com</a> or join our
                 <a href="https://t.me/joinchat/K1v4ShPV57D0zfjybfRFDQ" target="_blank">Telegram</a> channel.

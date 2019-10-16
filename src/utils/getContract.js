@@ -4,6 +4,8 @@ import DonationCommunityABI from '../assets/abi/DonationCommunity';
 import CommunityTokenABI from '../assets/abi/CommunityToken';
 import CharityVaultABI from '../assets/abi/CharityVault';
 import BondingVaultABI from '../assets/abi/BondingVault';
+import IERC20ABI from '../assets/abi/IERC20';
+import KybrConverterABI from '../assets/abi/KyberConverter'
 
 const getContract = (abi, address) =>
   new Promise((resolve, reject) => {
@@ -21,3 +23,5 @@ export const getDonationCommunityContract = address => getContract(DonationCommu
 export const getCommunityTokenContract = address => getContract(CommunityTokenABI, address);
 export const getCharityVaultContract = address => getContract(CharityVaultABI, address);
 export const getBondingVaultContract = address => getContract(BondingVaultABI, address);
+export const getIERC20Contract = address => getContract(IERC20ABI, address);
+export const getKyberConverterContract = address => getContract(KybrConverterABI, address);

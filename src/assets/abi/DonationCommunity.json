@@ -11,8 +11,7 @@
     ],
     "payable": false,
     "stateMutability": "view",
-    "type": "function",
-    "signature": "0x02b09ac5"
+    "type": "function"
   },
   {
     "constant": true,
@@ -31,8 +30,7 @@
     ],
     "payable": false,
     "stateMutability": "view",
-    "type": "function",
-    "signature": "0x7df73e27"
+    "type": "function"
   },
   {
     "constant": true,
@@ -46,8 +44,7 @@
     ],
     "payable": false,
     "stateMutability": "view",
-    "type": "function",
-    "signature": "0xb67f8738"
+    "type": "function"
   },
   {
     "constant": true,
@@ -61,8 +58,7 @@
     ],
     "payable": false,
     "stateMutability": "view",
-    "type": "function",
-    "signature": "0xcba8b928"
+    "type": "function"
   },
   {
     "constant": false,
@@ -71,8 +67,7 @@
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
-    "type": "function",
-    "signature": "0xe5c8b03d"
+    "type": "function"
   },
   {
     "constant": false,
@@ -86,11 +81,14 @@
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
-    "type": "function",
-    "signature": "0xeb12d61e"
+    "type": "function"
   },
   {
     "inputs": [
+      {
+        "name": "_charityVaultAddress",
+        "type": "address"
+      },
       {
         "name": "_bondingVaultAddress",
         "type": "address"
@@ -98,8 +96,7 @@
     ],
     "payable": false,
     "stateMutability": "nonpayable",
-    "type": "constructor",
-    "signature": "constructor"
+    "type": "constructor"
   },
   {
     "payable": true,
@@ -121,8 +118,7 @@
       }
     ],
     "name": "LogDonationReceived",
-    "type": "event",
-    "signature": "0xde5c26dd3fd805828d78c07f1efc4c8972ca8efa32679f943954cbba78eccef0"
+    "type": "event"
   },
   {
     "anonymous": false,
@@ -139,8 +135,7 @@
       }
     ],
     "name": "LogTokensSold",
-    "type": "event",
-    "signature": "0xe32efda150c823a5bbc6f0f625fab054f06b036df9e6affbb18d064f7c049c25"
+    "type": "event"
   },
   {
     "anonymous": false,
@@ -167,8 +162,7 @@
       }
     ],
     "name": "LogPassToCharity",
-    "type": "event",
-    "signature": "0x89d6cf333f7822aae7e846ae3e07d77f0f8ac2733673b94e987c5ccb7d1afe92"
+    "type": "event"
   },
   {
     "anonymous": false,
@@ -180,8 +174,7 @@
       }
     ],
     "name": "SignerAdded",
-    "type": "event",
-    "signature": "0x47d1c22a25bb3a5d4e481b9b1e6944c2eade3181a0a20b495ed61d35b5323f24"
+    "type": "event"
   },
   {
     "anonymous": false,
@@ -193,8 +186,7 @@
       }
     ],
     "name": "SignerRemoved",
-    "type": "event",
-    "signature": "0x3525e22824a8a7df2c9a6029941c824cf95b6447f1e13d5128fd3826d35afe8b"
+    "type": "event"
   },
   {
     "constant": false,
@@ -203,8 +195,21 @@
     "outputs": [],
     "payable": true,
     "stateMutability": "payable",
-    "type": "function",
-    "signature": "0xed88c68e"
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_donator",
+        "type": "address"
+      }
+    ],
+    "name": "donateDelegated",
+    "outputs": [],
+    "payable": true,
+    "stateMutability": "payable",
+    "type": "function"
   },
   {
     "constant": true,
@@ -227,8 +232,7 @@
     ],
     "payable": false,
     "stateMutability": "view",
-    "type": "function",
-    "signature": "0x9c796684"
+    "type": "function"
   },
   {
     "constant": true,
@@ -251,8 +255,7 @@
     ],
     "payable": false,
     "stateMutability": "view",
-    "type": "function",
-    "signature": "0xd990c9b3"
+    "type": "function"
   },
   {
     "constant": true,
@@ -279,8 +282,7 @@
     ],
     "payable": false,
     "stateMutability": "view",
-    "type": "function",
-    "signature": "0x8127fc71"
+    "type": "function"
   },
   {
     "constant": false,
@@ -294,8 +296,7 @@
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
-    "type": "function",
-    "signature": "0xe4849b32"
+    "type": "function"
   },
   {
     "constant": false,
@@ -304,8 +305,7 @@
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
-    "type": "function",
-    "signature": "0x43bbc363"
+    "type": "function"
   },
   {
     "constant": false,
@@ -327,8 +327,7 @@
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
-    "type": "function",
-    "signature": "0x43dcfeaa"
+    "type": "function"
   },
   {
     "constant": true,
@@ -342,7 +341,57 @@
     ],
     "payable": false,
     "stateMutability": "view",
-    "type": "function",
-    "signature": "0x99efcaec"
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_newBuyFormula",
+        "type": "address"
+      }
+    ],
+    "name": "replaceBuyFormula",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_newSellFormula",
+        "type": "address"
+      }
+    ],
+    "name": "replaceSellFormula",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_newBondingVault",
+        "type": "address"
+      }
+    ],
+    "name": "replaceBondingVault",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [],
+    "name": "replaceCharityVault",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
   }
 ]
