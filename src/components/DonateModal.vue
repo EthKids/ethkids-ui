@@ -115,7 +115,7 @@ export default {
             if (!this.isETHSelected()) {
                 getIERC20Contract(this.selectedToken.address).then((erc20Instance) => {
                     self.ercBalance(erc20Instance).then(balance => {
-                        self.myBalance = parseFloat(window.web3.utils.fromWei(balance, 'ether')).toFixed(2);
+                        self.myBalance = parseFloat(window.web3.utils.fromWei(balance.toString(), 'ether')).toFixed(2);
                     });
                 });
                 axios.get(this.$store.state.kyberAPI + "/sell_rate", {

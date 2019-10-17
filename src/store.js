@@ -15,18 +15,19 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    // registryAddress: '0xF14f67393bc32c8Da791636AC67Dc2907Fc59605',
-    // communityCreationBlock: 7908102,
-    // requiredNetwork: 1,
-    // kyberConverterAddress: 0x
-    // kyberAPI: 'https://api.kyber.network',
+    //Main
+    registryAddress: '0x0D37ebAba7966Fa553C77fc6caA086AC7332902c',
+    communityCreationBlock: 8758674,
+    requiredNetwork: 1,
+    kyberConverterAddress: '0x1CDA8E26398c6970746a0e15ebFf7410933f9aA1',
+    kyberAPI: 'https://api.kyber.network',
 
     //Rinkeby
-    registryAddress: '0x4dd846827721E23553f465Be4b75e951cb594122',
-    communityCreationBlock: 5277971,
-    requiredNetwork: 4,
-    kyberConverterAddress: '0x91DCf0eb384Ff5a5c18899526DadC51d5E474161',
-    kyberAPI: 'https://rinkeby-api.kyber.network',
+    // registryAddress: '0x4dd846827721E23553f465Be4b75e951cb594122',
+    // communityCreationBlock: 5277971,
+    // requiredNetwork: 4,
+    // kyberConverterAddress: '0x91DCf0eb384Ff5a5c18899526DadC51d5E474161',
+    // kyberAPI: 'https://rinkeby-api.kyber.network',
 
     //Ropsten
     // registryAddress: '0x02EA1A8FFA16f313d02b92941d87d30794793161',
