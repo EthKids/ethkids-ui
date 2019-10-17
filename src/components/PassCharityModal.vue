@@ -44,51 +44,54 @@ import Modal from '@/components/Modal';
 import EventBus from '@/utils/event-bus';
 
 export default {
-  name: 'PassCharityModal',
-  components: {
-    Modal,
-    VueNumeric,
-  },
-  data() {
-    return {
-      btnText: 'Transfer',
-      passModal: false,
-      passFunds: 0.1,
-      intermediary: null,
-      warning: '',
-      ipfsHash: '',
-    };
-  },
-  beforeCreate() {
-    const self = this;
-    EventBus.subscribe('PASS_CHARITY', () => {
-      self.passModal = true;
-    });
-  },
-  methods: {
-    transfer() {
-      const self = this;
-      if (!window.web3.utils.isAddress(self.intermediary)) {
-        self.warning = 'Wrong Ethereum address';
-        return;
-      } else {
-        self.warning = '';
-      }
-      self.passModal = false;
-      EventBus.publish('OPEN_LOADING', 'Waiting for sending...');
-      self.$store.state.communityInstance().methods
-        .passToCharity(window.web3.utils.toWei(self.passFunds.toString(), 'ether'), self.intermediary, self.ipfsHash)
-        .send({from: self.$store.state.web3.coinbase})
-        .on('confirmation', () => {
-        })
-        .on('receipt', () => {
-          EventBus.publish('CLOSE_LOADING');
-        })
-        .on('error', () => {
-          EventBus.publish('CLOSE_LOADING');
+    name: 'PassCharityModal',
+    components: {
+        Modal,
+        VueNumeric,
+    },
+    data() {
+        return {
+            btnText: 'Transfer',
+            passModal: false,
+            passFunds: 0.1,
+            intermediary: null,
+            warning: '',
+            ipfsHash: '',
+        };
+    },
+    beforeCreate() {
+        const self = this;
+        EventBus.subscribe('PASS_CHARITY', () => {
+            self.passModal = true;
         });
     },
-  },
+    methods: {
+        transfer() {
+            const self = this;
+            if (!window.web3.utils.isAddress(self.intermediary)) {
+                self.warning = 'Wrong Ethereum address';
+                return;
+            } else {
+                self.warning = '';
+            }
+            self.passModal = false;
+            EventBus.publish('OPEN_LOADING', 'Waiting for sending...');
+            self.$store.state.communityInstance().methods
+                .passToCharity(window.web3.utils.toWei(self.passFunds.toString(), 'ether'), self.intermediary, self.ipfsHash)
+                .send({from: self.$store.state.web3.coinbase})
+                .on('confirmation', (confirmationNumber, receipt) => {
+                    if (confirmationNumber == 1) {
+                        EventBus.publish('CLOSE_LOADING');
+                    }
+                })
+                .on('receipt', () => {
+
+                })
+                .on('error', () => {
+                    EventBus.publish('CLOSE_LOADING');
+                });
+        },
+    },
 };
 </script>
 
