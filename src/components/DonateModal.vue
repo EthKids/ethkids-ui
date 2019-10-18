@@ -188,29 +188,29 @@ export default {
                             .approve(self.$store.state.kyberConverterAddress, window.web3.utils.toWei(self.donation.toString(), 'ether'))
                             .send({from: self.$store.state.web3.coinbase})
                             .on('transactionHash', (hash) => {
-                                EventBus.publish('OPEN_LOADING', `(2/2) Transferring donation of ${this.ethAmount} ETH...`);
-                                getKyberConverterContract(self.$store.state.kyberConverterAddress).then(kyberConverter => {
-                                    let maxDestAmount = self.donation * 1.03; //max 3% up
-                                    kyberConverter.methods
-                                        .executeSwapAndDonate(self.selectedToken.address,
-                                            window.web3.utils.toWei(self.donation.toString(), 'ether'),
-                                            window.web3.utils.toWei(maxDestAmount.toString(), 'ether'),
-                                            self.$store.state.communityAddress
-                                        )
-                                        .send({from: self.$store.state.web3.coinbase})
-                                        .on('confirmation', (confirmationNumber, receipt) => {
-                                            if (confirmationNumber == 1) {
-                                                self.thanksAndGoodbye();
-                                            }
-                                        })
-                                        .on('error', () => {
-                                            EventBus.publish('CLOSE_LOADING');
-                                        });
-                                });
+
                             })
                             .on('confirmation', (confirmationNumber, receipt) => {
                                 if (confirmationNumber == 1) {
-
+                                    EventBus.publish('OPEN_LOADING', `(2/2) Transferring donation of ${this.ethAmount} ETH...`);
+                                    getKyberConverterContract(self.$store.state.kyberConverterAddress).then(kyberConverter => {
+                                        let maxDestAmount = self.donation * 1.03; //max 3% up
+                                        kyberConverter.methods
+                                            .executeSwapAndDonate(self.selectedToken.address,
+                                                window.web3.utils.toWei(self.donation.toString(), 'ether'),
+                                                window.web3.utils.toWei(maxDestAmount.toString(), 'ether'),
+                                                self.$store.state.communityAddress
+                                            )
+                                            .send({from: self.$store.state.web3.coinbase})
+                                            .on('confirmation', (confirmationNumber, receipt) => {
+                                                if (confirmationNumber == 1) {
+                                                    self.thanksAndGoodbye();
+                                                }
+                                            })
+                                            .on('error', () => {
+                                                EventBus.publish('CLOSE_LOADING');
+                                            });
+                                    });
                                 }
                             })
                             .on('error', () => {
