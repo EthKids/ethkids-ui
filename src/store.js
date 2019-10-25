@@ -8,7 +8,7 @@ import {
   getDonationCommunityContract,
   getCommunityTokenContract,
   getCharityVaultContract,
-  getBondingVaultContract,
+  getBondingVaultContract, getKyberConverterContract,
 } from './utils/getContract';
 
 Vue.use(Vuex)
@@ -16,25 +16,22 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     //Main
-    registryAddress: '0x0D37ebAba7966Fa553C77fc6caA086AC7332902c',
-    communityCreationBlock: 8758674,
-    requiredNetwork: 1,
-    kyberConverterAddress: '0x1CDA8E26398c6970746a0e15ebFf7410933f9aA1',
-    kyberAPI: 'https://api.kyber.network',
+    // registryAddress: '0x0D37ebAba7966Fa553C77fc6caA086AC7332902c',
+    // communityCreationBlock: 8758674,
+    // requiredNetwork: 1,
+    // kyberAPI: 'https://api.kyber.network',
 
     //Rinkeby
     // registryAddress: '0x4dd846827721E23553f465Be4b75e951cb594122',
     // communityCreationBlock: 5277971,
     // requiredNetwork: 4,
-    // kyberConverterAddress: '0x91DCf0eb384Ff5a5c18899526DadC51d5E474161',
     // kyberAPI: 'https://rinkeby-api.kyber.network',
 
     //Ropsten
-    // registryAddress: '0x02EA1A8FFA16f313d02b92941d87d30794793161',
-    // communityCreationBlock: 6568534,
-    // requiredNetwork: 3,
-    // kyberConverterAddress: '0x9180494784b967112e3e43682e59fbce163ea448',
-    // kyberAPI: 'https://ropsten-api.kyber.network',
+    registryAddress: '0xE944141cB3eF0dbFc5209e6A34Ec0BB06D49698f',
+    communityCreationBlock: 6643086,
+    requiredNetwork: 3,
+    kyberAPI: 'https://ropsten-api.kyber.network',
 
 
     web3: {
@@ -47,6 +44,8 @@ export default new Vuex.Store({
     },
     ethBalance: 0,
     ethKidsRegistryInstance: null,
+    kyberConverterAddress: null,
+    stableTokenAddress: null,
     //TODO These states are per community
     communityAddress: null,
     communityInstance: null,
@@ -94,6 +93,12 @@ export default new Vuex.Store({
     },
     registerEthKidsRegistry(state, payload) {
       state.ethKidsRegistryInstance = () => payload;
+    },
+    registerConverterAddress(state, payload) {
+      state.kyberConverterAddress = payload;
+    },
+    registerStableTokenAddress(state, payload) {
+      state.stableTokenAddress = payload;
     },
     registerCommunityAddress(state, payload) {
       state.communityAddress = payload;
@@ -218,17 +223,29 @@ export default new Vuex.Store({
     registerContracts({commit, state, dispatch}) {
       return new Promise((resolve, reject) => {
         getEthKidsRegistryContract(state.registryAddress).then((registryContract) => {
-          commit('registerEthKidsRegistry', registryContract);
           registryContract.methods.communityIndex().call().then((index) => {
             console.log("Total communities: " + index);
           }).catch((e) => {
             throw e;
           });
           registryContract.methods.getCommunityAt(0).call().then((communityAddress) => {
-            dispatch('initEthKidsCommunityContract', communityAddress);
+
+            registryContract.methods.currencyConverter().call().then((converter) => {
+              commit('registerConverterAddress', converter);
+              getKyberConverterContract(converter).then(kyberConverter => {
+                kyberConverter.methods.getStableToken().call().then((stableToken) => {
+                  commit('registerStableTokenAddress', stableToken);
+
+                  dispatch('initEthKidsCommunityContract', communityAddress);
+                });
+              });
+            }).catch((e) => {
+              throw e;
+            });
           }).catch((e) => {
             throw e;
           });
+          commit('registerEthKidsRegistry', registryContract);
           resolve(registryContract);
         }).catch((e) => {
           reject(e);

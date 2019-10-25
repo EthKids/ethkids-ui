@@ -14,7 +14,7 @@
           id="pass-input"
           class="form-control"
           v-model="passFunds"
-          currency="ΞTH"
+          currency="DAI"
           currency-symbol-position="suffix"
           v-bind:min="0"
           v-bind:max="Number(this.$store.state.charityVaultBalance)"

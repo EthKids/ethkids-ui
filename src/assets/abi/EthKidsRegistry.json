@@ -1,33 +1,13 @@
 [
   {
-    "constant": false,
-    "inputs": [],
-    "name": "renounceOwnership",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function",
-    "signature": "0x715018a6"
-  },
-  {
     "constant": true,
-    "inputs": [],
-    "name": "owner",
-    "outputs": [
+    "inputs": [
       {
-        "name": "",
+        "name": "account",
         "type": "address"
       }
     ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function",
-    "signature": "0x8da5cb5b"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "isOwner",
+    "name": "isSigner",
     "outputs": [
       {
         "name": "",
@@ -36,8 +16,21 @@
     ],
     "payable": false,
     "stateMutability": "view",
-    "type": "function",
-    "signature": "0x8f32d59b"
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "currencyConverter",
+    "outputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
   },
   {
     "constant": true,
@@ -51,8 +44,7 @@
     ],
     "payable": false,
     "stateMutability": "view",
-    "type": "function",
-    "signature": "0xc37fb119"
+    "type": "function"
   },
   {
     "constant": true,
@@ -71,23 +63,30 @@
     ],
     "payable": false,
     "stateMutability": "view",
-    "type": "function",
-    "signature": "0xe590b56a"
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [],
+    "name": "renounceSigner",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
     "constant": false,
     "inputs": [
       {
-        "name": "newOwner",
+        "name": "account",
         "type": "address"
       }
     ],
-    "name": "transferOwnership",
+    "name": "addSigner",
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
-    "type": "function",
-    "signature": "0xf2fde38b"
+    "type": "function"
   },
   {
     "anonymous": false,
@@ -104,26 +103,31 @@
       }
     ],
     "name": "CommunityRegistered",
-    "type": "event",
-    "signature": "0x1e4089ace5d0cd6d2af8387227e93295f77ffe5ffd68c974fbfab9b9f718a6a7"
+    "type": "event"
   },
   {
     "anonymous": false,
     "inputs": [
       {
         "indexed": true,
-        "name": "previousOwner",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "name": "newOwner",
+        "name": "account",
         "type": "address"
       }
     ],
-    "name": "OwnershipTransferred",
-    "type": "event",
-    "signature": "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0"
+    "name": "SignerAdded",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "SignerRemoved",
+    "type": "event"
   },
   {
     "constant": false,
@@ -137,8 +141,39 @@
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
-    "type": "function",
-    "signature": "0x917bd62b"
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_communityAddress",
+        "type": "address"
+      },
+      {
+        "name": "index",
+        "type": "uint256"
+      }
+    ],
+    "name": "registerCommunityAt",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_currencyConverter",
+        "type": "address"
+      }
+    ],
+    "name": "registerCurrencyConverter",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
     "constant": false,
@@ -152,8 +187,7 @@
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
-    "type": "function",
-    "signature": "0xa7f84630"
+    "type": "function"
   },
   {
     "constant": true,
@@ -172,7 +206,20 @@
     ],
     "payable": false,
     "stateMutability": "view",
-    "type": "function",
-    "signature": "0xa927458d"
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "getCurrencyConverter",
+    "outputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
   }
 ]

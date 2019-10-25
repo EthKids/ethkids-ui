@@ -194,7 +194,7 @@ export default {
                                 if (confirmationNumber == 1) {
                                     EventBus.publish('OPEN_LOADING', `(2/2) Transferring donation of ${this.ethAmount} ETH...`);
                                     getKyberConverterContract(self.$store.state.kyberConverterAddress).then(kyberConverter => {
-                                        let maxDestAmount = self.donation * 1.03; //max 3% up
+                                        let maxDestAmount = self.ethAmount * 1.03; //max 3% up
                                         kyberConverter.methods
                                             .executeSwapAndDonate(self.selectedToken.address,
                                                 window.web3.utils.toWei(self.donation.toString(), 'ether'),
