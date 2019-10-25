@@ -22,16 +22,16 @@ export default new Vuex.Store({
     // kyberAPI: 'https://api.kyber.network',
 
     //Rinkeby
-    // registryAddress: '0x4dd846827721E23553f465Be4b75e951cb594122',
-    // communityCreationBlock: 5277971,
-    // requiredNetwork: 4,
-    // kyberAPI: 'https://rinkeby-api.kyber.network',
+    registryAddress: '0xD9E35bAd6965f9b80fFF06CbFDb1bEc56c363bB3',
+    communityCreationBlock: 5325351,
+    requiredNetwork: 4,
+    kyberAPI: 'https://rinkeby-api.kyber.network',
 
     //Ropsten
-    registryAddress: '0xE944141cB3eF0dbFc5209e6A34Ec0BB06D49698f',
-    communityCreationBlock: 6643086,
-    requiredNetwork: 3,
-    kyberAPI: 'https://ropsten-api.kyber.network',
+    // registryAddress: '0xE944141cB3eF0dbFc5209e6A34Ec0BB06D49698f',
+    // communityCreationBlock: 6643086,
+    // requiredNetwork: 3,
+    // kyberAPI: 'https://ropsten-api.kyber.network',
 
 
     web3: {
