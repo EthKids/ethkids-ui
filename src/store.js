@@ -16,16 +16,16 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     //Main
-    // registryAddress: '0x0D37ebAba7966Fa553C77fc6caA086AC7332902c',
-    // communityCreationBlock: 8758674,
-    // requiredNetwork: 1,
-    // kyberAPI: 'https://api.kyber.network',
+    registryAddress: '0x220A7844d3eAa78E60AA238fEA1BF8a01A567126',
+    communityCreationBlock: 8810339,
+    requiredNetwork: 1,
+    kyberAPI: 'https://api.kyber.network',
 
     //Rinkeby
-    registryAddress: '0xD9E35bAd6965f9b80fFF06CbFDb1bEc56c363bB3',
-    communityCreationBlock: 5325351,
-    requiredNetwork: 4,
-    kyberAPI: 'https://rinkeby-api.kyber.network',
+    // registryAddress: '0xD9E35bAd6965f9b80fFF06CbFDb1bEc56c363bB3',
+    // communityCreationBlock: 5325351,
+    // requiredNetwork: 4,
+    // kyberAPI: 'https://rinkeby-api.kyber.network',
 
     //Ropsten
     // registryAddress: '0xE944141cB3eF0dbFc5209e6A34Ec0BB06D49698f',
