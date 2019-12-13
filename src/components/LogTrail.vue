@@ -52,7 +52,7 @@
           </div>
           <div class="row" v-for="item in this.$store.state.communityTransfers">
             <div class="col-4">
-              <a v-bind:href="item.link" target="_blank">{{ item.amount }} ΞTH</a>
+              <a v-bind:href="item.link" target="_blank">{{ item.amount }} USD</a>
             </div>
             <div class="col-4">
               <div v-b-tooltip.hover v-bind:title="item.whenDate">
