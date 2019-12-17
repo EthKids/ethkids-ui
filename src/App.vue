@@ -8,10 +8,7 @@
         <a href="https://t.me/joinchat/K1v4ShPV57D0zfjybfRFDQ" target="_blank" class="icon">
           <font-awesome-icon size="lg" :icon="['fab', 'telegram-plane']"/>
         </a>
-        <a href="https://github.com/kivanov82/ethkids-contracts" class="icon" v-b-tooltip.hover v-bind:title="'Smart contracts'">
-          <font-awesome-icon size="lg" :icon="['fab', 'github']"/>
-        </a>
-        <a href="https://github.com/kivanov82/ethkids-ui" class="icon" v-b-tooltip.hover v-bind:title="'User interface'">
+        <a href="https://github.com/EthKids" class="icon" v-b-tooltip.hover v-bind:title="'Github'">
           <font-awesome-icon size="lg" :icon="['fab', 'github']"/>
         </a>
       </div>
