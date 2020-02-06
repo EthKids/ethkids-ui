@@ -86,43 +86,66 @@ export default {
       if (mutation.type == 'registerCommunity') {
         var eventTxs = new Set();
         var transfersTxs = new Set()
-        /*self.$store.state.communityInstance().events.LogDonationReceived({fromBlock: self.$store.state.communityCreationBlock}, (e, event) => {
-          //dodgy duplicates
-          if (eventTxs.has(event.transactionHash)) return;
-          eventTxs.add(event.transactionHash);
-
-          window.web3.eth.getBlock(event.blockNumber).then((block) => {
-            self.$store.commit('registerCommunityDonation', {
-              blockNo: block.number,
-              from: event.returnValues.from.toString().substr(0, 12) + '...',
-              fullAddress: event.returnValues.from.toString(),
-              link: `https://etherscan.io/tx/${event.transactionHash}`,
-              amount: parseFloat(window.web3.utils.fromWei(event.returnValues.amount.toString(), 'ether')).toFixed(3),
-              when: self.moment(Number(block.timestamp), 'X').fromNow(),
-              whenDate: self.moment(Number(block.timestamp), 'X').format('MMMM Do YYYY'),
-            });
+        if (self.$store.state.readOnly) {
+          //search past blocks
+          self.$store.state.communityInstance().getPastEvents('LogDonationReceived', {fromBlock: self.$store.state.communityCreationBlock,}, (e, events) => {
+            for (const event of events) {
+              self.onDonationReceived(event, eventTxs, self);
+            }
           });
-        })
-        self.$store.state.communityInstance().events.LogPassToCharity({fromBlock: self.$store.state.communityCreationBlock}, (e, event) => {
-          //dodgy duplicates
-          if (transfersTxs.has(event.transactionHash)) return;
-          transfersTxs.add(event.transactionHash);
-
-          window.web3.eth.getBlock(event.blockNumber).then((block) => {
-            self.$store.commit('registerCommunityTransfer', {
-              blockNo: block.number,
-              link: `https://etherscan.io/tx/${event.transactionHash}`,
-              amount: parseFloat(window.web3.utils.fromWei(event.returnValues.amount.toString(), 'ether')).toFixed(3),
-              when: self.moment(Number(block.timestamp), 'X').fromNow(),
-              whenDate: self.moment(Number(block.timestamp), 'X').format('MMMM Do YYYY'),
-              notes: event.returnValues.ipfsHash,
-              notesShort: event.returnValues.ipfsHash.toString().substr(0, 12) + '...',
-            });
-
+          self.$store.state.communityInstance().getPastEvents('LogPassToCharity', {fromBlock: self.$store.state.communityCreationBlock,}, (e, events) => {
+            for (const event of events) {
+              self.onTransferReceived(event, eventTxs, self);
+            }
           });
-        })*/
+        } else {
+          //listen live
+          self.$store.state.communityInstance().events.LogDonationReceived({fromBlock: self.$store.state.communityCreationBlock}, (e, event) => {
+            self.onDonationReceived(event, eventTxs, self);
+          });
+          self.$store.state.communityInstance().events.LogPassToCharity({fromBlock: self.$store.state.communityCreationBlock}, (e, event) => {
+            self.onTransferReceived(event, eventTxs, self);
+          });
+        }
       }
     });
+  },
+  methods: {
+    onDonationReceived(event, eventTxs, self) {
+      //dodgy duplicates
+      if (eventTxs.has(event.transactionHash)) return;
+      eventTxs.add(event.transactionHash);
+
+      window.web3.eth.getBlock(event.blockNumber).then((block) => {
+        self.$store.commit('registerCommunityDonation', {
+          blockNo: block.number,
+          from: event.returnValues.from.toString().substr(0, 12) + '...',
+          fullAddress: event.returnValues.from.toString(),
+          link: `https://etherscan.io/tx/${event.transactionHash}`,
+          amount: parseFloat(window.web3.utils.fromWei(event.returnValues.amount.toString(), 'ether')).toFixed(3),
+          when: self.moment(Number(block.timestamp), 'X').fromNow(),
+          whenDate: self.moment(Number(block.timestamp), 'X').format('MMMM Do YYYY'),
+        });
+      });
+    },
+    onTransferReceived(event, transfersTxs, self) {
+      //dodgy duplicates
+      if (transfersTxs.has(event.transactionHash)) return;
+      transfersTxs.add(event.transactionHash);
+
+      window.web3.eth.getBlock(event.blockNumber).then((block) => {
+        self.$store.commit('registerCommunityTransfer', {
+          blockNo: block.number,
+          link: `https://etherscan.io/tx/${event.transactionHash}`,
+          amount: parseFloat(window.web3.utils.fromWei(event.returnValues.amount.toString(), 'ether')).toFixed(3),
+          when: self.moment(Number(block.timestamp), 'X').fromNow(),
+          whenDate: self.moment(Number(block.timestamp), 'X').format('MMMM Do YYYY'),
+          notes: event.returnValues.ipfsHash,
+          notesShort: event.returnValues.ipfsHash.toString().substr(0, 12) + '...',
+        });
+
+      });
+    },
   }
 }
 </script>

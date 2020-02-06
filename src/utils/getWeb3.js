@@ -40,7 +40,6 @@ const getWeb3 = new Promise((resolve, reject) => {
   .then(result =>
     new Promise((resolve, reject) => {
       result.web3().eth.net.getId().then((networkId) => {
-        debugger;
         const res = Object.assign({}, result, {networkId});
         resolve(res);
       }).catch(() => {

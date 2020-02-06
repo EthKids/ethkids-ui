@@ -33,7 +33,7 @@ export default new Vuex.Store({
     // requiredNetwork: 3,
     // kyberAPI: 'https://ropsten-api.kyber.network',
 
-
+    readOnly: false,
     web3: {
       isInjected: false,
       web3Instance: null,
@@ -76,6 +76,7 @@ export default new Vuex.Store({
       web3Copy.isInjected = result.injectedWeb3;
       web3Copy.web3Instance = result.web3;
       if (result.readOnly) {
+        state.readOnly = true;
         web3Copy.coinbase = '0x0000000000000000000000000000000000000000';
         web3Copy.networkId = result.networkId;
         web3Copy.balance = '0';
