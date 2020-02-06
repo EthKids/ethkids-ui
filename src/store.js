@@ -73,13 +73,21 @@ export default new Vuex.Store({
     registerWeb3Instance(state, payload) {
       const result = payload;
       const web3Copy = state.web3;
-      web3Copy.coinbase = result.coinbase;
-      web3Copy.networkId = result.networkId;
-      web3Copy.balance = Number(result.balance);
       web3Copy.isInjected = result.injectedWeb3;
       web3Copy.web3Instance = result.web3;
+      if (result.readOnly) {
+        web3Copy.coinbase = '0x0000000000000000000000000000000000000000';
+        web3Copy.networkId = result.networkId;
+        web3Copy.balance = '0';
+      } else {
+        web3Copy.coinbase = result.coinbase;
+        web3Copy.networkId = result.networkId;
+        web3Copy.balance = Number(result.balance);
+      }
       state.web3 = web3Copy;
-      pollWeb3(state.web3);
+      if (!result.readOnly) {
+        pollWeb3();
+      }
     },
     registerNetworkId(state, payload) {
       state.web3.networkId = payload;

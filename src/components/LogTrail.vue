@@ -86,7 +86,7 @@ export default {
       if (mutation.type == 'registerCommunity') {
         var eventTxs = new Set();
         var transfersTxs = new Set()
-        self.$store.state.communityInstance().events.LogDonationReceived({fromBlock: self.$store.state.communityCreationBlock}, (e, event) => {
+        /*self.$store.state.communityInstance().events.LogDonationReceived({fromBlock: self.$store.state.communityCreationBlock}, (e, event) => {
           //dodgy duplicates
           if (eventTxs.has(event.transactionHash)) return;
           eventTxs.add(event.transactionHash);
@@ -120,7 +120,7 @@ export default {
             });
 
           });
-        })
+        })*/
       }
     });
   }

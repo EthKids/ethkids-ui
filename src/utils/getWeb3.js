@@ -26,12 +26,21 @@ const getWeb3 = new Promise((resolve, reject) => {
       },
     });
   } else {
-    reject(new Error('Non-Ethereum browser detected. You should consider trying MetaMask!'));
+    const web3 = new Web3(new Web3.providers.HttpProvider("https://mainnet.infura.io/v3/98d7e501879243c5877bac07a57cde7e"));
+    window.web3 = web3;
+    resolve({
+      injectedWeb3: true,
+      readOnly: true,
+      web3() {
+        return web3;
+      },
+    });
   }
 })
   .then(result =>
     new Promise((resolve, reject) => {
       result.web3().eth.net.getId().then((networkId) => {
+        debugger;
         const res = Object.assign({}, result, {networkId});
         resolve(res);
       }).catch(() => {
@@ -41,6 +50,9 @@ const getWeb3 = new Promise((resolve, reject) => {
   )
   .then(result =>
     new Promise((resolve, reject) => {
+      if (result.readOnly) {
+        resolve(result);
+      }
       result.web3().eth.getCoinbase((err, coinbase) => {
         if (err) {
           reject(new Error('Unable to retrieve coinbase'));
