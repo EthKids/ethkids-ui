@@ -20,18 +20,21 @@ export default new Vuex.Store({
     communityCreationBlock: 8810339,
     requiredNetwork: 1,
     kyberAPI: 'https://api.kyber.network',
+    httpProvider: 'https://mainnet.infura.io/v3/98d7e501879243c5877bac07a57cde7e',
 
     //Rinkeby
-    // registryAddress: '0xD9E35bAd6965f9b80fFF06CbFDb1bEc56c363bB3',
-    // communityCreationBlock: 5325351,
-    // requiredNetwork: 4,
-    // kyberAPI: 'https://rinkeby-api.kyber.network',
+    /*registryAddress: '0xD9E35bAd6965f9b80fFF06CbFDb1bEc56c363bB3',
+    communityCreationBlock: 5325351,
+    requiredNetwork: 4,
+    kyberAPI: 'https://rinkeby-api.kyber.network',
+    httpProvider: 'https://rinkeby.infura.io/v3/98d7e501879243c5877bac07a57cde7e',*/
 
     //Ropsten
     // registryAddress: '0xE944141cB3eF0dbFc5209e6A34Ec0BB06D49698f',
     // communityCreationBlock: 6643086,
     // requiredNetwork: 3,
     // kyberAPI: 'https://ropsten-api.kyber.network',
+    // httpProvider: 'https://ropsten.infura.io/v3/98d7e501879243c5877bac07a57cde7e',
 
     readOnly: false,
     web3: {
@@ -166,7 +169,7 @@ export default new Vuex.Store({
   actions: {
     registerWeb3({commit}) {
       return new Promise((resolve, reject) => {
-        getWeb3.then((result) => {
+        getWeb3(this.state.httpProvider).then((result) => {
           commit('registerWeb3Instance', result);
           resolve(result);
         }).catch((e) => {

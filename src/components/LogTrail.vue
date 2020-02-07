@@ -99,7 +99,7 @@ export default {
             }
           });
         } else {
-          //listen live
+          //live listening
           self.$store.state.communityInstance().events.LogDonationReceived({fromBlock: self.$store.state.communityCreationBlock}, (e, event) => {
             self.onDonationReceived(event, eventTxs, self);
           });

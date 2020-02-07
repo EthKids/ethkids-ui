@@ -61,6 +61,7 @@
       <div class="actions">
         <input
           class="btn btn-primary btn-lg custom-btn-action"
+          :disabled="this.$store.state.readOnly"
           type="button"
           value="Donate"
           @click="donate()"/>
