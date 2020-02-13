@@ -61,6 +61,7 @@
       <div class="actions">
         <input
           class="btn btn-primary btn-lg custom-btn-action"
+          :disabled="this.$store.state.readOnly"
           type="button"
           value="Donate"
           @click="donate()"/>
@@ -111,7 +112,7 @@ export default {
     const self = this;
     this.$store.subscribe((mutation) => {
       if (mutation.type == 'registerCommunity') {
-        self.$store.state.communityInstance().methods.isSigner(this.$store.state.web3.coinbase).call().then((isSigner) => {
+        self.$store.state.communityInstance().methods.isSigner(self.$store.state.web3.coinbase).call().then((isSigner) => {
           self.isAdmin = isSigner;
         });
       }

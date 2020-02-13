@@ -90,13 +90,17 @@ export default {
         });
     },
     mounted() {
-        const self = this;
-        axios.get(this.$store.state.kyberAPI + "/currencies")
-            .then((response) => {
-                self.supportedCurrencies = response.data.data;
-            })
-        //fetch initial FX
-        this.tokenChosen(this.selectedToken);
+      const self = this;
+      axios.get(this.$store.state.kyberAPI + "/currencies")
+        .then((response) => {
+          self.supportedCurrencies = response.data.data;
+        })
+      //fetch initial FX
+      this.$store.subscribe((mutation) => {
+        if (mutation.type == 'registerWeb3Instance') {
+          this.tokenChosen(this.selectedToken);
+        }
+      });
     },
     methods: {
         isETHSelected() {
