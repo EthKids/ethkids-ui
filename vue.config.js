@@ -1,12 +1,11 @@
 module.exports = {
   pluginOptions: {
     s3Deploy: {
-      registry: undefined,
       awsProfile: 'ethkids',
       region: 'eu-west-1',
       bucket: 'ethkids.io',
       createBucket: false,
-      staticHosting: false,
+      staticHosting: true,
       assetPath: 'dist',
       assetMatch: '**',
       deployPath: '/',
