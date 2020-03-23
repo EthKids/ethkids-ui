@@ -9,41 +9,52 @@
       Chance.by
     </div>
     <div slot="body">
-      <div class="form-group text-center">
-        <div class="row donationRow">
-          <div class="numericWrapper">
-            <vue-numeric
-              id="donation-input"
-              style="border-width: 0px; text-align: right; "
-              v-model="donation"
-              v-on:input="fetchFxETH()"
-              v-bind:min="0"
-              v-bind:minus="false"
-              focus="focus"
-              v-bind:precision="3"/>
-          </div>
-          <div>
-            <v-select v-bind:options="supportedCurrencies" @input="tokenChosen" label="symbol" v-bind:value="selectedToken">
-              <template slot="option" slot-scope="option">
+      <div>
+        <b-tabs content-class="mt-3" align="center" active-tab-class="font-weight-bold">
+          <b-tab title="Crypto" active>
+            <div class="form-group text-center">
+              <div class="row donationRow">
+                <div class="numericWrapper">
+                  <vue-numeric
+                    id="donation-input"
+                    style="border-width: 0px; text-align: right; "
+                    v-model="donation"
+                    v-on:input="fetchFxETH()"
+                    v-bind:min="0"
+                    v-bind:minus="false"
+                    focus="focus"
+                    v-bind:precision="3"/>
+                </div>
+                <div>
+                  <v-select v-bind:options="supportedCurrencies" @input="tokenChosen" label="symbol" v-bind:value="selectedToken">
+                    <template slot="option" slot-scope="option">
                 <span style="margin-right: 10px">
                   <img style="width: 40px; height: 40px" v-bind:alt="option.symbol" v-bind:src="getTokenImageLink(option)">
                 </span>
-                {{ option.symbol }}
-              </template>
-            </v-select>
-          </div>
-        </div>
+                      {{ option.symbol }}
+                    </template>
+                  </v-select>
+                </div>
+              </div>
+            </div>
+            <div class="form-group text-center fx bordered" v-if="ethAmount">
+              My wallet: <b>{{myBalance}} {{selectedToken.symbol}}</b>
+              <br><br>
+              Token swap is powered by <a href="https://kyber.network/" target="_blank">Kyber Network </a>
+              <br>
+              <b>{{donation}} {{selectedToken.symbol}} = {{ethAmount}} ETH = {{usdAmount}} USD</b>
+            </div>
+            <div v-if="insufficientFunds" class="alert-danger insuffucientFunds">
+              Insufficient funds
+            </div>
+          </b-tab>
+          <b-tab title="Fiat">
+            <button id='buy'>Buy</button>
+            <div id="wyre-dropin-widget-container"></div>
+          </b-tab>
+        </b-tabs>
       </div>
-      <div class="form-group text-center fx bordered" v-if="ethAmount">
-        My wallet: <b>{{myBalance}} {{selectedToken.symbol}}</b>
-        <br><br>
-        Token swap is powered by <a href="https://kyber.network/" target="_blank">Kyber Network </a>
-        <br>
-        <b>{{donation}} {{selectedToken.symbol}} = {{ethAmount}} ETH = {{usdAmount}} USD</b>
-      </div>
-      <div v-if="insufficientFunds" class="alert-danger insuffucientFunds">
-        Insufficient funds
-      </div>
+
       <b-button class="btn-primary custom-btn-action"
                 variant="primary"
                 @click="donate()">
