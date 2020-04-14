@@ -69,7 +69,7 @@ export default {
       if (this.amount > 0) {
         this.$store.state.communityInstance().methods.myReturn(window.web3.utils.toWei(this.amount.toString(), 'ether'))
           .call({from: this.$store.state.web3.coinbase}).then((result) => {
-          this.myReturn = parseFloat(window.web3.utils.fromWei(result.amountOfEth.toString(), 'ether')).toFixed(3)
+          this.myReturn = parseFloat(window.web3.utils.fromWei(result.toString(), 'ether')).toFixed(3)
         });
       } else {
         this.myReturn = 0;

@@ -163,7 +163,7 @@ export default {
                 if (Number(tokenBalance) > 0) {
                     this.$store.state.communityInstance().methods.myReturn(tokenBalance)
                         .call({from: this.$store.state.web3.coinbase}).then((result) => {
-                        this.$store.commit('registerTokenMyETHValue', parseFloat(window.web3.utils.fromWei(result.amountOfEth.toString(), 'ether')).toFixed(3));
+                        this.$store.commit('registerTokenMyETHValue', parseFloat(window.web3.utils.fromWei(result.toString(), 'ether')).toFixed(3));
                     }).catch((e) => {
                         throw e;
                     });
