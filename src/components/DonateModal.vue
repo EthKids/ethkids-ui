@@ -86,7 +86,9 @@ export default {
     beforeCreate() {
         const self = this;
         EventBus.subscribe('OPEN_DONATE', () => {
-            self.donateModal = true;
+          self.donateModal = true;
+          //fetch initial FX
+          this.tokenChosen(this.selectedToken);
         });
     },
     mounted() {
@@ -95,8 +97,7 @@ export default {
             .then((response) => {
                 self.supportedCurrencies = response.data.data;
             })
-        //fetch initial FX
-        this.tokenChosen(this.selectedToken);
+
     },
     methods: {
         isETHSelected() {

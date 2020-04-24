@@ -14,6 +14,34 @@
     "type": "function"
   },
   {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "addWhitelisted",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "removeWhitelisted",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "constant": true,
     "inputs": [
       {
@@ -21,7 +49,7 @@
         "type": "address"
       }
     ],
-    "name": "isSigner",
+    "name": "isWhitelisted",
     "outputs": [
       {
         "name": "",
@@ -33,13 +61,55 @@
     "type": "function"
   },
   {
+    "constant": false,
+    "inputs": [],
+    "name": "renounceWhitelistAdmin",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "addWhitelistAdmin",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "constant": true,
     "inputs": [],
-    "name": "bondingVault",
+    "name": "registry",
     "outputs": [
       {
         "name": "",
         "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "isWhitelistAdmin",
+    "outputs": [
+      {
+        "name": "",
+        "type": "bool"
       }
     ],
     "payable": false,
@@ -63,21 +133,7 @@
   {
     "constant": false,
     "inputs": [],
-    "name": "renounceSigner",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "account",
-        "type": "address"
-      }
-    ],
-    "name": "addSigner",
+    "name": "renounceWhitelisted",
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
@@ -86,12 +142,8 @@
   {
     "inputs": [
       {
-        "name": "_charityVaultAddress",
-        "type": "address"
-      },
-      {
-        "name": "_bondingVaultAddress",
-        "type": "address"
+        "name": "name",
+        "type": "string"
       }
     ],
     "payable": false,
@@ -99,8 +151,8 @@
     "type": "constructor"
   },
   {
-    "payable": true,
-    "stateMutability": "payable",
+    "payable": false,
+    "stateMutability": "nonpayable",
     "type": "fallback"
   },
   {
@@ -118,23 +170,6 @@
       }
     ],
     "name": "LogDonationReceived",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "name": "from",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "name": "amount",
-        "type": "uint256"
-      }
-    ],
-    "name": "LogTokensSold",
     "type": "event"
   },
   {
@@ -173,7 +208,7 @@
         "type": "address"
       }
     ],
-    "name": "SignerAdded",
+    "name": "WhitelistedAdded",
     "type": "event"
   },
   {
@@ -185,8 +220,98 @@
         "type": "address"
       }
     ],
-    "name": "SignerRemoved",
+    "name": "WhitelistedRemoved",
     "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "WhitelistAdminAdded",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "WhitelistAdminRemoved",
+    "type": "event"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_registry",
+        "type": "address"
+      }
+    ],
+    "name": "setRegistry",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "getRegistry",
+    "outputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "_ethAmount",
+        "type": "uint256"
+      }
+    ],
+    "name": "myReward",
+    "outputs": [
+      {
+        "name": "tokenAmount",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "_tokenAmount",
+        "type": "uint256"
+      }
+    ],
+    "name": "myReturn",
+    "outputs": [
+      {
+        "name": "returnEth",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
   },
   {
     "constant": false,
@@ -201,7 +326,7 @@
     "constant": false,
     "inputs": [
       {
-        "name": "_donator",
+        "name": "_donor",
         "type": "address"
       }
     ],
@@ -209,102 +334,6 @@
     "outputs": [],
     "payable": true,
     "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "name": "_ethAmount",
-        "type": "uint256"
-      }
-    ],
-    "name": "myBuy",
-    "outputs": [
-      {
-        "name": "finalPrice",
-        "type": "uint256"
-      },
-      {
-        "name": "tokenAmount",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "name": "_sellAmount",
-        "type": "uint256"
-      }
-    ],
-    "name": "myReturn",
-    "outputs": [
-      {
-        "name": "price",
-        "type": "uint256"
-      },
-      {
-        "name": "amountOfEth",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "name": "_sellAmount",
-        "type": "uint256"
-      },
-      {
-        "name": "_requestedAddress",
-        "type": "address"
-      }
-    ],
-    "name": "returnForAddress",
-    "outputs": [
-      {
-        "name": "price",
-        "type": "uint256"
-      },
-      {
-        "name": "amountOfEth",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "_amount",
-        "type": "uint256"
-      }
-    ],
-    "name": "sell",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [],
-    "name": "sweepBondingVault",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -332,80 +361,15 @@
   {
     "constant": true,
     "inputs": [],
-    "name": "getCommunityToken",
+    "name": "name",
     "outputs": [
       {
         "name": "",
-        "type": "address"
+        "type": "string"
       }
     ],
     "payable": false,
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "_newBuyFormula",
-        "type": "address"
-      }
-    ],
-    "name": "replaceBuyFormula",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "_newSellFormula",
-        "type": "address"
-      }
-    ],
-    "name": "replaceSellFormula",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "_newBondingVault",
-        "type": "address"
-      }
-    ],
-    "name": "replaceBondingVault",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [],
-    "name": "replaceCharityVault",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "newPrimary",
-        "type": "address"
-      }
-    ],
-    "name": "transferOwnership",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
     "type": "function"
   }
 ]

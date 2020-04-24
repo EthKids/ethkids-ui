@@ -16,6 +16,48 @@
   {
     "constant": true,
     "inputs": [],
+    "name": "registry",
+    "outputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "stableToken",
+    "outputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "currencyConverter",
+    "outputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
     "name": "primary",
     "outputs": [
       {
@@ -42,8 +84,8 @@
     "type": "function"
   },
   {
-    "payable": true,
-    "stateMutability": "payable",
+    "payable": false,
+    "stateMutability": "nonpayable",
     "type": "fallback"
   },
   {
@@ -60,7 +102,7 @@
         "type": "address"
       }
     ],
-    "name": "LogEthReceived",
+    "name": "LogStableTokenReceived",
     "type": "event"
   },
   {
@@ -77,7 +119,7 @@
         "type": "address"
       }
     ],
-    "name": "LogEthSent",
+    "name": "LogStableTokenSent",
     "type": "event"
   },
   {
@@ -91,6 +133,34 @@
     ],
     "name": "PrimaryTransferred",
     "type": "event"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_registry",
+        "type": "address"
+      }
+    ],
+    "name": "setRegistry",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "getRegistry",
+    "outputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
   },
   {
     "constant": false,

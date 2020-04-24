@@ -1,7 +1,7 @@
 import Web3 from 'web3';
 import EthKidsRegistryABI from '../assets/abi/EthKidsRegistry';
 import DonationCommunityABI from '../assets/abi/DonationCommunity';
-import CommunityTokenABI from '../assets/abi/CommunityToken';
+import EthKidsTokenABI from '../assets/abi/EthKidsToken';
 import CharityVaultABI from '../assets/abi/CharityVault';
 import BondingVaultABI from '../assets/abi/BondingVault';
 import IERC20ABI from '../assets/abi/IERC20';
@@ -20,7 +20,7 @@ const getContract = (abi, address) =>
 
 export const getEthKidsRegistryContract = address => getContract(EthKidsRegistryABI, address);
 export const getDonationCommunityContract = address => getContract(DonationCommunityABI, address);
-export const getCommunityTokenContract = address => getContract(CommunityTokenABI, address);
+export const getEthKidsTokenContract = address => getContract(EthKidsTokenABI, address);
 export const getCharityVaultContract = address => getContract(CharityVaultABI, address);
 export const getBondingVaultContract = address => getContract(BondingVaultABI, address);
 export const getIERC20Contract = address => getContract(IERC20ABI, address);

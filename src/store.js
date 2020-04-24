@@ -6,7 +6,7 @@ import pollWeb3 from './utils/pollWeb3';
 import {
   getEthKidsRegistryContract,
   getDonationCommunityContract,
-  getCommunityTokenContract,
+  getEthKidsTokenContract,
   getCharityVaultContract,
   getBondingVaultContract, getKyberConverterContract,
 } from './utils/getContract';
@@ -16,16 +16,16 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     //Main
-    registryAddress: '0x220A7844d3eAa78E60AA238fEA1BF8a01A567126',
+    /*registryAddress: '0x220A7844d3eAa78E60AA238fEA1BF8a01A567126',
     communityCreationBlock: 8810339,
     requiredNetwork: 1,
-    kyberAPI: 'https://api.kyber.network',
+    kyberAPI: 'https://api.kyber.network',*/
 
     //Rinkeby
-    // registryAddress: '0xD9E35bAd6965f9b80fFF06CbFDb1bEc56c363bB3',
-    // communityCreationBlock: 5325351,
-    // requiredNetwork: 4,
-    // kyberAPI: 'https://rinkeby-api.kyber.network',
+    registryAddress: '0x90A653bF28E79Ca5A17501C5EB5f4B834031D880',
+    communityCreationBlock: 5325351,
+    requiredNetwork: 4,
+    kyberAPI: 'https://rinkeby-api.kyber.network',
 
     //Ropsten
     // registryAddress: '0xE944141cB3eF0dbFc5209e6A34Ec0BB06D49698f',
@@ -63,8 +63,8 @@ export default new Vuex.Store({
     tokenInstance: null,
     tokenSym: null,
     tokenTotalSupply: 0,
-    tokenMyBalance: 0,
-    tokenMyETHValue: 0,
+    tokenMyBalance: '',
+    tokenMyETHReturn: '',
     communityDonations: [],
     communityTransfers: [],
 
@@ -139,8 +139,8 @@ export default new Vuex.Store({
     registerTokenMyBalance(state, payload) {
       state.tokenMyBalance = payload;
     },
-    registerTokenMyETHValue(state, payload) {
-      state.tokenMyETHValue = payload;
+    registerTokenMyETHReturn(state, payload) {
+      state.tokenMyETHReturn = payload;
     },
     registerTotalDonationsRaised(state, payload) {
       state.totalDonationsRaised = payload;
@@ -169,9 +169,13 @@ export default new Vuex.Store({
     pollWeb3({commit}, payload) {
       commit('pollWeb3Instance', payload);
     },
-    initBondingVaultContract({commit}, bondingVaultAddress) {
+    initBondingVaultContract({commit, dispatch}, bondingVaultAddress) {
       commit('registerBondingVaultAddress', bondingVaultAddress);
       getBondingVaultContract(bondingVaultAddress).then((bondingVaultContract) => {
+        //community token
+        bondingVaultContract.methods.getEthKidsToken().call().then((tokenAddress) => {
+          dispatch('initEthKidsTokenContract', tokenAddress);
+        });
         commit('registerBondingVault', bondingVaultContract);
       }).catch((err) => {
         console.log(err);
@@ -186,9 +190,9 @@ export default new Vuex.Store({
         console.log(err);
       });
     },
-    initCommunityTokenContract({commit}, tokenAddress) {
+    initEthKidsTokenContract({commit}, tokenAddress) {
       commit('registerTokenAddress', tokenAddress);
-      getCommunityTokenContract(tokenAddress).then((tokenContract) => {
+      getEthKidsTokenContract(tokenAddress).then((tokenContract) => {
         commit('registerToken', tokenContract);
 
         tokenContract.methods.symbol().call().then((sym) => {
@@ -203,17 +207,9 @@ export default new Vuex.Store({
       commit('registerCommunityAddress', communityAddress);
       getDonationCommunityContract(communityAddress).then((communityContract) => {
         commit('registerCommunity', communityContract);
-        //bonding vault
-        communityContract.methods.bondingVault().call().then((bondingVaultAddress) => {
-          dispatch('initBondingVaultContract', bondingVaultAddress);
-        });
         //charity vault
         communityContract.methods.charityVault().call().then((charityVaultAddress) => {
           dispatch('initCharityVaultContract', charityVaultAddress);
-        });
-        //community token
-        communityContract.methods.getCommunityToken().call().then((tokenAddress) => {
-          dispatch('initCommunityTokenContract', tokenAddress);
         });
       }).catch((err) => {
         console.log(err);
@@ -228,6 +224,12 @@ export default new Vuex.Store({
           }).catch((e) => {
             throw e;
           });
+
+          //bonding vault
+          registryContract.methods.bondingVault().call().then((bondingVaultAddress) => {
+            dispatch('initBondingVaultContract', bondingVaultAddress);
+          });
+
           registryContract.methods.getCommunityAt(0).call().then((communityAddress) => {
 
             registryContract.methods.currencyConverter().call().then((converter) => {

@@ -14,11 +14,11 @@
           v-bind:currency="this.$store.state.tokenSym"
           currency-symbol-position="suffix"
           v-bind:min="0"
-          v-bind:max="Number(this.$store.state.tokenMyBalance)"
+          v-bind:max="Math.floor(Number(this.$store.state.tokenMyBalance) * 100)/100"
           v-bind:minus="false"
           focus="focus"
           @blur="estimateSell"
-          v-bind:precision="3"/>
+          v-bind:precision="2"/>
       </div>
       Estimated return
       <strong>≈ {{myReturn}} ΞTH</strong>
@@ -53,23 +53,19 @@ export default {
     const self = this;
     EventBus.subscribe('OPEN_SELL', () => {
       self.sellModal = true;
+      self.amount = Number(this.$store.state.tokenMyBalance);
+      self.estimateSell();
     });
   },
   mounted() {
-    const self = this;
-    this.$store.subscribe((mutation) => {
-      if (mutation.type == 'registerTokenMyBalance') {
-        self.amount = Number(this.$store.state.tokenMyBalance);
-        self.estimateSell();
-      }
-    });
+
   },
   methods: {
     estimateSell() {
       if (this.amount > 0) {
         this.$store.state.communityInstance().methods.myReturn(window.web3.utils.toWei(this.amount.toString(), 'ether'))
           .call({from: this.$store.state.web3.coinbase}).then((result) => {
-          this.myReturn = parseFloat(window.web3.utils.fromWei(result.amountOfEth.toString(), 'ether')).toFixed(3)
+          this.myReturn = parseFloat(window.web3.utils.fromWei(result.toString(), 'ether')).toFixed(3)
         });
       } else {
         this.myReturn = 0;
@@ -79,7 +75,7 @@ export default {
       const self = this;
       self.sellModal = false;
       EventBus.publish('OPEN_LOADING', 'Processing your transaction...');
-      self.$store.state.communityInstance().methods
+      self.$store.state.bondingVaultInstance().methods
         .sell(window.web3.utils.toWei(self.amount.toString(), 'ether'))
         .send({from: self.$store.state.web3.coinbase})
         .on('confirmation', (confirmationNumber, receipt) => {
