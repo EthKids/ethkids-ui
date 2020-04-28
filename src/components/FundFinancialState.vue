@@ -104,6 +104,10 @@ export default {
       }
       if (mutation.type === 'registerBondingVault') {
         self.loadBondingVault();
+        self.loadMyReturn();
+      }
+      if (mutation.type === 'registerTokenMyBalance') {
+        self.loadMyReturn();
       }
       if (mutation.type == 'registerCommunity') {
         window.web3.eth.getBlockNumber().then((currentBlock) => {
@@ -150,6 +154,7 @@ export default {
       this.loadTokenSupply();
       this.loadCharityVault();
       this.loadBondingVault();
+      this.loadMyReturn();
     },
     loadMyTokenBalance() {
       let tokenInstance = this.$store.state.tokenInstance();
@@ -157,18 +162,6 @@ export default {
       tokenInstance.methods.balanceOf(this.$store.state.web3.coinbase).call().then((tokenBalance) => {
         self.$store.commit('registerTokenMyBalance',
           window.web3.utils.fromWei(tokenBalance.toString(), 'ether'));
-
-        if (Number(tokenBalance) > 0) {
-          self.$store.state.communityInstance().methods.myReturn(tokenBalance)
-            .call({from: this.$store.state.web3.coinbase}).then((result) => {
-            self.$store.commit('registerTokenMyETHReturn', window.web3.utils.fromWei(result.toString(), 'ether'));
-          }).catch((e) => {
-            throw e;
-          });
-        } else {
-          self.$store.commit('registerTokenMyETHReturn', "0");
-        }
-
       });
     },
     loadTokenSupply() {
@@ -192,7 +185,6 @@ export default {
             Math.floor(parseFloat(balance).toFixed(3) * 100) / 100);
         });
       });
-
     },
     loadBondingVault() {
       let bondingVaultContract = this.$store.state.bondingVaultInstance();
@@ -201,6 +193,19 @@ export default {
         this.$store.commit('registerBondingVaultBalance', parseFloat(balanceEth).toFixed(2));
       });
     },
+    loadMyReturn() {
+      const myTokenBalance = window.web3.utils.toWei(this.$store.state.tokenMyBalance, 'ether');
+      if (Number(myTokenBalance) > 0 && this.$store.state.bondingVaultInstance) {
+        this.$store.state.bondingVaultInstance().methods.calculateReturn(myTokenBalance, this.$store.state.web3.coinbase)
+          .call({from: this.$store.state.web3.coinbase}).then((result) => {
+          this.$store.commit('registerTokenMyETHReturn', window.web3.utils.fromWei(result.toString(), 'ether'));
+        }).catch((e) => {
+          throw e;
+        });
+      } else {
+        this.$store.commit('registerTokenMyETHReturn', "0");
+      }
+    }
   },
 
 }

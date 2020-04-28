@@ -22,8 +22,8 @@ export default new Vuex.Store({
     kyberAPI: 'https://api.kyber.network',*/
 
     //Rinkeby
-    registryAddress: '0x90A653bF28E79Ca5A17501C5EB5f4B834031D880',
-    communityCreationBlock: 5325351,
+    registryAddress: '0xA9a56A9dDBE521f15C0BC954ca497AbBD800458a',
+    communityCreationBlock: 6393787,
     requiredNetwork: 4,
     kyberAPI: 'https://rinkeby-api.kyber.network',
 

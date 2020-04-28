@@ -63,7 +63,9 @@ export default {
   methods: {
     estimateSell() {
       if (this.amount > 0) {
-        this.$store.state.communityInstance().methods.myReturn(window.web3.utils.toWei(this.amount.toString(), 'ether'))
+        const amount = window.web3.utils.toWei(this.amount.toString(), 'ether');
+        this.$store.state.bondingVaultInstance().methods
+          .calculateReturn(amount, this.$store.state.web3.coinbase)
           .call({from: this.$store.state.web3.coinbase}).then((result) => {
           this.myReturn = parseFloat(window.web3.utils.fromWei(result.toString(), 'ether')).toFixed(3)
         });
