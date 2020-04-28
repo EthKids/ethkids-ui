@@ -20,7 +20,7 @@ export default new Vuex.Store({
     communityCreationBlock: 8810339,
     requiredNetwork: 1,
     kyberAPI: 'https://api.kyber.network',
-    httpProvider: 'https://mainnet.infura.io/v3/98d7e501879243c5877bac07a57cde7e',
+    httpProvider: 'https://mainnet.infura.io/v3/98d7e501879243c5877bac07a57cde7e',*/
 
     //Rinkeby
     registryAddress: '0xA9a56A9dDBE521f15C0BC954ca497AbBD800458a',
