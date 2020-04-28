@@ -42,6 +42,7 @@
           <dd class="col-lg-5 col-md-11">
             <input
               class="btn btn-primary btn-sm custom-btn-action"
+              :disabled="this.$store.state.readOnly"
               type="button"
               value="Sell my tokens"
               @click="sellBack()"/></dd>

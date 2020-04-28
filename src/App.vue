@@ -115,6 +115,12 @@ export default {
     text-shadow: 0 0 2px #ffbc4e, 0 0 25px rgba(255, 188, 78, 0.58), 0 0 5px rgba(255, 188, 78, 0.15);
   }
 
+  .custom-btn-action.disabled, .custom-btn-action:disabled {
+    color: #fff;
+    background-color: #9e9e9e;
+    border-color: #9e9e9e;
+  }
+
   .icon {
     padding-left: 30px;
     color: black;

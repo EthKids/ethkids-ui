@@ -1,8 +1,9 @@
 <template>
   <div class="check-metamask" v-if="showMetamaskWarning">
-    <div v-if="!this.$store.state.web3.isInjected">
+    <div v-if="!this.$store.state.web3.isInjected || this.$store.state.readOnly">
       <h2 class="highlighted">Please install Metamask</h2>
-      <p>You need <a href="https://metamask.io/" target="_blank">Metamask</a> extension to see the EthKids communities.</p>
+      <p>You need <a href="https://metamask.io/" target="_blank">Metamask</a> Ethereum extension to contribute to the EthKids communities.</p>
+      <p>Without Metamask you can only see the current status</p>
     </div>
     <div v-if="this.$store.state.web3.isInjected && !this.$store.state.web3.coinbase">
       <h2>Please login into Metamask</h2>
@@ -33,7 +34,10 @@ export default {
 
 <style lang="scss" scoped>
   .check-metamask {
-    padding: 100px 10px 0px 10px;
+    border: 1px dashed red;
+    border-radius: 10px;
+    margin: 10px 10px 0px 10px;
+    padding: 10px 10px 0px 10px;
     display: inline-block;
   }
 </style>

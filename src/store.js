@@ -19,21 +19,24 @@ export default new Vuex.Store({
     /*registryAddress: '0x220A7844d3eAa78E60AA238fEA1BF8a01A567126',
     communityCreationBlock: 8810339,
     requiredNetwork: 1,
-    kyberAPI: 'https://api.kyber.network',*/
+    kyberAPI: 'https://api.kyber.network',
+    httpProvider: 'https://mainnet.infura.io/v3/98d7e501879243c5877bac07a57cde7e',
 
     //Rinkeby
     registryAddress: '0xA9a56A9dDBE521f15C0BC954ca497AbBD800458a',
     communityCreationBlock: 6393787,
     requiredNetwork: 4,
     kyberAPI: 'https://rinkeby-api.kyber.network',
+    httpProvider: 'https://rinkeby.infura.io/v3/98d7e501879243c5877bac07a57cde7e',
 
     //Ropsten
     // registryAddress: '0xE944141cB3eF0dbFc5209e6A34Ec0BB06D49698f',
     // communityCreationBlock: 6643086,
     // requiredNetwork: 3,
     // kyberAPI: 'https://ropsten-api.kyber.network',
+    // httpProvider: 'https://ropsten.infura.io/v3/98d7e501879243c5877bac07a57cde7e',
 
-
+    readOnly: false,
     web3: {
       isInjected: false,
       web3Instance: null,
@@ -73,13 +76,22 @@ export default new Vuex.Store({
     registerWeb3Instance(state, payload) {
       const result = payload;
       const web3Copy = state.web3;
-      web3Copy.coinbase = result.coinbase;
-      web3Copy.networkId = result.networkId;
-      web3Copy.balance = Number(result.balance);
       web3Copy.isInjected = result.injectedWeb3;
       web3Copy.web3Instance = result.web3;
+      if (result.readOnly) {
+        state.readOnly = true;
+        web3Copy.coinbase = '0x0000000000000000000000000000000000000000';
+        web3Copy.networkId = result.networkId;
+        web3Copy.balance = '0';
+      } else {
+        web3Copy.coinbase = result.coinbase;
+        web3Copy.networkId = result.networkId;
+        web3Copy.balance = Number(result.balance);
+      }
       state.web3 = web3Copy;
-      pollWeb3(state.web3);
+      if (!result.readOnly) {
+        pollWeb3();
+      }
     },
     registerNetworkId(state, payload) {
       state.web3.networkId = payload;
@@ -157,7 +169,7 @@ export default new Vuex.Store({
   actions: {
     registerWeb3({commit}) {
       return new Promise((resolve, reject) => {
-        getWeb3.then((result) => {
+        getWeb3(this.state.httpProvider).then((result) => {
           commit('registerWeb3Instance', result);
           resolve(result);
         }).catch((e) => {
