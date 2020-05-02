@@ -85,7 +85,6 @@
 import EventBus from '@/utils/event-bus';
 import FundFinancialState from '@/components/FundFinancialState'
 import LogTrail from '@/components/LogTrail'
-import Scoreboard from '@/components/Scoreboard'
 import DonateModal from '@/components/DonateModal';
 import PassCharityModal from '@/components/PassCharityModal';
 import SellModal from '@/components/SellModal';
@@ -112,7 +111,7 @@ export default {
     const self = this;
     this.$store.subscribe((mutation) => {
       if (mutation.type == 'registerCommunity') {
-        self.$store.state.communityInstance().methods.isSigner(self.$store.state.web3.coinbase).call().then((isSigner) => {
+        self.$store.state.communityInstance().methods.isWhitelistAdmin(this.$store.state.web3.coinbase).call().then((isSigner) => {
           self.isAdmin = isSigner;
         });
       }
@@ -121,7 +120,6 @@ export default {
   components: {
     FundFinancialState,
     LogTrail,
-    Scoreboard,
     DonateModal,
     PassCharityModal,
     SellModal

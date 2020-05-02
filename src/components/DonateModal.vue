@@ -86,21 +86,18 @@ export default {
     beforeCreate() {
         const self = this;
         EventBus.subscribe('OPEN_DONATE', () => {
-            self.donateModal = true;
+          self.donateModal = true;
+          //fetch initial FX
+          this.tokenChosen(this.selectedToken);
         });
     },
     mounted() {
-      const self = this;
-      axios.get(this.$store.state.kyberAPI + "/currencies")
-        .then((response) => {
-          self.supportedCurrencies = response.data.data;
-        })
-      //fetch initial FX
-      this.$store.subscribe((mutation) => {
-        if (mutation.type == 'registerWeb3Instance') {
-          this.tokenChosen(this.selectedToken);
-        }
-      });
+        const self = this;
+        axios.get(this.$store.state.kyberAPI + "/currencies")
+            .then((response) => {
+                self.supportedCurrencies = response.data.data;
+            })
+
     },
     methods: {
         isETHSelected() {
@@ -167,18 +164,21 @@ export default {
             EventBus.publish('OPEN_LOADING', 'Sending...');
             self.$store.state.communityInstance().methods
                 .donate()
-                .send({from: self.$store.state.web3.coinbase, value: window.web3.utils.toWei(self.donation.toString(), 'ether')})
-                .on('receipt', (receipt) => {
+              .send({from: self.$store.state.web3.coinbase, value: window.web3.utils.toWei(self.donation.toString(), 'ether')})
+              .on('receipt', (receipt) => {
 
-                })
-                .on('confirmation', (confirmationNumber, receipt) => {
-                    if (confirmationNumber == 1) {
-                        self.thanksAndGoodbye();
-                    }
-                })
-                .on('error', () => {
-                    EventBus.publish('CLOSE_LOADING');
-                });
+              })
+              .on('confirmation', (confirmationNumber, receipt) => {
+
+              })
+              .on('error', () => {
+                EventBus.publish('CLOSE_LOADING');
+              });
+
+          self.$store.state.bondingVaultInstance().once('LogTokensMinted', function (error, event) {
+            self.thanksAndGoodbye(event.returnValues.amount);
+          });
+
         },
         donateWithSwap() {
             const self = this;
@@ -202,18 +202,19 @@ export default {
                                         kyberConverter.methods
                                             .executeSwapAndDonate(self.selectedToken.address,
                                                 window.web3.utils.toWei(self.donation.toString(), 'ether'),
-                                                window.web3.utils.toWei(maxDestAmount.toString(), 'ether'),
-                                                self.$store.state.communityAddress
+                                              window.web3.utils.toWei(maxDestAmount.toString(), 'ether'),
+                                              self.$store.state.communityAddress
                                             )
-                                            .send({from: self.$store.state.web3.coinbase})
-                                            .on('confirmation', (confirmationNumber, receipt) => {
-                                                if (confirmationNumber == 1) {
-                                                    self.thanksAndGoodbye();
-                                                }
-                                            })
-                                            .on('error', () => {
-                                                EventBus.publish('CLOSE_LOADING');
-                                            });
+                                          .send({from: self.$store.state.web3.coinbase})
+                                          .on('confirmation', (confirmationNumber, receipt) => {
+
+                                          })
+                                          .on('error', () => {
+                                            EventBus.publish('CLOSE_LOADING');
+                                          });
+                                      self.$store.state.bondingVaultInstance().once('LogTokensMinted', function (error, event) {
+                                        self.thanksAndGoodbye(event.returnValues.amount);
+                                      });
                                     });
                                 }
                             })
@@ -221,22 +222,23 @@ export default {
                                 EventBus.publish('CLOSE_LOADING');
                             });
                     } else {
-                        //insufficient funds
-                        EventBus.publish('CLOSE_LOADING');
-                        self.insufficientFunds = true;
+                      //insufficient funds
+                      EventBus.publish('CLOSE_LOADING');
+                      self.insufficientFunds = true;
                     }
                 });
             })
         },
-        ercBalance(token) {
-            return token.methods.balanceOf(this.$store.state.web3.coinbase).call();
-        },
-        thanksAndGoodbye() {
-            EventBus.publish('OPEN_LOADING', 'Thank you for your donation!');
-            setTimeout(() => {
-                EventBus.publish('CLOSE_LOADING');
-            }, 2000);
-        },
+      ercBalance(token) {
+        return token.methods.balanceOf(this.$store.state.web3.coinbase).call();
+      },
+      thanksAndGoodbye(reward) {
+        const rewardStr = parseFloat(window.web3.utils.fromWei(reward.toString(), 'ether')).toFixed(2);
+        EventBus.publish('OPEN_LOADING', "Thank you for your donation! You've got +" + rewardStr + " CHANCE");
+        setTimeout(() => {
+          EventBus.publish('CLOSE_LOADING');
+        }, 3000);
+      },
     },
 };
 </script>
