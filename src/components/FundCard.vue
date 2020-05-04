@@ -2,7 +2,7 @@
   <div class="container">
     <donate-modal/>
     <pass-charity-modal/>
-    <div class="col-sm-6 fundContainer">
+    <div class="col-md-6 fundContainer">
       <div>
         <h2 class="mt-0">
           <a href="https://www.eng.chance.by/" target="_blank">

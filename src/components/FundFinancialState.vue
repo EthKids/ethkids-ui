@@ -3,38 +3,16 @@
     <div class="row">
       <div class="col-sm-6">
         <h3>
-          <a target="_blank" v-bind:href="getCommunityAddressLink">{{this.$store.state.totalDonationsRaised}}</a>
+          <a target="_blank" v-bind:href="getCommunityAddressLink">${{this.$store.state.totalDonationsRaised}}</a>
         </h3>
-        USD, total
+        Total
       </div>
       <div class="col-sm-6">
         <h3>
-          <a target="_blank" v-bind:href="getCharityVaultLink">{{this.$store.state.charityVaultBalance}}</a>
+          <a target="_blank" v-bind:href="getCharityVaultLink">${{this.$store.state.charityVaultBalance}}</a>
         </h3>
-        USD, current
+        Current
       </div>
-      <!--<div class="col-sm-4">
-        <h3>My assets</h3>
-        <dl class="row">
-          <dt class="col-sm-7">My tokens</dt>
-          <dd class="col-sm-5"> {{parseFloat(this.$store.state.tokenMyBalance).toFixed(2)}} {{this.$store.state.tokenSym}}</dd>
-
-          <dt class="col-sm-7">My stake</dt>
-          <dd class="col-sm-5"> {{getMyTokenPercent}}</dd>
-
-          <dt class="col-sm-7">My tokens' value</dt>
-          <dd class="col-sm-5">{{parseFloat(this.$store.state.tokenMyETHReturn).toFixed(2)}} ΞTH</dd>
-
-          <dt class="col-lg-7 col-md-1"></dt>
-          <dd class="col-lg-5 col-md-11">
-            <input
-              class="btn btn-primary btn-sm custom-btn-action"
-              :disabled="this.$store.state.readOnly"
-              type="button"
-              value="Sell my tokens"
-              @click="sellBack()"/></dd>
-        </dl>
-      </div>-->
     </div>
   </div>
 </template>

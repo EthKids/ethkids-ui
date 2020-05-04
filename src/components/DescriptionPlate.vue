@@ -10,9 +10,9 @@
     >
       <b-card-body>
         <b-row>
-          <b-col>
+          <b-col class="d-none d-md-block">
           </b-col>
-          <b-col sm="6">
+          <b-col sm="6" class="d-none d-sm-block">
             <div class="bg-dark border-light rounded" style="opacity: 0.48; blur:2px">
               EthKids is the open source non-commercial decentralized protocol for charity donations for children.
               <br><br>
@@ -24,7 +24,7 @@
               </p>
             </div>
           </b-col>
-          <b-col md="3" sm="4">
+          <b-col sm="6" md="4">
             <div class="bg-dark border-light rounded" style="opacity: 0.48; blur:2px">
               <h3>My assets</h3>
               <dl class="row">
