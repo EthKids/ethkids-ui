@@ -165,6 +165,9 @@ export default new Vuex.Store({
       state.communityTransfers.push(payload);
       state.communityTransfers = _.orderBy(state.communityTransfers, 'blockNo', 'desc');
     },
+    financialChange(state, payload) {
+      //
+    },
   },
   actions: {
     registerWeb3({commit}) {
