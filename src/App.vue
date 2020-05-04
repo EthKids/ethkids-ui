@@ -1,18 +1,35 @@
 <template>
   <div id="app">
-    <fixed-header>
-      <div>
-        <router-link to="/">Home</router-link>
-        |
-        <router-link to="/about">About</router-link>
-        <a href="https://t.me/joinchat/K1v4ShPV57D0zfjybfRFDQ" target="_blank" class="icon">
-          <font-awesome-icon size="lg" :icon="['fab', 'telegram-plane']"/>
-        </a>
-        <a href="https://github.com/EthKids" class="icon" v-b-tooltip.hover v-bind:title="'Github'">
-          <font-awesome-icon size="lg" :icon="['fab', 'github']"/>
-        </a>
-      </div>
-    </fixed-header>
+    <b-navbar toggleable="lg" variant="light">
+      <b-navbar-brand href="#">
+        <span class="highlighted">EthKids</span>
+      </b-navbar-brand>
+
+      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+      <b-collapse id="nav-collapse" is-nav>
+        <b-navbar-nav>
+          <b-nav-item href="#">
+            <router-link to="/">Home</router-link>
+          </b-nav-item>
+          <b-nav-item href="#">
+            <router-link to="/about">About</router-link>
+          </b-nav-item>
+        </b-navbar-nav>
+
+        <!-- Right aligned nav items -->
+        <b-navbar-nav class="ml-auto">
+          <a class="nav-link" href="https://t.me/joinchat/K1v4ShPV57D0zfjybfRFDQ" v-b-tooltip.hover v-bind:title="'Join our Telegram channel'"
+             target="_blank">
+            <font-awesome-icon color="black" size="lg" :icon="['fab', 'telegram-plane']"/>
+          </a>
+          <a class="nav-link" href="https://github.com/EthKids" v-b-tooltip.hover v-bind:title="'Github'">
+            <font-awesome-icon color="black" size="lg" :icon="['fab', 'github']"/>
+          </a>
+        </b-navbar-nav>
+      </b-collapse>
+    </b-navbar>
+
     <router-view/>
     <custom-footer/>
     <loading
@@ -30,7 +47,6 @@
 <script>
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-import FixedHeader from 'vue-fixed-header'
 import Loading from 'vue-loading-overlay';
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 import CustomFooter from '@/components/CustomFooter'
@@ -38,36 +54,35 @@ import Modal from '@/components/Modal';
 import EventBus from '@/utils/event-bus';
 
 export default {
-    components: {
-        Loading,
-        FixedHeader,
-        FontAwesomeIcon,
-        CustomFooter,
-        Modal,
-    },
-    data() {
-        return {
-            isLoading: false,
-            loaderText: '',
-        };
-    },
-    beforeCreate() {
-        const self = this;
+  components: {
+    Loading,
+    FontAwesomeIcon,
+    CustomFooter,
+    Modal,
+  },
+  data() {
+    return {
+      isLoading: false,
+      loaderText: '',
+    };
+  },
+  beforeCreate() {
+    const self = this;
 
-        //dispatchers
-        this.$store.dispatch('registerWeb3').then(() => {
-            this.$store.dispatch('registerContracts');
-        });
+    //dispatchers
+    this.$store.dispatch('registerWeb3').then(() => {
+      this.$store.dispatch('registerContracts');
+    });
 
-        EventBus.subscribe('OPEN_LOADING', (text) => {
-            self.isLoading = true;
-            self.loaderText = text;
-        });
-        EventBus.subscribe('CLOSE_LOADING', (text) => {
-            self.isLoading = false;
-        });
+    EventBus.subscribe('OPEN_LOADING', (text) => {
+      self.isLoading = true;
+      self.loaderText = text;
+    });
+    EventBus.subscribe('CLOSE_LOADING', (text) => {
+      self.isLoading = false;
+    });
 
-    }
+  }
 }
 </script>
 
