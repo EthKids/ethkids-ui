@@ -1,28 +1,25 @@
 <template>
-  <div class="container">
-    <header class="masthead">
-      <div class="container h-100">
-        <div class="row h-100 align-items-center">
-          <div class="col-12 text-center">
+  <div>
+    <DescriptionPlate/>
+    <div class="container">
+      <!--<header class="masthead">
+        <div class="container h-100">
+          <div class="row h-100 align-items-center">
+            <div class="col-12 text-center">
+            </div>
           </div>
         </div>
-      </div>
-    </header>
-    <DescriptionPlate/>
-    <metamask-warning v-if="!this.$store.state.web3.isInjected || !this.$store.state.web3.coinbase || this.$store.state.readOnly"/>
-    <network-warning v-if="!(!this.$store.state.web3.isInjected || !this.$store.state.web3.coinbase) &&
+      </header>-->
+      <metamask-warning v-if="!this.$store.state.web3.isInjected || !this.$store.state.web3.coinbase || this.$store.state.readOnly"/>
+      <network-warning v-if="!(!this.$store.state.web3.isInjected || !this.$store.state.web3.coinbase) &&
                 this.$store.state.web3.networkId != this.$store.state.requiredNetwork"/>
-    <div class="communities" v-show="this.$store.state.web3.networkId === this.$store.state.requiredNetwork">
-      <div class="charityCounter row justify-content-center">
-        <h2>
-          1
-        </h2>
-      </div>
-      <FundCard name="Chance.by"/>
-      <div class="new-community">
-        <h5>
-          <router-link to="/about">Add your charity community on Ethkids.io</router-link>
-        </h5>
+      <div class="communities" v-show="this.$store.state.web3.networkId === this.$store.state.requiredNetwork">
+        <FundCard name="Chance.by"/>
+        <div class="new-community">
+          <h5>
+            <router-link to="/about">Add your charity community on Ethkids.io</router-link>
+          </h5>
+        </div>
       </div>
     </div>
   </div>

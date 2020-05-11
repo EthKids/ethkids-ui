@@ -1,14 +1,14 @@
 <template>
-  <div class="container fundContainer">
+  <div class="container">
     <donate-modal/>
     <pass-charity-modal/>
-    <sell-modal/>
-    <div class="col-12">
+    <div class="col-md-6 fundContainer">
       <div>
-        <h2 class="mt-0">{{name}}</h2>
-        <h6>
-          <a href="https://www.eng.chance.by/" target="_blank">https://www.chance.by</a>
-        </h6>
+        <h2 class="mt-0">
+          <a href="https://www.eng.chance.by/" target="_blank">
+            {{name}}
+          </a>
+        </h2>
         <ul class="social list-inline">
           <li class="list-inline-item">
             <a href="https://twitter.com/FondChance" class="icon">
@@ -55,23 +55,23 @@
           During the past years, over <strong>870 children</strong> got medical help for a total amount of <strong>$12 890 000</strong>
         </p>
       </div>
-    </div>
-    <FundFinancialState/>
-    <div class="row justify-content-center">
-      <div class="actions">
-        <input
-          class="btn btn-primary btn-lg custom-btn-action"
-          :disabled="this.$store.state.readOnly"
-          type="button"
-          value="Donate"
-          @click="donate()"/>
-      </div>
-      <div v-show="this.isAdmin" class="actions">
-        <input
-          class="btn btn-primary btn-lg custom-btn-action"
-          type="button"
-          value="Pass to charity"
-          @click="passCharity()"/>
+      <FundFinancialState/>
+      <div class="row justify-content-center">
+        <div class="actions">
+          <input
+            class="btn btn-primary btn-lg custom-btn-action"
+            :disabled="this.$store.state.readOnly"
+            type="button"
+            value="Donate"
+            @click="donate()"/>
+        </div>
+        <div v-show="this.isAdmin" class="actions">
+          <input
+            class="btn btn-primary btn-lg custom-btn-action"
+            type="button"
+            value="Pass to charity"
+            @click="passCharity()"/>
+        </div>
       </div>
     </div>
     <hr>
@@ -87,7 +87,6 @@ import FundFinancialState from '@/components/FundFinancialState'
 import LogTrail from '@/components/LogTrail'
 import DonateModal from '@/components/DonateModal';
 import PassCharityModal from '@/components/PassCharityModal';
-import SellModal from '@/components/SellModal';
 
 export default {
   name: 'FundCard',
@@ -122,7 +121,6 @@ export default {
     LogTrail,
     DonateModal,
     PassCharityModal,
-    SellModal
   }
 }
 </script>
