@@ -2,7 +2,7 @@
   <div class="container">
     <donate-modal/>
     <pass-charity-modal/>
-    <div class="col-md-6 fundContainer">
+    <div class="col-lg-6 fundContainer">
       <div>
         <h2 class="mt-0">
           <a href="https://www.eng.chance.by/" target="_blank">
@@ -73,10 +73,26 @@
             @click="passCharity()"/>
         </div>
       </div>
+      <div class="row justify-content-around" style="margin-top: 20px">
+        <b-button variant="outline-info" @click="toggleDonations">See {{$store.state.communityDonations.length}} donations</b-button>
+        <b-button variant="outline-info" @click="toggleTransfers">See {{$store.state.communityTransfers.length}} transfers</b-button>
+      </div>
+      <div style="margin: 20px">
+        <b-collapse v-model="donationsVisible" class="mt-2">
+          <b-card>
+            <DonationsTrail/>
+          </b-card>
+        </b-collapse>
+        <b-collapse v-model="transfersVisible" class="mt-2">
+          <b-card>
+            <TransfersTrail/>
+          </b-card>
+        </b-collapse>
+      </div>
     </div>
     <hr>
 
-    <LogTrail/>
+    <!--<DonationsTrail/>-->
   </div>
 
 </template>
@@ -84,9 +100,10 @@
 <script>
 import EventBus from '@/utils/event-bus';
 import FundFinancialState from '@/components/FundFinancialState'
-import LogTrail from '@/components/LogTrail'
+import DonationsTrail from '@/components/DonationsTrail'
 import DonateModal from '@/components/DonateModal';
 import PassCharityModal from '@/components/PassCharityModal';
+import TransfersTrail from "./TransfersTrail";
 
 export default {
   name: 'FundCard',
@@ -96,9 +113,23 @@ export default {
   data() {
     return {
       isAdmin: false,
+      donationsVisible: false,
+      transfersVisible: false,
     };
   },
   methods: {
+    toggleDonations() {
+      this.donationsVisible = !this.donationsVisible;
+      if (this.donationsVisible) {
+        this.transfersVisible = false;
+      }
+    },
+    toggleTransfers() {
+      this.transfersVisible = !this.transfersVisible;
+      if (this.transfersVisible) {
+        this.donationsVisible = false;
+      }
+    },
     donate() {
       EventBus.publish('OPEN_DONATE');
     },
@@ -117,8 +148,9 @@ export default {
     });
   },
   components: {
+    TransfersTrail,
     FundFinancialState,
-    LogTrail,
+    DonationsTrail,
     DonateModal,
     PassCharityModal,
   }
