@@ -2,14 +2,6 @@
   <div>
     <DescriptionPlate/>
     <div class="container">
-      <!--<header class="masthead">
-        <div class="container h-100">
-          <div class="row h-100 align-items-center">
-            <div class="col-12 text-center">
-            </div>
-          </div>
-        </div>
-      </header>-->
       <metamask-warning v-if="!this.$store.state.web3.isInjected || !this.$store.state.web3.coinbase || this.$store.state.readOnly"/>
       <network-warning v-if="!(!this.$store.state.web3.isInjected || !this.$store.state.web3.coinbase) &&
                 this.$store.state.web3.networkId != this.$store.state.requiredNetwork"/>

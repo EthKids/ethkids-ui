@@ -74,8 +74,8 @@
         </div>
       </div>
       <div class="row justify-content-around" style="margin-top: 20px">
-        <b-button variant="outline-info" @click="toggleDonations">See {{$store.state.communityDonations.length}} donations</b-button>
-        <b-button variant="outline-info" @click="toggleTransfers">See {{$store.state.communityTransfers.length}} transfers</b-button>
+        <b-button variant="outline-info" @click="toggleDonations">Last {{$store.state.communityDonations.length}} donations</b-button>
+        <b-button variant="outline-info" @click="toggleTransfers">Last {{$store.state.communityTransfers.length}} transfers</b-button>
       </div>
       <div style="margin: 20px">
         <b-collapse v-model="donationsVisible" class="mt-2">
