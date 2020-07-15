@@ -23,18 +23,18 @@ export default new Vuex.Store({
     httpProvider: 'https://mainnet.infura.io/v3/98d7e501879243c5877bac07a57cde7e',*/
 
     //Rinkeby
-    registryAddress: '0xA9a56A9dDBE521f15C0BC954ca497AbBD800458a',
+    /*registryAddress: '0xA9a56A9dDBE521f15C0BC954ca497AbBD800458a',
     communityCreationBlock: 6393787,
     requiredNetwork: 4,
     kyberAPI: 'https://rinkeby-api.kyber.network',
-    httpProvider: 'https://rinkeby.infura.io/v3/98d7e501879243c5877bac07a57cde7e',
+    httpProvider: 'https://rinkeby.infura.io/v3/98d7e501879243c5877bac07a57cde7e',*/
 
     //Ropsten
-    // registryAddress: '0xE944141cB3eF0dbFc5209e6A34Ec0BB06D49698f',
-    // communityCreationBlock: 6643086,
-    // requiredNetwork: 3,
-    // kyberAPI: 'https://ropsten-api.kyber.network',
-    // httpProvider: 'https://ropsten.infura.io/v3/98d7e501879243c5877bac07a57cde7e',
+    registryAddress: '0xccb683B39825e48F119aAd5C8a951a735f9222a9',
+    communityCreationBlock: 8298600,
+    requiredNetwork: 3,
+    kyberAPI: 'https://ropsten-api.kyber.network',
+    httpProvider: 'https://ropsten.infura.io/v3/98d7e501879243c5877bac07a57cde7e',
 
     readOnly: false,
     web3: {
@@ -234,7 +234,7 @@ export default new Vuex.Store({
     registerContracts({commit, state, dispatch}) {
       return new Promise((resolve, reject) => {
         getEthKidsRegistryContract(state.registryAddress).then((registryContract) => {
-          registryContract.methods.communityIndex().call().then((index) => {
+          registryContract.methods.communityCount().call().then((index) => {
             console.log("Total communities: " + index);
           }).catch((e) => {
             throw e;

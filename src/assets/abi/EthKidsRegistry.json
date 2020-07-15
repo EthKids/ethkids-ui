@@ -21,6 +21,20 @@
   {
     "constant": true,
     "inputs": [],
+    "name": "yieldVault",
+    "outputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
     "name": "currencyConverter",
     "outputs": [
       {
@@ -36,39 +50,6 @@
     "constant": true,
     "inputs": [],
     "name": "bondingVault",
-    "outputs": [
-      {
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "communityIndex",
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "communities",
     "outputs": [
       {
         "name": "",
@@ -107,6 +88,10 @@
       {
         "name": "_bondingVaultAddress",
         "type": "address"
+      },
+      {
+        "name": "_yieldVault",
+        "type": "address"
       }
     ],
     "payable": false,
@@ -125,11 +110,6 @@
         "indexed": false,
         "name": "communityAddress",
         "type": "address"
-      },
-      {
-        "indexed": false,
-        "name": "index",
-        "type": "uint256"
       }
     ],
     "name": "CommunityRegistered",
@@ -177,24 +157,6 @@
     "constant": false,
     "inputs": [
       {
-        "name": "_communityAddress",
-        "type": "address"
-      },
-      {
-        "name": "index",
-        "type": "uint256"
-      }
-    ],
-    "name": "registerCommunityAt",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
         "name": "_currencyConverter",
         "type": "address"
       }
@@ -209,8 +171,8 @@
     "constant": false,
     "inputs": [
       {
-        "name": "_index",
-        "type": "uint256"
+        "name": "_address",
+        "type": "address"
       }
     ],
     "name": "removeCommunity",
@@ -232,6 +194,20 @@
       {
         "name": "community",
         "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "communityCount",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256"
       }
     ],
     "payable": false,
@@ -269,6 +245,20 @@
       {
         "name": "",
         "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "getCharityVaults",
+    "outputs": [
+      {
+        "name": "",
+        "type": "address[]"
       }
     ],
     "payable": false,
