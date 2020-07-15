@@ -4,7 +4,9 @@ import DonationCommunityABI from '../assets/abi/DonationCommunity';
 import EthKidsTokenABI from '../assets/abi/EthKidsToken';
 import CharityVaultABI from '../assets/abi/CharityVault';
 import BondingVaultABI from '../assets/abi/BondingVault';
+import YieldVaultABI from '../assets/abi/YieldVault';
 import IERC20ABI from '../assets/abi/IERC20';
+import IAToken from '../assets/abi/IAToken';
 import KybrConverterABI from '../assets/abi/KyberConverter'
 
 const getContract = (abi, address) =>
@@ -23,5 +25,7 @@ export const getDonationCommunityContract = address => getContract(DonationCommu
 export const getEthKidsTokenContract = address => getContract(EthKidsTokenABI, address);
 export const getCharityVaultContract = address => getContract(CharityVaultABI, address);
 export const getBondingVaultContract = address => getContract(BondingVaultABI, address);
+export const getYieldVaultContract = address => getContract(YieldVaultABI, address);
 export const getIERC20Contract = address => getContract(IERC20ABI, address);
+export const getIATokenContract = address => getContract(IAToken, address);
 export const getKyberConverterContract = address => getContract(KybrConverterABI, address);

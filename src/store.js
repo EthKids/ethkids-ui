@@ -8,7 +8,7 @@ import {
   getDonationCommunityContract,
   getEthKidsTokenContract,
   getCharityVaultContract,
-  getBondingVaultContract, getKyberConverterContract,
+  getBondingVaultContract, getKyberConverterContract, getYieldVaultContract, getIATokenContract,
 } from './utils/getContract';
 
 Vue.use(Vuex)
@@ -54,7 +54,10 @@ export default new Vuex.Store({
     communityInstance: null,
     //bonding vault stats
     bondingVaultAddress: null,
+    yieldVaultAddress: null,
     bondingVaultInstance: null,
+    yieldVaultInstance: null,
+    aTokenInstance: null,
     bondingVaultBalance: null,
     //charity vault stats
     charityVaultAddress: null,
@@ -121,8 +124,17 @@ export default new Vuex.Store({
     registerBondingVaultAddress(state, payload) {
       state.bondingVaultAddress = payload;
     },
+    registerYieldVaultAddress(state, payload) {
+      state.yieldVaultAddress = payload;
+    },
     registerBondingVault(state, payload) {
       state.bondingVaultInstance = () => payload;
+    },
+    registerYieldVault(state, payload) {
+      state.yieldVaultInstance = () => payload;
+    },
+    registerAToken(state, payload) {
+      state.aTokenInstance = () => payload;
     },
     registerBondingVaultBalance(state, payload) {
       state.bondingVaultBalance = payload;
@@ -197,6 +209,21 @@ export default new Vuex.Store({
       });
     },
 
+    initYieldVaultContract({commit, dispatch}, yieldVaultAddress) {
+      commit('registerYieldVaultAddress', yieldVaultAddress);
+      getYieldVaultContract(yieldVaultAddress).then((yieldVaultContract) => {
+        commit('registerYieldVault', yieldVaultContract);
+        //aToken
+        yieldVaultContract.methods.ADAI_ADDRESS().call().then((aTokenAddress) => {
+          getIATokenContract(aTokenAddress).then((aTokenContract) => {
+            commit('registerAToken', aTokenContract);
+          });
+        });
+      }).catch((err) => {
+        console.log(err);
+      });
+    },
+
     initCharityVaultContract({commit, dispatch}, charityVaultAddress) {
       commit('registerCharityVaultAddress', charityVaultAddress);
       getCharityVaultContract(charityVaultAddress).then((charityVaultContract) => {
@@ -243,6 +270,11 @@ export default new Vuex.Store({
           //bonding vault
           registryContract.methods.bondingVault().call().then((bondingVaultAddress) => {
             dispatch('initBondingVaultContract', bondingVaultAddress);
+          });
+
+          //yield vault
+          registryContract.methods.yieldVault().call().then((yieldVaultAddress) => {
+            dispatch('initYieldVaultContract', yieldVaultAddress);
           });
 
           registryContract.methods.getCommunityAt(0).call().then((communityAddress) => {

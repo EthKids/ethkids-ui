@@ -57,6 +57,45 @@
             </div>
           </b-col>
         </b-row>
+
+        <div class="bg-dark border-light rounded" style="height: 90%; opacity: 0.7; blur:2px">
+          <h3>Passive charity</h3>
+          <dl class="row">
+            <dt class="col-sm-7">My aDAI</dt>
+            <dd class="col-sm-5">
+              {{parseFloat(myATokenBalance).toFixed(2)}} aDAI
+            </dd>
+
+            <dt class="col-sm-6">
+              <input
+                class="btn btn-primary btn-lg custom-btn-action"
+                :disabled="this.redirectionEnabled"
+                type="button"
+                value="Enable forwarding"
+                @click="enableAaveInterestForwarding()"/>
+            </dt>
+            <dd class="col-sm-6">
+              <input
+                class="btn btn-primary btn-lg custom-btn-action"
+                :disabled="!this.redirectionEnabled"
+                type="button"
+                value="Disable forwarding"
+                @click="sellBack()"/>
+            </dd>
+
+            <dt class="col-sm-6">5 contributors</dt>
+            <dd class="col-sm-6">From 5000 DAI</dd>
+
+            <dt class="col-sm-6">
+              Total raised {{parseFloat(historicYieldVaultBalance).toFixed(2)}} aDAI
+            </dt>
+            <dd class="col-sm-6">
+              Current: {{parseFloat(yieldVaultBalance).toFixed(6)}} aDAI
+            </dd>
+
+          </dl>
+        </div>
+
       </b-card-body>
     </b-card>
   </div>
@@ -71,7 +110,11 @@ export default {
   },
   data() {
     return {
-      background: require('@/assets/header-new.png')
+      background: require('@/assets/header-new.png'),
+      myATokenBalance: 0,
+      yieldVaultBalance: 0,
+      historicYieldVaultBalance: 0,
+      redirectionEnabled: false,
     }
   },
   computed: {
@@ -110,6 +153,10 @@ export default {
       if (mutation.type === 'registerBondingVault') {
         self.loadBondingVault();
       }
+      if (mutation.type === 'registerAToken') {
+        self.loadMyATokenBalance();
+        self.loadYieldVault();
+      }
     });
   },
   methods: {
@@ -127,6 +174,18 @@ export default {
       tokenInstance.methods.balanceOf(this.$store.state.web3.coinbase).call().then((tokenBalance) => {
         self.$store.commit('registerTokenMyBalance',
           window.web3.utils.fromWei(tokenBalance.toString(), 'ether'));
+      });
+    },
+    loadMyATokenBalance() {
+      let self = this;
+      this.$store.state.aTokenInstance().methods.balanceOf(this.$store.state.web3.coinbase).call().then((aTokenBalance) => {
+        self.myATokenBalance = window.web3.utils.fromWei(aTokenBalance.toString(), 'ether');
+      });
+
+      this.$store.state.aTokenInstance().methods.getInterestRedirectionAddress(this.$store.state.web3.coinbase).call().then((destination) => {
+        if (destination == this.$store.state.yieldVaultInstance().options.address) {
+          self.redirectionEnabled = true;
+        }
       });
     },
     loadMyReturn() {
@@ -148,6 +207,20 @@ export default {
         let balanceEth = window.web3.utils.fromWei(bondingVaultBalance.toString(), 'ether');
         this.$store.commit('registerBondingVaultBalance', parseFloat(balanceEth).toFixed(2));
       });
+    },
+    loadYieldVault() {
+      let self = this;
+      this.$store.state.yieldVaultInstance().methods.balance(this.$store.state.aTokenInstance().options.address).call().then((aTokenBalance) => {
+        self.yieldVaultBalance = window.web3.utils.fromWei(aTokenBalance.toString(), 'ether');
+      });
+      this.$store.state.yieldVaultInstance().methods.historicBalance(this.$store.state.aTokenInstance().options.address).call().then((aTokenBalance) => {
+        self.historicYieldVaultBalance = window.web3.utils.fromWei(aTokenBalance.toString(), 'ether');
+      });
+    },
+    enableAaveInterestForwarding() {
+      let self = this;
+      this.$store.state.aTokenInstance().methods.redirectInterestStream(this.$store.state.yieldVaultAddress)
+        .send({from: self.$store.state.web3.coinbase});
     },
   }
 }
