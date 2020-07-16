@@ -1,0 +1,16 @@
+query getUserReserves($address: String) {
+    userReserves(where:{interestRedirectionAddress: $address}) {
+      user{
+        id
+      }
+      reserve {
+        id
+        symbol
+        aToken {
+          id
+        }
+      }
+      interestRedirectionAddress
+      principalATokenBalance
+    }
+}
