@@ -21,6 +21,7 @@ export default new Vuex.Store({
     requiredNetwork: 1,
     kyberAPI: 'https://api.kyber.network',
     httpProvider: 'https://mainnet.infura.io/v3/98d7e501879243c5877bac07a57cde7e',
+    etherscan: 'https://etherscan.io',
     aaveGraphQL: 'https://api.thegraph.com/subgraphs/name/aave/protocol-raw',*/
 
     //Rinkeby
@@ -29,6 +30,7 @@ export default new Vuex.Store({
     requiredNetwork: 4,
     kyberAPI: 'https://rinkeby-api.kyber.network',
     httpProvider: 'https://rinkeby.infura.io/v3/98d7e501879243c5877bac07a57cde7e',
+    etherscan: 'https://rinkeby.etherscan.io',
     aaveGraphQL: '',*/
 
     //Ropsten
@@ -37,6 +39,7 @@ export default new Vuex.Store({
     requiredNetwork: 3,
     kyberAPI: 'https://ropsten-api.kyber.network',
     httpProvider: 'https://ropsten.infura.io/v3/98d7e501879243c5877bac07a57cde7e',
+    etherscan: 'https://ropsten.etherscan.io',
     aaveGraphQL: 'https://api.thegraph.com/subgraphs/name/aave/protocol-ropsten-raw',
 
     readOnly: false,

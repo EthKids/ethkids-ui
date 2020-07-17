@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-dark border-light rounded" style="height: 90%; opacity: 0.7; blur:2px">
+  <div class="">
     <h3>Passive charity</h3>
     <dl class="row">
       <dt class="col-sm-7">My aDAI</dt>
@@ -59,13 +59,16 @@ export default {
   apollo: {},
 
   mounted() {
-    this.$store.subscribe(async (mutation) => {
+    this.loadMyATokenBalance();
+    this.loadYieldVault();
+    this.loadForwarders();
+    /*this.$store.subscribe(async (mutation) => {
       if (mutation.type === 'registerAToken') {
         this.loadMyATokenBalance();
         this.loadYieldVault();
         this.loadForwarders();
       }
-    })
+    })*/
   },
 
   computed: {},

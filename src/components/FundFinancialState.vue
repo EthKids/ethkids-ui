@@ -1,19 +1,11 @@
 <template>
   <div class="container stateContainer">
-    <div class="row">
-      <div class="col-sm-6">
-        <h3>
-          <a target="_blank" v-bind:href="getCommunityAddressLink">${{this.$store.state.totalDonationsRaised}}</a>
-        </h3>
-        Total
-      </div>
-      <div class="col-sm-6">
-        <h3>
-          <a target="_blank" v-bind:href="getCharityVaultLink">${{parseFloat(this.cumulatedBalance.toString()).toFixed(2)}}</a>
-        </h3>
-        Current
-      </div>
-    </div>
+    <h3>
+      <a target="_blank" v-bind:href="getCharityVaultLink">${{parseFloat(this.cumulatedBalance.toString()).toFixed(2)}}</a>
+    </h3>
+    <span>
+      Total <a target="_blank" v-bind:href="getCommunityAddressLink">${{this.$store.state.totalDonationsRaised}}</a>
+    </span>
   </div>
 </template>
 
@@ -30,10 +22,10 @@ export default {
   },
   computed: {
     getCommunityAddressLink() {
-      return `https://etherscan.io/address/${this.$store.state.communityAddress}`;
+      return `${this.$store.state.etherscan}/address/${this.$store.state.communityAddress}`;
     },
     getCharityVaultLink() {
-      return `https://etherscan.io/address/${this.$store.state.charityVaultAddress}`;
+      return `${this.$store.state.etherscan}/address/${this.$store.state.charityVaultAddress}`;
     },
   },
   mounted() {
