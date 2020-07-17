@@ -23,10 +23,14 @@ import MetamaskWarning from '@/components/MetamaskWarning';
 import NetworkWarning from '@/components/NetworkWarning';
 import FundCard from '@/components/FundCard.vue'
 import DescriptionPlate from '@/components/DescriptionPlate'
+import PassCharityModal from "../components/PassCharityModal";
+import PassiveCharityModal from "../components/PassiveCharityModal";
 
 export default {
   name: 'home',
   components: {
+    PassiveCharityModal,
+    PassCharityModal,
     MetamaskWarning,
     NetworkWarning,
     FundCard,

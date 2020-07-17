@@ -8,7 +8,7 @@ import {
   getDonationCommunityContract,
   getEthKidsTokenContract,
   getCharityVaultContract,
-  getBondingVaultContract, getKyberConverterContract,
+  getBondingVaultContract, getKyberConverterContract, getYieldVaultContract, getIATokenContract,
 } from './utils/getContract';
 
 Vue.use(Vuex)
@@ -20,21 +20,27 @@ export default new Vuex.Store({
     communityCreationBlock: 8810339,
     requiredNetwork: 1,
     kyberAPI: 'https://api.kyber.network',
-    httpProvider: 'https://mainnet.infura.io/v3/98d7e501879243c5877bac07a57cde7e',*/
+    httpProvider: 'https://mainnet.infura.io/v3/98d7e501879243c5877bac07a57cde7e',
+    etherscan: 'https://etherscan.io',
+    aaveGraphQL: 'https://api.thegraph.com/subgraphs/name/aave/protocol-raw',*/
 
     //Rinkeby
-    registryAddress: '0xA9a56A9dDBE521f15C0BC954ca497AbBD800458a',
+    /*registryAddress: '0xA9a56A9dDBE521f15C0BC954ca497AbBD800458a',
     communityCreationBlock: 6393787,
     requiredNetwork: 4,
     kyberAPI: 'https://rinkeby-api.kyber.network',
     httpProvider: 'https://rinkeby.infura.io/v3/98d7e501879243c5877bac07a57cde7e',
+    etherscan: 'https://rinkeby.etherscan.io',
+    aaveGraphQL: '',*/
 
     //Ropsten
-    // registryAddress: '0xE944141cB3eF0dbFc5209e6A34Ec0BB06D49698f',
-    // communityCreationBlock: 6643086,
-    // requiredNetwork: 3,
-    // kyberAPI: 'https://ropsten-api.kyber.network',
-    // httpProvider: 'https://ropsten.infura.io/v3/98d7e501879243c5877bac07a57cde7e',
+    registryAddress: '0xccb683B39825e48F119aAd5C8a951a735f9222a9',
+    communityCreationBlock: 8298600,
+    requiredNetwork: 3,
+    kyberAPI: 'https://ropsten-api.kyber.network',
+    httpProvider: 'https://ropsten.infura.io/v3/98d7e501879243c5877bac07a57cde7e',
+    etherscan: 'https://ropsten.etherscan.io',
+    aaveGraphQL: 'https://api.thegraph.com/subgraphs/name/aave/protocol-ropsten-raw',
 
     readOnly: false,
     web3: {
@@ -54,7 +60,10 @@ export default new Vuex.Store({
     communityInstance: null,
     //bonding vault stats
     bondingVaultAddress: null,
+    yieldVaultAddress: null,
     bondingVaultInstance: null,
+    yieldVaultInstance: null,
+    aTokenInstance: null,
     bondingVaultBalance: null,
     //charity vault stats
     charityVaultAddress: null,
@@ -121,8 +130,17 @@ export default new Vuex.Store({
     registerBondingVaultAddress(state, payload) {
       state.bondingVaultAddress = payload;
     },
+    registerYieldVaultAddress(state, payload) {
+      state.yieldVaultAddress = payload;
+    },
     registerBondingVault(state, payload) {
       state.bondingVaultInstance = () => payload;
+    },
+    registerYieldVault(state, payload) {
+      state.yieldVaultInstance = () => payload;
+    },
+    registerAToken(state, payload) {
+      state.aTokenInstance = () => payload;
     },
     registerBondingVaultBalance(state, payload) {
       state.bondingVaultBalance = payload;
@@ -197,6 +215,21 @@ export default new Vuex.Store({
       });
     },
 
+    initYieldVaultContract({commit, dispatch}, yieldVaultAddress) {
+      commit('registerYieldVaultAddress', yieldVaultAddress);
+      getYieldVaultContract(yieldVaultAddress).then((yieldVaultContract) => {
+        commit('registerYieldVault', yieldVaultContract);
+        //aToken
+        yieldVaultContract.methods.ADAI_ADDRESS().call().then((aTokenAddress) => {
+          getIATokenContract(aTokenAddress).then((aTokenContract) => {
+            commit('registerAToken', aTokenContract);
+          });
+        });
+      }).catch((err) => {
+        console.log(err);
+      });
+    },
+
     initCharityVaultContract({commit, dispatch}, charityVaultAddress) {
       commit('registerCharityVaultAddress', charityVaultAddress);
       getCharityVaultContract(charityVaultAddress).then((charityVaultContract) => {
@@ -234,7 +267,7 @@ export default new Vuex.Store({
     registerContracts({commit, state, dispatch}) {
       return new Promise((resolve, reject) => {
         getEthKidsRegistryContract(state.registryAddress).then((registryContract) => {
-          registryContract.methods.communityIndex().call().then((index) => {
+          registryContract.methods.communityCount().call().then((index) => {
             console.log("Total communities: " + index);
           }).catch((e) => {
             throw e;
@@ -243,6 +276,11 @@ export default new Vuex.Store({
           //bonding vault
           registryContract.methods.bondingVault().call().then((bondingVaultAddress) => {
             dispatch('initBondingVaultContract', bondingVaultAddress);
+          });
+
+          //yield vault
+          registryContract.methods.yieldVault().call().then((yieldVaultAddress) => {
+            dispatch('initYieldVaultContract', yieldVaultAddress);
           });
 
           registryContract.methods.getCommunityAt(0).call().then((communityAddress) => {

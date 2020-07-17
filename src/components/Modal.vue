@@ -64,40 +64,57 @@ export default {
     height: 100%;
   }
 
+  .modal-table-new {
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
   .modal-wrapper {
     display: block;
     vertical-align: middle;
-    transform: translate(-50%, -50%);
-    top: 50%;
-    left: 50%;
-    position: absolute;
+    margin: .5rem;
+    height: 100%;
+  }
+
+  @media (min-width: 576px) {
+    .modal-wrapper {
+      max-width: 600px;
+      margin: 1.75rem auto;
+    }
+  }
+
+  .modal-wrapper-new {
+    position: relative;
+    width: auto;
+    margin: .5rem;
+    pointer-events: none;
   }
 
   .modal-container {
     margin: 0px auto;
     padding: 10px 20px;
     color: #382e2e;
-    background-color: rgba(241, 215, 173, 0.9);
+    background-color: white;
     border-radius: 7px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
     transition: all .3s ease;
   }
 
   .modal-header {
-    padding-top: 36px;
+    padding-top: 10px;
     display: block;
     text-align: center;
     border: none;
     position: relative;
   }
 
-  .modal-footer {
-    border: none;
-  }
-
   .modal-header h3 {
     margin-top: 0;
-    color: #42b983;
   }
 
   .modal-buttons {

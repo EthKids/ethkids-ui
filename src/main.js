@@ -9,6 +9,7 @@ import {faTelegramPlane, faTwitter, faVk, faFacebookF, faYoutube, faInstagram, f
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 import moment from 'moment'
 import vSelect from 'vue-select'
+import {createProvider} from './vue-apollo'
 
 
 Vue.use(BootstrapVue)
@@ -21,5 +22,6 @@ Vue.prototype.moment = moment;
 new Vue({
   router,
   store,
+  apolloProvider: createProvider({aaveUrl: store.state.aaveGraphQL}),
   render: h => h(App)
 }).$mount('#app')

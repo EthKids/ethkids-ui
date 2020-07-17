@@ -70,7 +70,7 @@ export default {
           blockNo: block.number,
           from: event.returnValues.from.toString().substr(0, 12) + '...',
           fullAddress: event.returnValues.from.toString(),
-          link: `https://etherscan.io/tx/${event.transactionHash}`,
+          link: `${this.$store.state.etherscan}/tx/${event.transactionHash}`,
           amount: parseFloat(window.web3.utils.fromWei(event.returnValues.amount.toString(), 'ether')).toFixed(3),
           when: self.moment(Number(block.timestamp), 'X').fromNow(),
           whenDate: self.moment(Number(block.timestamp), 'X').format('MMMM Do YYYY'),

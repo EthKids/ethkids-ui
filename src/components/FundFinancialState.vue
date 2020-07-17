@@ -1,19 +1,11 @@
 <template>
   <div class="container stateContainer">
-    <div class="row">
-      <div class="col-sm-6">
-        <h3>
-          <a target="_blank" v-bind:href="getCommunityAddressLink">${{this.$store.state.totalDonationsRaised}}</a>
-        </h3>
-        Total
-      </div>
-      <div class="col-sm-6">
-        <h3>
-          <a target="_blank" v-bind:href="getCharityVaultLink">${{this.$store.state.charityVaultBalance}}</a>
-        </h3>
-        Current
-      </div>
-    </div>
+    <h3>
+      <a target="_blank" v-bind:href="getCharityVaultLink">${{parseFloat(this.cumulatedBalance.toString()).toFixed(2)}}</a>
+    </h3>
+    <span>
+      Total <a target="_blank" v-bind:href="getCommunityAddressLink">${{this.$store.state.totalDonationsRaised}}</a>
+    </span>
   </div>
 </template>
 
@@ -23,12 +15,17 @@ import {getIERC20Contract} from "../utils/getContract";
 export default {
   name: 'FundFinancialState',
   components: {},
+  data() {
+    return {
+      cumulatedBalance: 0,
+    }
+  },
   computed: {
     getCommunityAddressLink() {
-      return `https://etherscan.io/address/${this.$store.state.communityAddress}`;
+      return `${this.$store.state.etherscan}/address/${this.$store.state.communityAddress}`;
     },
     getCharityVaultLink() {
-      return `https://etherscan.io/address/${this.$store.state.charityVaultAddress}`;
+      return `${this.$store.state.etherscan}/address/${this.$store.state.charityVaultAddress}`;
     },
   },
   mounted() {
@@ -101,8 +98,13 @@ export default {
       getIERC20Contract(this.$store.state.stableTokenAddress).then((erc20Instance) => {
         erc20Instance.methods.balanceOf(charityVaultContract.options.address).call().then(ercBalance => {
           let balance = window.web3.utils.fromWei(ercBalance.toString(), 'ether');
-          this.$store.commit('registerCharityVaultBalance',
-            Math.floor(parseFloat(balance).toFixed(3) * 100) / 100);
+          this.$store.commit('registerCharityVaultBalance', balance);
+
+          let self = this;
+          this.$store.state.yieldVaultInstance().methods.communityVaultBalance(this.$store.state.aTokenInstance().options.address).call().then((aTokenBalance) => {
+            self.cumulatedBalance = Number(balance) + Number(window.web3.utils.fromWei(aTokenBalance.toString(), 'ether'));
+          });
+
         });
       });
     },

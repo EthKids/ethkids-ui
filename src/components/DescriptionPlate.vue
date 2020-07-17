@@ -57,6 +57,15 @@
             </div>
           </b-col>
         </b-row>
+
+        <passive-charity-modal/>
+
+        <input
+          class="btn btn-primary btn-lg custom-btn-action"
+          type="button"
+          value="Enable passibe charity"
+          @click="openPassiveCharity()"/>
+
       </b-card-body>
     </b-card>
   </div>
@@ -64,19 +73,23 @@
 
 <script>
 import SellModal from '@/components/SellModal';
+import PassiveCharity from "./PassiveCharity";
+import PassiveCharityModal from "./PassiveCharityModal";
 export default {
   name: "DescriptionPlate",
   components: {
+    PassiveCharityModal,
+    PassiveCharity,
     SellModal,
   },
   data() {
     return {
-      background: require('@/assets/header-new.png')
+      background: require('@/assets/header-new.png'),
     }
   },
   computed: {
     getTokenLink() {
-      return `https://etherscan.io/address/${this.$store.state.tokenAddress}`;
+      return `${this.$store.state.etherscan}/address/${this.$store.state.tokenAddress}`;
     },
     getMyTokenPercent() {
       if (this.$store.state.tokenTotalSupply > 0) {
@@ -86,7 +99,7 @@ export default {
       }
     },
     getBondingVaultAddressLink() {
-      return `https://etherscan.io/address/${this.$store.state.bondingVaultAddress}`;
+      return `${this.$store.state.etherscan}/address/${this.$store.state.bondingVaultAddress}`;
     },
   },
   mounted() {
@@ -148,6 +161,9 @@ export default {
         let balanceEth = window.web3.utils.fromWei(bondingVaultBalance.toString(), 'ether');
         this.$store.commit('registerBondingVaultBalance', parseFloat(balanceEth).toFixed(2));
       });
+    },
+    openPassiveCharity() {
+      EventBus.publish('SHOW_PASSIVE_CHARITY', {});
     },
   }
 }

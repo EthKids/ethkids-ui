@@ -11,27 +11,27 @@
         </h2>
         <ul class="social list-inline">
           <li class="list-inline-item">
-            <a href="https://twitter.com/FondChance" class="icon">
+            <a href="https://twitter.com/FondChance" target="_blank" class="icon">
               <font-awesome-icon size="lg" :icon="['fab', 'twitter']"/>
             </a>
           </li>
           <li class="list-inline-item">
-            <a href="https://vk.com/chance_foundation" class="icon">
+            <a href="https://vk.com/chance_foundation" target="_blank" class="icon">
               <font-awesome-icon size="lg" :icon="['fab', 'vk']"/>
             </a>
           </li>
           <li class="list-inline-item">
-            <a href="https://www.facebook.com/FoundationChanceBelarus" class="icon">
+            <a href="https://www.facebook.com/FoundationChanceBelarus" target="_blank" class="icon">
               <font-awesome-icon size="lg" :icon="['fab', 'facebook-f']"/>
             </a>
           </li>
           <li class="list-inline-item">
-            <a href="http://www.youtube.com/user/chancefond" class="icon">
+            <a href="http://www.youtube.com/user/chancefond" target="_blank" class="icon">
               <font-awesome-icon size="lg" :icon="['fab', 'youtube']"/>
             </a>
           </li>
           <li class="list-inline-item">
-            <a href="https://www.instagram.com/chance_foundation/" class="icon">
+            <a href="https://www.instagram.com/chance_foundation/" target="_blank" class="icon">
               <font-awesome-icon size="lg" :icon="['fab', 'instagram']"/>
             </a>
           </li>
