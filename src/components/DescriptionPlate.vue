@@ -1,6 +1,7 @@
 <template>
   <div class="descriptionContainer">
     <sell-modal/>
+    <passive-charity-modal/>
     <b-card
       overlay
       :img-src="background"
@@ -58,12 +59,10 @@
           </b-col>
         </b-row>
 
-        <passive-charity-modal/>
-
         <input
           class="btn btn-primary btn-lg custom-btn-action"
           type="button"
-          value="Enable passibe charity"
+          value="Enable passive charity"
           @click="openPassiveCharity()"/>
 
       </b-card-body>

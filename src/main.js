@@ -4,7 +4,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import {library} from '@fortawesome/fontawesome-svg-core';
-import {faLink, faAddressCard} from '@fortawesome/free-solid-svg-icons';
+import {faLink, faAddressCard, faInfoCircle} from '@fortawesome/free-solid-svg-icons';
 import {faTelegramPlane, faTwitter, faVk, faFacebookF, faYoutube, faInstagram, faGithub} from '@fortawesome/free-brands-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 import moment from 'moment'
@@ -13,7 +13,7 @@ import {createProvider} from './vue-apollo'
 
 
 Vue.use(BootstrapVue)
-library.add(faLink, faTelegramPlane, faTwitter, faVk, faFacebookF, faYoutube, faInstagram, faGithub);
+library.add(faLink, faInfoCircle, faTelegramPlane, faTwitter, faVk, faFacebookF, faYoutube, faInstagram, faGithub);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.component('v-select', vSelect)
 Vue.config.productionTip = false;

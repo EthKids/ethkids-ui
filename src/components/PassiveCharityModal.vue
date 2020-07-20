@@ -3,7 +3,6 @@
          @close="showModal = false">
     <div slot="body">
       <div slot="header" class="">
-
       </div>
     </div>
     <div slot="body">
