@@ -72,13 +72,11 @@
 
 <script>
 import SellModal from '@/components/SellModal';
-import PassiveCharity from "./PassiveCharity";
 import PassiveCharityModal from "./PassiveCharityModal";
 export default {
   name: "DescriptionPlate",
   components: {
     PassiveCharityModal,
-    PassiveCharity,
     SellModal,
   },
   data() {
