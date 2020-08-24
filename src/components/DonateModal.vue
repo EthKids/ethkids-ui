@@ -14,7 +14,7 @@
           <div class="numericWrapper">
             <vue-numeric
               id="donation-input"
-              style="border-width: 0px; text-align: right; "
+              class="form-control"
               v-model="donation"
               v-on:input="fetchFxETH()"
               v-bind:min="0"
@@ -22,7 +22,7 @@
               focus="focus"
               v-bind:precision="3"/>
           </div>
-          <div>
+          <div class="numericWrapper">
             <v-select v-bind:options="supportedCurrencies" @input="tokenChosen" label="symbol" v-bind:value="selectedToken">
               <template slot="option" slot-scope="option">
                 <span style="margin-right: 10px">
@@ -44,10 +44,18 @@
       <div v-if="insufficientFunds" class="alert-danger insuffucientFunds">
         Insufficient funds
       </div>
-      <b-button class="btn-primary custom-btn-action"
+      <!--<b-button class="btn-primary custom-btn-action"
                 variant="primary"
                 @click="donate()">
         {{this.btnText}}
+      </b-button>-->
+    </div>
+    <div slot="buttons">
+      <b-button
+        size="lg"
+        class="confirmBtn shadow-lg w-75"
+        v-on:click="donate()">
+        {{ this.btnText }}
       </b-button>
     </div>
   </modal>
@@ -257,8 +265,6 @@ export default {
   }
 
   .fx {
-    font-size: 14px;
-    line-height: 22px;
     width: 350px;
     margin: 10px auto 10px auto;
     padding: 1rem;

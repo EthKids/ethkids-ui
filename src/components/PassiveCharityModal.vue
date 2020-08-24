@@ -46,14 +46,6 @@ export default {
 
 <style scoped>
 
-  .confirmBtn {
-    background-color: #ff0065;
-    color: white;
-    margin: 10px;
-  }
 
-  .confirmBtn:hover {
-    background-color: #a10342;
-  }
 
 </style>

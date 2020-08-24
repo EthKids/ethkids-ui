@@ -3,9 +3,9 @@
     <h3>
       <a target="_blank" v-bind:href="getCharityVaultLink">${{parseFloat(this.cumulatedBalance.toString()).toFixed(2)}}</a>
     </h3>
-    <span>
+    <!--<span>
       Total <a target="_blank" v-bind:href="getCommunityAddressLink">${{this.$store.state.totalDonationsRaised}}</a>
-    </span>
+    </span>-->
   </div>
 </template>
 
@@ -96,6 +96,7 @@ export default {
       });
 
       getIERC20Contract(this.$store.state.stableTokenAddress).then((erc20Instance) => {
+        // sum up 'DAI' raised + yield 'aDAI'
         erc20Instance.methods.balanceOf(charityVaultContract.options.address).call().then(ercBalance => {
           let balance = window.web3.utils.fromWei(ercBalance.toString(), 'ether');
           this.$store.commit('registerCharityVaultBalance', balance);

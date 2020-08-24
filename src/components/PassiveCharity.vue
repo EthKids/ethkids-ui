@@ -10,9 +10,9 @@
       />
     </dl>
     <div v-show="aboutPassiveCharity" class="text-left mb-2">
-      Passive charity allows you to start redirecting the interest gained on the DeFi protocols to EthKids.
+      Passive charity allows you redirecting the interest gained on the DeFi protocols to <b>EthKids</b>.
       <br>
-      Raising funds in this way does't require you to spend on transaction fee and happens 'passively' 24/7.
+      Raising funds this way does't require you to spend on transaction fee and happens 'passively' 24/7.
       <br>
       If enabled, the generated income will be <b>equally distributed</b> over all communities registered on EthKids.
       <hr>

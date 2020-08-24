@@ -21,10 +21,13 @@
           v-bind:precision="2"/>
       </div>
       Estimated return
-      <strong>≈ {{myReturn}} ΞTH</strong>
-      <b-button class="btn-primary custom-btn-action"
-                variant="primary"
-                @click="sell()">
+      <strong>≈ {{ myReturn }} ΞTH</strong>
+    </div>
+    <div slot="buttons">
+      <b-button
+        size="lg"
+        class="confirmBtn shadow-lg w-75"
+        v-on:click="sell()">
         Sell
       </b-button>
     </div>
