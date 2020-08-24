@@ -3,7 +3,7 @@
          v-if="sellModal"
          @close="sellModal = false">
     <div slot="header">
-      Sell my {{this.$store.state.tokenSym}}
+      Sell my <b>{{ this.$store.state.tokenSym }}</b>
     </div>
     <div slot="body">
       <div class="form-group text-center">
@@ -56,7 +56,7 @@ export default {
     const self = this;
     EventBus.subscribe('OPEN_SELL', () => {
       self.sellModal = true;
-      self.amount = Number(this.$store.state.tokenMyBalance);
+      self.amount = Math.floor(Number(self.$store.state.tokenMyBalance) * 100) / 100;
       self.estimateSell();
     });
   },
@@ -79,19 +79,20 @@ export default {
     sell() {
       const self = this;
       self.sellModal = false;
-      EventBus.publish('OPEN_LOADING', 'Processing your transaction...');
+      EventBus.publish('SHOW_CONFIRMATION_WAITING', {msg: 'Selling ' + self.amount.toString() + ' ' + self.$store.state.tokenSym});
       self.$store.state.bondingVaultInstance().methods
         .sell(window.web3.utils.toWei(self.amount.toString(), 'ether'))
         .send({from: self.$store.state.web3.coinbase})
-        .on('confirmation', (confirmationNumber, receipt) => {
-          if (confirmationNumber == 1) {
-            EventBus.publish('CLOSE_LOADING');
-          }
+        .on('transactionHash', (transactionHash) => {
+          EventBus.publish('SHOW_CONFIRMATION_DONE', {tx: transactionHash});
+          EventBus.publish('TX_CONFIRMING');
         })
-        .on('receipt', () => {
+        .on('confirmation', (confirmationNumber, receipt) => {
+          EventBus.publish('TX_CONFIRMED');
         })
         .on('error', () => {
-          EventBus.publish('CLOSE_LOADING');
+          EventBus.publish('CLOSE_CONFIRMATION_WAITING');
+          self.sellModal = true;
         });
     },
   },

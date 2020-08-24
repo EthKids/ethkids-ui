@@ -1,69 +1,75 @@
 <template>
   <div class="descriptionContainer">
-    <sell-modal/>
-    <passive-charity-modal/>
+    <div class="secondary-background text-white" v-if="this.$store.state.web3.networkId != this.$store.state.requiredNetwork">
+      Please switch to Ethereum Mainnet
+    </div>
     <b-card
+      class="header-card"
       overlay
       :img-src="background"
-      img-alt="Card Image"
-      img-height="350vw"
+      img-alt="EthKids"
+      img-height="300vw"
       text-variant="white"
     >
-      <b-card-body>
-        <b-row>
-          <b-col class="d-none d-md-block">
+      <b-card-body class="top-header-row">
+        <b-row align-h="between">
+          <b-col md="2" class="d-none d-md-block text-left">
+            <router-link to="/">
+
+            </router-link>
           </b-col>
-          <b-col sm="6" class="d-none d-sm-block">
-            <div class="bg-dark border-light rounded" style="height: 90%; opacity: 0.7; blur:2px">
-              EthKids is the open source non-commercial decentralized protocol for charity donations for children.
-              <br><br>
-              Using the dynamic bonding curve model for the donation rewards,
-              EthKids tries to solve the problem of short-lasting relations with the donors.
+          <b-col>
+            <div class="secondary" id="rewards">
+              <span class="balance-container">
+                <a target="_blank" v-bind:href="getTokenLink">
+                  {{ parseFloat(this.$store.state.tokenMyBalance).toFixed(2) }} {{ this.$store.state.tokenSym }}
+                </a>
+              </span>
+              <b-button
+                size="sm"
+                class="confirmBtn shadow-lg"
+                v-show="this.$store.state.tokenMyBalance > 0"
+                v-on:click="sellBack()">
+                Sell
+              </b-button>
+            </div>
+            <b-tooltip target="rewards">
+              Value: ≈ {{ parseFloat(this.$store.state.tokenMyETHReturn).toFixed(2) }} ΞTH
               <br>
-              <p>
-                <router-link to="/about">Read more...</router-link>
-              </p>
+              Community vault: <a target="_blank" v-bind:href="getBondingVaultAddressLink">{{ this.$store.state.bondingVaultBalance }} ΞTH</a>
+            </b-tooltip>
+          </b-col>
+          <b-col cols="4">
+            <div id="nav" class="text-right pr-4 secondary">
+              <router-link to="/">
+                <span class="ml-md-3 mr-md-3">Home</span>
+              </router-link>
+              |
+              <router-link to="/about">
+                <span class="ml-md-3 mr-md-3">
+                    About
+                </span>
+              </router-link>
+              <div v-if="confirming" class="secondary ml-md-3 mr-md-3">
+                Confirming
+                <b-spinner small variant="danger" label="Spinning"></b-spinner>
+              </div>
             </div>
           </b-col>
-          <b-col sm="6" md="4">
-            <div class="bg-dark border-light rounded" style="height: 90%; opacity: 0.7; blur:2px">
-              <h3>My assets</h3>
-              <dl class="row">
-                <dt class="col-sm-7">My tokens</dt>
-                <dd class="col-sm-5">
-                  <a target="_blank" v-bind:href="getTokenLink">
-                    {{parseFloat(this.$store.state.tokenMyBalance).toFixed(2)}} {{this.$store.state.tokenSym}}
-                  </a>
-                </dd>
-
-                <dt class="col-sm-7">My stake</dt>
-                <dd class="col-sm-5"> {{getMyTokenPercent}}</dd>
-
-                <dt class="col-sm-7">My tokens' value</dt>
-                <dd class="col-sm-5">{{parseFloat(this.$store.state.tokenMyETHReturn).toFixed(2)}} ΞTH</dd>
-
-                <dt class="col-sm-7">Community fund</dt>
-                <dd class="col-sm-5"><a target="_blank" v-bind:href="getBondingVaultAddressLink">{{this.$store.state.bondingVaultBalance}} ΞTH</a>
-                </dd>
-
-                <dt class="col-lg-7 col-md-1"></dt>
-                <dd class="col-lg-5 col-md-11">
-                  <input
-                    class="btn btn-primary btn-lg custom-btn-action"
-                    :disabled="this.$store.state.readOnly"
-                    type="button"
-                    value="Sell"
-                    @click="sellBack()"/></dd>
-              </dl>
-            </div>
-          </b-col>
+          <b-col lg="1"/>
         </b-row>
 
-        <input
-          class="btn btn-primary btn-lg custom-btn-action"
-          type="button"
-          value="Enable passive charity"
-          @click="openPassiveCharity()"/>
+        <b-row align-h="between">
+          <b-col md="10" style="padding-top: 5vw">
+            <span class="header-main-label">
+              <span class="niceFont secondary header-title-label">
+                EthKids
+              </span>
+            </span>
+            <br>
+            <span class="header-main-label">Charitable giving</span>
+          </b-col>
+        </b-row>
 
       </b-card-body>
     </b-card>
@@ -71,18 +77,23 @@
 </template>
 
 <script>
-import SellModal from '@/components/SellModal';
-import PassiveCharityModal from "./PassiveCharityModal";
 export default {
-  name: "DescriptionPlate",
-  components: {
-    PassiveCharityModal,
-    SellModal,
-  },
+  name: "HeaderPlate",
+  components: {},
   data() {
     return {
       background: require('@/assets/header-new.png'),
+      confirming: false,
     }
+  },
+  beforeCreate() {
+    const self = this;
+    EventBus.subscribe('TX_CONFIRMING', () => {
+      self.confirming = true;
+    });
+    EventBus.subscribe('TX_CONFIRMED', () => {
+      self.confirming = false;
+    });
   },
   computed: {
     getTokenLink() {
@@ -159,21 +170,43 @@ export default {
         this.$store.commit('registerBondingVaultBalance', parseFloat(balanceEth).toFixed(2));
       });
     },
-    openPassiveCharity() {
-      EventBus.publish('SHOW_PASSIVE_CHARITY', {});
-    },
   }
 }
 </script>
 
 <style scoped>
-  .descriptionContainer {
-    margin-bottom: 40px;
-  }
+.descriptionContainer {
+  margin-bottom: 10px;
+}
 
-  .card-img {
-    object-fit: cover !important;
-    object-position: 0 0;
-  }
+.header-card {
+  background-color: #f4f4f4;
+  border: none;
+}
+
+.card-img {
+  object-fit: cover !important;
+  object-position: 0 50%;
+}
+
+.top-header-row {
+  padding: 0;
+}
+
+.header-title-label {
+  font-size: 50px;
+}
+
+.balance-container {
+  padding: 3px;
+  background-color: white;
+  border: white;
+  border-radius: 10px
+}
+
+.header-main-label {
+  font-size: 28px;
+  font-weight: 400;
+}
 
 </style>

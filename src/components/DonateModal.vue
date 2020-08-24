@@ -10,8 +10,8 @@
     </div>
     <div slot="body">
       <div class="form-group text-center">
-        <div class="row donationRow">
-          <div class="numericWrapper">
+        <b-row align-h="between">
+          <b-col cols="8" class="numericWrapper">
             <vue-numeric
               id="donation-input"
               class="form-control"
@@ -21,8 +21,8 @@
               v-bind:minus="false"
               focus="focus"
               v-bind:precision="3"/>
-          </div>
-          <div class="numericWrapper">
+          </b-col>
+          <b-col class="numericWrapper">
             <v-select v-bind:options="supportedCurrencies" @input="tokenChosen" label="symbol" v-bind:value="selectedToken">
               <template slot="option" slot-scope="option">
                 <span style="margin-right: 10px">
@@ -31,24 +31,19 @@
                 {{ option.symbol }}
               </template>
             </v-select>
-          </div>
-        </div>
+          </b-col>
+        </b-row>
       </div>
       <div class="form-group text-center fx bordered" v-if="ethAmount">
-        My wallet: <b>{{myBalance}} {{selectedToken.symbol}}</b>
+        My balance: <b>{{ myBalance }} {{ selectedToken.symbol }}</b>
         <br><br>
         Token swap is powered by <a href="https://kyber.network/" target="_blank">Kyber Network </a>
         <br>
-        <b>{{donation}} {{selectedToken.symbol}} = {{ethAmount}} ETH = {{usdAmount}} USD</b>
+        <b>{{ donation }} {{ selectedToken.symbol }} = {{ ethAmount }} ETH = {{ usdAmount }} USD</b>
       </div>
       <div v-if="insufficientFunds" class="alert-danger insuffucientFunds">
         Insufficient funds
       </div>
-      <!--<b-button class="btn-primary custom-btn-action"
-                variant="primary"
-                @click="donate()">
-        {{this.btnText}}
-      </b-button>-->
     </div>
     <div slot="buttons">
       <b-button
@@ -168,71 +163,73 @@ export default {
         },
         donateETH() {
             const self = this;
-            self.donateModal = false;
-            EventBus.publish('OPEN_LOADING', 'Sending...');
-            self.$store.state.communityInstance().methods
-                .donate()
-              .send({from: self.$store.state.web3.coinbase, value: window.web3.utils.toWei(self.donation.toString(), 'ether')})
-              .on('receipt', (receipt) => {
-
-              })
-              .on('confirmation', (confirmationNumber, receipt) => {
-
-              })
-              .on('error', () => {
-                EventBus.publish('CLOSE_LOADING');
-              });
-
-          self.$store.state.bondingVaultInstance().once('LogTokensMinted', function (error, event) {
-            self.thanksAndGoodbye(event.returnValues.amount);
-          });
+          self.donateModal = false;
+          EventBus.publish('SHOW_CONFIRMATION_WAITING', {msg: 'Donating ' + self.donation.toString() + ' ETH'});
+          self.$store.state.communityInstance().methods
+            .donate()
+            .send({from: self.$store.state.web3.coinbase, value: window.web3.utils.toWei(self.donation.toString(), 'ether')})
+            .on('transactionHash', (transactionHash) => {
+              EventBus.publish('SHOW_CONFIRMATION_DONE', {msg: 'Thank you for your donation!', tx: transactionHash});
+              EventBus.publish('TX_CONFIRMING');
+            })
+            .on('confirmation', (confirmationNumber, receipt) => {
+              EventBus.publish('TX_CONFIRMED');
+            })
+            .on('error', () => {
+              EventBus.publish('CLOSE_CONFIRMATION_WAITING');
+              self.donateModal = true;
+            });
 
         },
         donateWithSwap() {
-            const self = this;
-            EventBus.publish('OPEN_LOADING', `(1/2) Approving swap of ${this.donation} ${this.selectedToken.symbol}...`);
-            getIERC20Contract(this.selectedToken.address).then((erc20Instance) => {
-                self.ercBalance(erc20Instance).then(balance => {
-                    //balance is enough?
-                    if (Number(balance) >= (Number)(window.web3.utils.toWei(self.donation.toString(), 'ether'))) {
-                        self.donateModal = false;
-                        erc20Instance.methods
-                            .approve(self.$store.state.kyberConverterAddress, window.web3.utils.toWei(self.donation.toString(), 'ether'))
-                            .send({from: self.$store.state.web3.coinbase})
-                            .on('transactionHash', (hash) => {
+          const self = this;
+          self.donateModal = false;
+          EventBus.publish('SHOW_CONFIRMATION_WAITING', {msg: `(1/2) Approving swap of ${this.donation} ${this.selectedToken.symbol}...`});
+          getIERC20Contract(this.selectedToken.address).then((erc20Instance) => {
+            self.ercBalance(erc20Instance).then(balance => {
+              //balance is enough?
+              if (Number(balance) >= (Number)(window.web3.utils.toWei(self.donation.toString(), 'ether'))) {
+                self.donateModal = false;
+                erc20Instance.methods
+                  .approve(self.$store.state.kyberConverterAddress, window.web3.utils.toWei(self.donation.toString(), 'ether'))
+                  .send({from: self.$store.state.web3.coinbase})
+                  .on('transactionHash', (hash) => {
 
                             })
                             .on('confirmation', (confirmationNumber, receipt) => {
                                 if (confirmationNumber == 1) {
-                                    EventBus.publish('OPEN_LOADING', `(2/2) Transferring donation of ${this.ethAmount} ETH...`);
-                                    getKyberConverterContract(self.$store.state.kyberConverterAddress).then(kyberConverter => {
-                                        let maxDestAmount = self.ethAmount * 1.03; //max 3% up
-                                        kyberConverter.methods
-                                            .executeSwapAndDonate(self.selectedToken.address,
-                                                window.web3.utils.toWei(self.donation.toString(), 'ether'),
-                                              window.web3.utils.toWei(maxDestAmount.toString(), 'ether'),
-                                              self.$store.state.communityAddress
-                                            )
-                                          .send({from: self.$store.state.web3.coinbase})
-                                          .on('confirmation', (confirmationNumber, receipt) => {
-
-                                          })
-                                          .on('error', () => {
-                                            EventBus.publish('CLOSE_LOADING');
-                                          });
-                                      self.$store.state.bondingVaultInstance().once('LogTokensMinted', function (error, event) {
-                                        self.thanksAndGoodbye(event.returnValues.amount);
+                                  EventBus.publish('SHOW_CONFIRMATION_WAITING', {msg: `(2/2) Transferring donation of ${this.ethAmount} ETH...`});
+                                  getKyberConverterContract(self.$store.state.kyberConverterAddress).then(kyberConverter => {
+                                    let maxDestAmount = self.ethAmount * 1.03; //max 3% up
+                                    kyberConverter.methods
+                                      .executeSwapAndDonate(self.selectedToken.address,
+                                        window.web3.utils.toWei(self.donation.toString(), 'ether'),
+                                        window.web3.utils.toWei(maxDestAmount.toString(), 'ether'),
+                                        self.$store.state.communityAddress
+                                      )
+                                      .send({from: self.$store.state.web3.coinbase})
+                                      .on('transactionHash', (transactionHash) => {
+                                        EventBus.publish('SHOW_CONFIRMATION_DONE', {msg: 'Thank you for your donation!', tx: transactionHash});
+                                        EventBus.publish('TX_CONFIRMING');
+                                      })
+                                      .on('confirmation', (confirmationNumber, receipt) => {
+                                        EventBus.publish('TX_CONFIRMED');
+                                      })
+                                      .on('error', () => {
+                                        EventBus.publish('CLOSE_CONFIRMATION_WAITING');
+                                        self.donateModal = true;
                                       });
                                     });
                                 }
                             })
                             .on('error', () => {
-                                EventBus.publish('CLOSE_LOADING');
+                              EventBus.publish('CLOSE_CONFIRMATION_WAITING');
+                              self.donateModal = true;
                             });
                     } else {
                       //insufficient funds
-                      EventBus.publish('CLOSE_LOADING');
-                      self.insufficientFunds = true;
+                EventBus.publish('CLOSE_CONFIRMATION_WAITING');
+                self.insufficientFunds = true;
                     }
                 });
             })
@@ -240,27 +237,14 @@ export default {
       ercBalance(token) {
         return token.methods.balanceOf(this.$store.state.web3.coinbase).call();
       },
-      thanksAndGoodbye(reward) {
-        const rewardStr = parseFloat(window.web3.utils.fromWei(reward.toString(), 'ether')).toFixed(2);
-        EventBus.publish('OPEN_LOADING', "Thank you for your donation! You've got +" + rewardStr + " CHANCE");
-        setTimeout(() => {
-          EventBus.publish('CLOSE_LOADING');
-        }, 3000);
-      },
     },
 };
 </script>
 
 <style scoped>
-  .donationRow {
-    margin-right: 0;
-    margin-left: 0;
-  }
 
   .numericWrapper {
-    margin-right: 5px;
     background-color: white;
-    padding-right: 5px;
     padding-top: 5px;
   }
 

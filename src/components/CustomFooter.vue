@@ -2,21 +2,38 @@
   <div>
     <footer class="home text-center">
       <div class="copyright">
-        Join our <a href="https://t.me/joinchat/K1v4ShPV57D0zfjybfRFDQ" target="_blank">Telegram</a>
-        <br>
-        &copy; {{ currentYear }} EthKids.io. All Rights Reserved.
-        <br>
-        <a href="mailto:info.ethkids@gmail.com"> info.ethkids@gmail.com</a>
+        <div style="margin-bottom: 10px">
+          &copy; {{ currentYear }} | <a href="https://ethkids.io" target="_blank">EthKids.io</a> | <a href="mailto:info.ethkids@gmail.com">
+          info.ethkids@gmail.com</a>
+        </div>
+        <div>
+          <span class="mr-3">
+            <a href="https://t.me/joinchat/K1v4ShPV57D0zfjybfRFDQ" target="_blank">
+              <font-awesome-icon size="lg" :icon="['fab', 'telegram-plane']"/>
+            </a>
+          </span>
+          <span class="mr-3">
+            <a href="https://github.com/EthKids" target="_blank">
+              <font-awesome-icon size="lg" :icon="['fab', 'github']"/>
+            </a>
+          </span>
+          <span>
+            <a href="https://www.linkedin.com/company/ethkids" target="_blank">
+              <font-awesome-icon size="lg" :icon="['fab', 'linkedin']"/>
+            </a>
+          </span>
+        </div>
+
       </div>
-      <div class="col-md-6 row support">
-        <div class="col-lg-6">
+      <div class="support">
+        <div>
           <a href="https://opensea.io/assets/0xcdb3c6176b66fed1b656199bfebc498005975d1e/3" target="_blank">
             <img
               src="https://lh3.googleusercontent.com/952HYYV2ChxyiGXaLy40X56SwbHkSzsvdrrm9UuR2G65kkSDxlwSN0TYOfC21fQw06vP5lASUSXvXihozuudPjwIkg=s250"/>
           </a>
         </div>
-        <div class="col-lg-6">
-          <b>EthKids</b> is a non-commercial project run be a group of like-minded volunteers.
+        <div>
+          <b>EthKids</b> is a non-commercial project run by a group of like-minded volunteers.
           <br>
           Your help will enable us to keep running and maintaining this project
           <br>

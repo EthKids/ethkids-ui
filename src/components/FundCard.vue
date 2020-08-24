@@ -58,19 +58,20 @@
       <FundFinancialState/>
       <div class="row justify-content-center">
         <div class="actions">
-          <input
-            class="btn btn-primary btn-lg custom-btn-action"
-            :disabled="this.$store.state.readOnly"
-            type="button"
-            value="Donate"
-            @click="donate()"/>
+          <b-button
+            size="lg"
+            class="confirmBtn shadow-lg"
+            v-on:click="donate()">
+            Donate
+          </b-button>
         </div>
         <div v-show="this.isAdmin" class="actions">
-          <input
-            class="btn btn-primary btn-lg custom-btn-action"
-            type="button"
-            value="Pass to charity"
-            @click="passCharity()"/>
+          <b-button
+            size="lg"
+            class="confirmBtn shadow-lg"
+            v-on:click="passCharity()">
+            Pass to charity
+          </b-button>
         </div>
       </div>
       <div class="row justify-content-around" style="margin-top: 20px">

@@ -29,10 +29,13 @@
       <div class="form-group text-center">
         <b-form-input v-model="ipfsHash" placeholder="Describe the precise destination of the taken funds"></b-form-input>
       </div>
-      <b-button class="btn-primary custom-btn-action"
-                variant="primary"
-                @click="transfer()">
-        {{this.btnText}}
+    </div>
+    <div slot="buttons">
+      <b-button
+        size="lg"
+        class="confirmBtn shadow-lg w-75"
+        v-on:click="transfer()">
+        {{ this.btnText }}
       </b-button>
     </div>
   </modal>
@@ -51,18 +54,19 @@ export default {
     },
     data() {
         return {
-            btnText: 'Transfer',
-            passModal: false,
-            passFunds: 0.1,
-            intermediary: null,
-            warning: '',
-            ipfsHash: '',
+          btnText: 'Transfer',
+          passModal: false,
+          passFunds: 0,
+          intermediary: null,
+          warning: '',
+          ipfsHash: '',
         };
     },
     beforeCreate() {
         const self = this;
         EventBus.subscribe('PASS_CHARITY', () => {
-            self.passModal = true;
+          self.passModal = true;
+          self.passFunds = Math.floor(Number(self.$store.state.charityVaultBalance) * 100) / 100;
         });
     },
     methods: {
@@ -74,21 +78,21 @@ export default {
             } else {
                 self.warning = '';
             }
-            self.passModal = false;
-            EventBus.publish('OPEN_LOADING', 'Waiting for sending...');
-            self.$store.state.communityInstance().methods
-                .passToCharity(window.web3.utils.toWei(self.passFunds.toString(), 'ether'), self.intermediary, self.ipfsHash)
-                .send({from: self.$store.state.web3.coinbase})
-                .on('confirmation', (confirmationNumber, receipt) => {
-                    if (confirmationNumber == 1) {
-                        EventBus.publish('CLOSE_LOADING');
-                    }
-                })
-                .on('receipt', () => {
-
-                })
+          self.passModal = false;
+          EventBus.publish('SHOW_CONFIRMATION_WAITING', {msg: 'Passing ' + self.passFunds.toString() + ' DAI'});
+          self.$store.state.communityInstance().methods
+            .passToCharity(window.web3.utils.toWei(self.passFunds.toString(), 'ether'), self.intermediary, self.ipfsHash)
+            .send({from: self.$store.state.web3.coinbase})
+            .on('transactionHash', (transactionHash) => {
+              EventBus.publish('SHOW_CONFIRMATION_DONE', {tx: transactionHash});
+              EventBus.publish('TX_CONFIRMING');
+            })
+            .on('confirmation', (confirmationNumber, receipt) => {
+              EventBus.publish('TX_CONFIRMED');
+            })
                 .on('error', () => {
-                    EventBus.publish('CLOSE_LOADING');
+                  EventBus.publish('CLOSE_CONFIRMATION_WAITING');
+                  self.passModal = true;
                 });
         },
     },

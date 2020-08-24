@@ -1,46 +1,16 @@
 <template>
   <div id="app">
-    <b-navbar toggleable="lg" variant="light">
-      <b-navbar-brand href="#">
-        <span class="highlighted">EthKids</span>
-      </b-navbar-brand>
-
-      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-
-      <b-collapse id="nav-collapse" is-nav>
-        <b-navbar-nav>
-          <b-nav-item href="#">
-            <router-link to="/">Home</router-link>
-          </b-nav-item>
-          <b-nav-item href="#">
-            <router-link to="/about">About</router-link>
-          </b-nav-item>
-        </b-navbar-nav>
-
-        <!-- Right aligned nav items -->
-        <b-navbar-nav class="ml-auto">
-          <a class="nav-link" href="https://t.me/joinchat/K1v4ShPV57D0zfjybfRFDQ" v-b-tooltip.hover v-bind:title="'Join our Telegram channel'"
-             target="_blank">
-            <font-awesome-icon color="black" size="lg" :icon="['fab', 'telegram-plane']"/>
-          </a>
-          <a class="nav-link" href="https://github.com/EthKids" v-b-tooltip.hover v-bind:title="'Github'">
-            <font-awesome-icon color="black" size="lg" :icon="['fab', 'github']"/>
-          </a>
-        </b-navbar-nav>
-      </b-collapse>
-    </b-navbar>
-
-    <router-view/>
-    <custom-footer/>
     <loading
       :active.sync="isLoading"
       loader="bars"
       color="#007bff"
       background-color="#F1D7AD">
       <div slot="after" class="vld-text">
-        {{loaderText}}
+        {{ loaderText }}
       </div>
     </loading>
+    <router-view/>
+    <custom-footer/>
   </div>
 </template>
 
@@ -98,6 +68,16 @@ export default {
     color: #2c3e50;
   }
 
+  @font-face {
+    font-family: "Arista";
+    src: url("./assets/fonts/Arista2.0.ttf");
+  }
+
+  .niceFont {
+    font-family: Arista;
+    letter-spacing: 2px;
+  }
+
   h1 {
     line-height: 1.3;
     letter-spacing: .1px;
@@ -115,7 +95,7 @@ export default {
   }
 
   a:hover {
-    color: #ffbc4e;
+    color: #ff0065;
   }
 
   .custom-btn-action {
@@ -175,4 +155,33 @@ export default {
   .confirmBtn:hover {
     background-color: #a10342;
   }
+
+  .secondary {
+    color: #ff0065;
+  }
+
+  .secondary a {
+    color: #ff0065;
+  }
+
+  .secondary-background {
+    background-color: #ff0065;
+  }
+
+  .smallerText {
+    font-size: 14px;
+  }
+
+  .biggestText {
+    font-size: 26px;
+  }
+
+  .bolderText {
+    font-weight: 600;
+  }
+
+  .boldText {
+    font-weight: 700;
+  }
+
 </style>
