@@ -16,7 +16,7 @@
               id="donation-input"
               class="form-control"
               v-model="donation"
-              v-on:input="fetchFxETH()"
+              @input="fetchFxETH()"
               v-bind:min="0"
               v-bind:minus="false"
               focus="focus"

@@ -20,9 +20,9 @@
           </b-col>
           <b-col>
             <div class="secondary" id="rewards">
-              <span class="balance-container">
+              <span class="balance-container smallerText bolderText">
                 <a target="_blank" v-bind:href="getTokenLink">
-                  {{ parseFloat(this.$store.state.tokenMyBalance).toFixed(2) }} {{ this.$store.state.tokenSym }}
+                  {{ myBalance }} {{ this.$store.state.tokenSym }}
                 </a>
               </span>
               <b-button
@@ -61,10 +61,8 @@
 
         <b-row align-h="between">
           <b-col md="10" style="padding-top: 5vw">
-            <span class="header-main-label">
-              <span class="niceFont secondary header-title-label">
-                EthKids
-              </span>
+            <span class="niceFont secondary header-title-label">
+              EthKids
             </span>
             <br>
             <span class="header-main-label">Charitable giving</span>
@@ -84,6 +82,7 @@ export default {
     return {
       background: require('@/assets/header-new.png'),
       confirming: false,
+      myBalance: 0,
     }
   },
   beforeCreate() {
@@ -146,14 +145,16 @@ export default {
       let tokenInstance = this.$store.state.tokenInstance();
       let self = this;
       tokenInstance.methods.balanceOf(this.$store.state.web3.coinbase).call().then((tokenBalance) => {
-        self.$store.commit('registerTokenMyBalance',
-          window.web3.utils.fromWei(tokenBalance.toString(), 'ether'));
+        const balanceInETH = window.web3.utils.fromWei(tokenBalance.toString(), 'ether');
+        self.$store.commit('registerTokenMyBalance', balanceInETH);
+        self.myBalance = Math.floor(Number(balanceInETH) * 100) / 100;
       });
+
     },
     loadMyReturn() {
-      const myTokenBalance = window.web3.utils.toWei(this.$store.state.tokenMyBalance, 'ether');
-      if (Number(myTokenBalance) > 0 && this.$store.state.bondingVaultInstance) {
-        this.$store.state.bondingVaultInstance().methods.calculateReturn(myTokenBalance, this.$store.state.web3.coinbase)
+      if (this.myBalance > 0 && this.$store.state.bondingVaultInstance) {
+        const amountWei = window.web3.utils.toWei(this.myBalance.toString(), 'ether');
+        this.$store.state.bondingVaultInstance().methods.calculateReturn(amountWei, this.$store.state.web3.coinbase)
           .call({from: this.$store.state.web3.coinbase}).then((result) => {
           this.$store.commit('registerTokenMyETHReturn', window.web3.utils.fromWei(result.toString(), 'ether'));
         }).catch((e) => {
@@ -180,7 +181,7 @@ export default {
 }
 
 .header-card {
-  background-color: #f4f4f4;
+  background-color: white;
   border: none;
 }
 
@@ -194,19 +195,25 @@ export default {
 }
 
 .header-title-label {
-  font-size: 50px;
+  font-size: 56px;
 }
 
 .balance-container {
-  padding: 3px;
+  padding: 5px;
   background-color: white;
   border: white;
-  border-radius: 10px
+  border-radius: 20px;
+  color: #40494e;
+}
+
+.balance-container a {
+  color: #40494e;
 }
 
 .header-main-label {
   font-size: 28px;
-  font-weight: 400;
+  font-weight: 200;
+  color: #40494e;
 }
 
 </style>

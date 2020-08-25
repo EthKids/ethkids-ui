@@ -12,7 +12,8 @@
         <b-button
           size="lg"
           class="confirmBtn shadow-lg w-25"
-          v-on:click="openPassiveCharity()">
+          @click="openPassiveCharity()"
+        >
           Passive charity
         </b-button>
         <FundCard name="Chance.by"/>
@@ -27,16 +28,14 @@ import MetamaskWarning from '@/components/MetamaskWarning';
 import NetworkWarning from '@/components/NetworkWarning';
 import FundCard from '@/components/FundCard.vue'
 import HeaderPlate from '@/components/HeaderPlate'
-import PassCharityModal from "../components/PassCharityModal";
 import PassiveCharityModal from "../components/PassiveCharityModal";
 import SellModal from "@/components/SellModal";
 import ConfirmationModal from "@/components/ConfirmationModal";
 
 export default {
-  name: 'home',
+  name: 'Home',
   components: {
     PassiveCharityModal,
-    PassCharityModal,
     MetamaskWarning,
     NetworkWarning,
     FundCard,
