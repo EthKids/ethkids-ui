@@ -16,7 +16,9 @@
         >
           Passive charity
         </b-button>
-        <FundCard name="Chance.by"/>
+        <FundCard
+          name="ChanceBY"
+          title="Chance.by"/>
       </div>
     </div>
   </div>

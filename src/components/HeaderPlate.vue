@@ -98,13 +98,6 @@ export default {
     getTokenLink() {
       return `${this.$store.state.etherscan}/address/${this.$store.state.tokenAddress}`;
     },
-    getMyTokenPercent() {
-      if (this.$store.state.tokenTotalSupply > 0) {
-        return ((Number(this.$store.state.tokenMyBalance) / this.$store.state.tokenTotalSupply) * 100).toFixed(1) + '%';
-      } else {
-        return '0%';
-      }
-    },
     getBondingVaultAddressLink() {
       return `${this.$store.state.etherscan}/address/${this.$store.state.bondingVaultAddress}`;
     },

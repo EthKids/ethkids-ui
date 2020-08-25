@@ -1,12 +1,16 @@
 <template>
   <div class="container">
-    <donate-modal/>
-    <pass-charity-modal/>
+    <donate-modal
+      v-bind:name='name'
+    />
+    <pass-charity-modal
+      v-bind:name='name'
+    />
     <div class="col-lg-6 fundContainer">
       <div>
         <h2 class="mt-0">
           <a href="https://www.eng.chance.by/" target="_blank">
-            {{name}}
+            {{ title }}
           </a>
         </h2>
         <ul class="social list-inline">
@@ -55,7 +59,9 @@
           During the past years, over <strong>870 children</strong> got medical help for a total amount of <strong>$12 890 000</strong>
         </p>
       </div>
-      <FundFinancialState/>
+      <FundFinancialState
+        v-bind:name='name'
+      />
       <div class="row justify-content-center">
         <div class="actions">
           <b-button
@@ -75,25 +81,28 @@
         </div>
       </div>
       <div class="row justify-content-around" style="margin-top: 20px">
-        <b-button variant="outline-info" @click="toggleDonations">Last {{$store.state.communityDonations.length}} donations</b-button>
-        <b-button variant="outline-info" @click="toggleTransfers">Last {{$store.state.communityTransfers.length}} transfers</b-button>
+        <b-button variant="outline-info" @click="toggleDonations">Last {{ donations }} donations</b-button>
+        <b-button variant="outline-info" @click="toggleTransfers">Last {{ transfers }} transfers</b-button>
       </div>
       <div style="margin: 20px">
         <b-collapse v-model="donationsVisible" class="mt-2">
           <b-card>
-            <DonationsTrail/>
+            <DonationsTrail
+              v-bind:name='name'
+            />
           </b-card>
         </b-collapse>
         <b-collapse v-model="transfersVisible" class="mt-2">
           <b-card>
-            <TransfersTrail/>
+            <TransfersTrail
+              v-bind:name='name'
+            />
           </b-card>
         </b-collapse>
       </div>
     </div>
     <hr>
 
-    <!--<DonationsTrail/>-->
   </div>
 
 </template>
@@ -105,17 +114,22 @@ import DonationsTrail from '@/components/DonationsTrail'
 import DonateModal from '@/components/DonateModal';
 import PassCharityModal from '@/components/PassCharityModal';
 import TransfersTrail from "./TransfersTrail";
+import State from "@/mixins/State";
 
 export default {
   name: 'FundCard',
+  mixins: [State],
   props: {
     name: String,
+    title: String,
   },
   data() {
     return {
       isAdmin: false,
       donationsVisible: false,
       transfersVisible: false,
+      donations: 0,
+      transfers: 0,
     };
   },
   methods: {
@@ -141,10 +155,16 @@ export default {
   mounted() {
     const self = this;
     this.$store.subscribe((mutation) => {
-      if (mutation.type == 'registerCommunity') {
-        self.$store.state.communityInstance().methods.isWhitelistAdmin(this.$store.state.web3.coinbase).call().then((isSigner) => {
+      if (mutation.type == 'registerCommunity' && mutation.payload.name === this.name) {
+        mutation.payload.contract().methods.isWhitelistAdmin(this.$store.state.web3.coinbase).call().then((isSigner) => {
           self.isAdmin = isSigner;
         });
+      }
+      if (mutation.type == 'registerCommunityDonation' && mutation.payload.name === this.name) {
+        self.donations = self.community(self.name).communityDonations.length;
+      }
+      if (mutation.type == 'registerCommunityTransfer' && mutation.payload.name === this.name) {
+        self.transfers = self.community(self.name).communityTransfers.length;
       }
     });
   },

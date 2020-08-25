@@ -17,7 +17,7 @@
           currency="DAI"
           currency-symbol-position="suffix"
           v-bind:min="0"
-          v-bind:max="Number(this.$store.state.charityVaultBalance)"
+          v-bind:max="Number(vaultBalance)"
           v-bind:minus="false"
           focus="focus"
           v-bind:precision="3"/>
@@ -45,57 +45,71 @@
 import VueNumeric from 'vue-numeric';
 import Modal from '@/components/Modal';
 import EventBus from '@/utils/event-bus';
+import State from "@/mixins/State";
 
 export default {
-    name: 'PassCharityModal',
-    components: {
-        Modal,
-        VueNumeric,
-    },
-    data() {
-        return {
-          btnText: 'Transfer',
-          passModal: false,
-          passFunds: 0,
-          intermediary: null,
-          warning: '',
-          ipfsHash: '',
-        };
-    },
-    beforeCreate() {
-        const self = this;
-        EventBus.subscribe('PASS_CHARITY', () => {
+  name: 'PassCharityModal',
+  mixins: [State],
+  props: {
+    name: String,
+  },
+  components: {
+    Modal,
+    VueNumeric,
+  },
+  data() {
+    return {
+      btnText: 'Transfer',
+      passModal: false,
+      vaultBalance: 0,
+      passFunds: 0,
+      intermediary: null,
+      warning: '',
+      ipfsHash: '',
+    };
+  },
+  beforeCreate() {
+    const self = this;
+    EventBus.subscribe('PASS_CHARITY', () => {
+      self.passModal = true;
+      self.passFunds = Math.floor(Number(self.vaultBalance) * 100) / 100;
+    });
+  },
+  mounted() {
+    const self = this;
+    this.$store.subscribe((mutation) => {
+      if (mutation.type == 'registerCharityVaultBalance' && mutation.payload.name === this.name) {
+        self.vaultBalance = mutation.payload.balance;
+      }
+    })
+  },
+  methods: {
+    transfer() {
+      const self = this;
+      if (!window.web3.utils.isAddress(self.intermediary)) {
+        self.warning = 'Wrong Ethereum address';
+        return;
+      } else {
+        self.warning = '';
+      }
+      self.passModal = false;
+      EventBus.publish('SHOW_CONFIRMATION_WAITING', {msg: 'Passing ' + self.passFunds.toString() + ' DAI'});
+      self.community(self.name).contract().methods
+        .passToCharity(window.web3.utils.toWei(self.passFunds.toString(), 'ether'), self.intermediary, self.ipfsHash)
+        .send({from: self.$store.state.web3.coinbase})
+        .on('transactionHash', (transactionHash) => {
+          EventBus.publish('SHOW_CONFIRMATION_DONE', {tx: transactionHash});
+          EventBus.publish('TX_CONFIRMING');
+        })
+        .on('confirmation', (confirmationNumber, receipt) => {
+          EventBus.publish('TX_CONFIRMED');
+        })
+        .on('error', () => {
+          EventBus.publish('CLOSE_CONFIRMATION_WAITING');
           self.passModal = true;
-          self.passFunds = Math.floor(Number(self.$store.state.charityVaultBalance) * 100) / 100;
         });
     },
-    methods: {
-        transfer() {
-            const self = this;
-            if (!window.web3.utils.isAddress(self.intermediary)) {
-                self.warning = 'Wrong Ethereum address';
-                return;
-            } else {
-                self.warning = '';
-            }
-          self.passModal = false;
-          EventBus.publish('SHOW_CONFIRMATION_WAITING', {msg: 'Passing ' + self.passFunds.toString() + ' DAI'});
-          self.$store.state.communityInstance().methods
-            .passToCharity(window.web3.utils.toWei(self.passFunds.toString(), 'ether'), self.intermediary, self.ipfsHash)
-            .send({from: self.$store.state.web3.coinbase})
-            .on('transactionHash', (transactionHash) => {
-              EventBus.publish('SHOW_CONFIRMATION_DONE', {tx: transactionHash});
-              EventBus.publish('TX_CONFIRMING');
-            })
-            .on('confirmation', (confirmationNumber, receipt) => {
-              EventBus.publish('TX_CONFIRMED');
-            })
-                .on('error', () => {
-                  EventBus.publish('CLOSE_CONFIRMATION_WAITING');
-                  self.passModal = true;
-                });
-        },
-    },
+  },
 };
 </script>
 
