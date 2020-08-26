@@ -4,20 +4,65 @@
     <passive-charity-modal/>
     <confirmation-modal/>
     <HeaderPlate/>
-    <div class="container">
+    <b-button
+      size="lg"
+      class="confirmBtn shadow-lg w-25"
+      @click="openPassiveCharity()"
+    >
+      Passive charity
+    </b-button>
+    <div class="p-4">
       <metamask-warning v-if="!this.$store.state.web3.isInjected || !this.$store.state.web3.coinbase || this.$store.state.readOnly"/>
       <network-warning v-if="!(!this.$store.state.web3.isInjected || !this.$store.state.web3.coinbase) &&
                 this.$store.state.web3.networkId != this.$store.state.requiredNetwork"/>
-      <div class="communities" v-show="this.$store.state.web3.networkId === this.$store.state.requiredNetwork">
-        <b-button
-          size="lg"
-          class="confirmBtn shadow-lg w-25"
-          @click="openPassiveCharity()"
+      <b-row align-h="around" class="communities" v-show="this.$store.state.web3.networkId === this.$store.state.requiredNetwork">
+        <FundCard
+          name="ChanceBY"
+          title="Chance.by"
+          url="https://www.eng.chance.by/"
+          twitter="https://twitter.com/FondChance"
+          vk="https://vk.com/chance_foundation"
+          fb="https://www.facebook.com/FoundationChanceBelarus"
+          youtube="http://www.youtube.com/user/chancefond"
+          instagram="https://www.instagram.com/chance_foundation/"
         >
-          Passive charity
-        </b-button>
-        <FundCard name="Chance.by"/>
-      </div>
+          <div slot="description">
+            <p>
+              <b>Chance.by</b> is the charity fund that helps children with severe diseases to raise funds for urgently required medicine or
+              surgeries. <br>
+              The fund in established back in 2008 in Belarus by a group of like minded people under a common idea:
+              to make sure children who need medical care will get it regardless of the financial situation of their family.
+            </p>
+            <p>
+              During the past years, over <strong>870 children</strong> got medical help for a total amount of <strong>$12 890 000</strong>
+            </p>
+          </div>
+        </FundCard>
+        <FundCard
+          name="Kika"
+          title="Kika.nl"
+          url="https://www.kika.nl/"
+          twitter="https://twitter.com/kika8118"
+          fb="https://nl-nl.facebook.com/KiKa8118"
+          youtube="https://www.youtube.com/user/8118KiKa"
+          instagram="https://www.instagram.com/kika_kinderenkankervrij"
+          linkedin="https://www.linkedin.com/company/stichting-kinderen-kankervrij-kika-"
+        >
+          <div slot="description">
+            <p>
+              Every year, more than <b>550 children in the Netherlands get cancer</b>. At the moment 75% of these children are cured. That must and
+              can be improved.
+            </p>
+            <p>
+              Our goal is to increase this percentage to 95%. <strong>KiKa</strong> raises funds for innovative research and other activities in the
+              field of childhood cancer, aimed at less pain during treatment, more healing and a higher quality of life later in life.
+            </p>
+            <p>
+              KiKa also focuses on providing information about childhood cancer.
+            </p>
+          </div>
+        </FundCard>
+      </b-row>
     </div>
   </div>
 </template>
@@ -52,17 +97,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .masthead {
-    height: 20vh;
-    min-height: 350px;
-    background-image: url('../assets/header.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-  }
-  .new-community {
-    margin-top: 50px;
-    -ms-flex-pack: center !important;
-    justify-content: center !important;
-  }
+
+
 </style>

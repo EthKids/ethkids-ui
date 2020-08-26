@@ -14,7 +14,7 @@
         When
       </div>
     </div>
-    <div class="row" v-for="item in this.$store.state.communityDonations"
+    <div class="row" v-for="item in items"
          v-bind:class="{ highlighted: item.fullAddress == $store.state.web3.coinbase}">
       <div class="col-4">
         {{ item.from }}
@@ -33,26 +33,34 @@
 
 <script>
 
+import State from "@/mixins/State";
+
 export default {
   name: "DonationsTrail",
+  mixins: [State],
+  props: {
+    name: String,
+  },
   data() {
-    return {};
+    return {
+      items: [],
+    };
   },
   mounted() {
     const self = this;
     this.$store.subscribe((mutation) => {
-      if (mutation.type == 'registerCommunity') {
+      if (mutation.type == 'registerCommunity' && mutation.payload.name === this.name) {
         var eventTxs = new Set();
         if (self.$store.state.readOnly) {
           //search past blocks
-          self.$store.state.communityInstance().getPastEvents('LogDonationReceived', {fromBlock: self.$store.state.communityCreationBlock,}, (e, events) => {
+          mutation.payload.contract().getPastEvents('LogDonationReceived', {fromBlock: self.$store.state.registryCreationBlock,}, (e, events) => {
             for (const event of events) {
               self.onDonationReceived(event, eventTxs, self);
             }
           });
         } else {
           //live listening
-          self.$store.state.communityInstance().events.LogDonationReceived({fromBlock: self.$store.state.communityCreationBlock}, (e, event) => {
+          mutation.payload.contract().events.LogDonationReceived({fromBlock: self.$store.state.registryCreationBlock}, (e, event) => {
             self.onDonationReceived(event, eventTxs, self);
           });
         }
@@ -67,6 +75,7 @@ export default {
 
       window.web3.eth.getBlock(event.blockNumber).then((block) => {
         self.$store.commit('registerCommunityDonation', {
+          name: this.name,
           blockNo: block.number,
           from: event.returnValues.from.toString().substr(0, 12) + '...',
           fullAddress: event.returnValues.from.toString(),
@@ -75,6 +84,7 @@ export default {
           when: self.moment(Number(block.timestamp), 'X').fromNow(),
           whenDate: self.moment(Number(block.timestamp), 'X').format('MMMM Do YYYY'),
         });
+        self.items = self.community(self.name).communityDonations;
       });
     },
   }
