@@ -18,7 +18,7 @@
       <hr>
     </div>
     <div>
-      <b>{{forwardingAccounts}}</b> contributors forwarding from <b>{{parseFloat(cumulatedDeposit).toFixed(2)}} DAI</b>
+      <b>{{ forwardingAccounts }}</b> contributors forwarding interest from <b>{{ parseFloat(cumulatedDeposit).toFixed(2) }} DAI</b>
     </div>
     <div>
       Raised already: <b>{{parseFloat(historicYieldVaultBalance).toFixed(2)}} aDAI </b>

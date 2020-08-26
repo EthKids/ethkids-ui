@@ -1,42 +1,49 @@
 <template>
-  <div class="container">
+  <b-col lg="5">
     <donate-modal
       v-bind:name='name'
+      v-bind:title='title'
     />
     <pass-charity-modal
       v-bind:name='name'
+      v-bind:title='title'
     />
-    <div class="col-lg-6 fundContainer">
+    <div class="fundContainer">
       <div>
         <h2 class="mt-0">
-          <a href="https://www.eng.chance.by/" target="_blank">
+          <a v-bind:href="url" target="_blank">
             {{ title }}
           </a>
         </h2>
         <ul class="social list-inline">
-          <li class="list-inline-item">
-            <a href="https://twitter.com/FondChance" target="_blank" class="icon">
+          <li v-if="twitter" class="list-inline-item">
+            <a v-bind:href="twitter" target="_blank" class="icon">
               <font-awesome-icon size="lg" :icon="['fab', 'twitter']"/>
             </a>
           </li>
-          <li class="list-inline-item">
-            <a href="https://vk.com/chance_foundation" target="_blank" class="icon">
+          <li v-if="vk" class="list-inline-item">
+            <a v-bind:href="vk" target="_blank" class="icon">
               <font-awesome-icon size="lg" :icon="['fab', 'vk']"/>
             </a>
           </li>
-          <li class="list-inline-item">
-            <a href="https://www.facebook.com/FoundationChanceBelarus" target="_blank" class="icon">
+          <li v-if="fb" class="list-inline-item">
+            <a v-bind:href="fb" target="_blank" class="icon">
               <font-awesome-icon size="lg" :icon="['fab', 'facebook-f']"/>
             </a>
           </li>
-          <li class="list-inline-item">
-            <a href="http://www.youtube.com/user/chancefond" target="_blank" class="icon">
+          <li v-if="youtube" class="list-inline-item">
+            <a v-bind:href="youtube" target="_blank" class="icon">
               <font-awesome-icon size="lg" :icon="['fab', 'youtube']"/>
             </a>
           </li>
-          <li class="list-inline-item">
-            <a href="https://www.instagram.com/chance_foundation/" target="_blank" class="icon">
+          <li v-if="instagram" class="list-inline-item">
+            <a v-bind:href="instagram" target="_blank" class="icon">
               <font-awesome-icon size="lg" :icon="['fab', 'instagram']"/>
+            </a>
+          </li>
+          <li v-if="linkedin" class="list-inline-item">
+            <a v-bind:href="linkedin" target="_blank" class="icon">
+              <font-awesome-icon size="lg" :icon="['fab', 'linkedin']"/>
             </a>
           </li>
         </ul>
@@ -44,21 +51,26 @@
       </div>
 
       <div class="fundDescription">
-        <p>
-          Chance.by is the charity fund that helps children with severe diseases to raise funds for urgently required medicine or surgeries.
-        </p>
-        <p>
-          The fund in established back in 2008 in Belarus by a group of like minded people under a common idea:
-          to make sure children who need medical care will get it regardless of the financial situation of their family.
-          <br>
-          Since 2009 the number of people and companies who donate to the fund has been continually expanding.
-          <br>
-          In 2013 Chance.by has signed the partnership with the Ministry of Health of Republic Belarus to find the systematic solution for helping
-          children.
-          <br>
-          During the past years, over <strong>870 children</strong> got medical help for a total amount of <strong>$12 890 000</strong>
-        </p>
+        <slot name="description">
+        </slot>
       </div>
+
+      <b-carousel
+        v-if="images"
+        id="carousel-fade"
+        style="text-shadow: 0px 0px 2px #000"
+        fade
+        controls
+        indicators
+        img-width="300"
+        img-height="300"
+      >
+        <b-carousel-slide v-for="image in images" v-bind:key="image.src"
+                          v-bind:img-src="image.src"
+        ></b-carousel-slide>
+      </b-carousel>
+
+
       <FundFinancialState
         v-bind:name='name'
       />
@@ -66,12 +78,13 @@
         <div class="actions">
           <b-button
             size="lg"
+            v-bind:disabled="this.$store.state.readOnly"
             class="confirmBtn shadow-lg"
             v-on:click="donate()">
             Donate
           </b-button>
         </div>
-        <div v-show="this.isAdmin" class="actions">
+        <div v-if="isAdmin">
           <b-button
             size="lg"
             class="confirmBtn shadow-lg"
@@ -101,9 +114,8 @@
         </b-collapse>
       </div>
     </div>
-    <hr>
 
-  </div>
+  </b-col>
 
 </template>
 
@@ -122,6 +134,14 @@ export default {
   props: {
     name: String,
     title: String,
+    url: String,
+    twitter: String,
+    vk: String,
+    fb: String,
+    youtube: String,
+    instagram: String,
+    linkedin: String,
+    images: Array,
   },
   data() {
     return {
@@ -146,10 +166,10 @@ export default {
       }
     },
     donate() {
-      EventBus.publish('OPEN_DONATE');
+      EventBus.publish('OPEN_DONATE', {community: this.name});
     },
     passCharity() {
-      EventBus.publish('PASS_CHARITY');
+      EventBus.publish('PASS_CHARITY', {community: this.name});
     },
   },
   mounted() {
@@ -181,6 +201,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .fundContainer {
+    padding: 10px;
     border: 1px dashed #b8b8b8;
     border-radius: 10px;
   }

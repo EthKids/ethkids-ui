@@ -16,7 +16,9 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     //Main
-    /*registryAddress: '0x220A7844d3eAa78E60AA238fEA1BF8a01A567126',
+    /*
+    netName: 'Main',
+    registryAddress: '0x220A7844d3eAa78E60AA238fEA1BF8a01A567126',
     registryCreationBlock: 8810339,
     requiredNetwork: 1,
     kyberAPI: 'https://api.kyber.network',
@@ -25,7 +27,9 @@ export default new Vuex.Store({
     aaveGraphQL: 'https://api.thegraph.com/subgraphs/name/aave/protocol-raw',*/
 
     //Rinkeby
-    /*registryAddress: '0xA9a56A9dDBE521f15C0BC954ca497AbBD800458a',
+    /*
+    netName: 'Rinkeby',
+    registryAddress: '0xA9a56A9dDBE521f15C0BC954ca497AbBD800458a',
     registryCreationBlock: 6393787,
     requiredNetwork: 4,
     kyberAPI: 'https://rinkeby-api.kyber.network',
@@ -34,6 +38,7 @@ export default new Vuex.Store({
     aaveGraphQL: '',*/
 
     //Ropsten
+    netName: 'Ropsten',
     registryAddress: '0xccb683B39825e48F119aAd5C8a951a735f9222a9',
     registryCreationBlock: 8298600,
     requiredNetwork: 3,

@@ -6,7 +6,7 @@
       Pass funds further to charity
     </div>
     <div slot="subheader">
-      Chance.by
+      {{ title }}
     </div>
     <div slot="body">
       <div class="form-group text-center">
@@ -52,6 +52,7 @@ export default {
   mixins: [State],
   props: {
     name: String,
+    title: String,
   },
   components: {
     Modal,
@@ -70,9 +71,11 @@ export default {
   },
   beforeCreate() {
     const self = this;
-    EventBus.subscribe('PASS_CHARITY', () => {
-      self.passModal = true;
-      self.passFunds = Math.floor(Number(self.vaultBalance) * 100) / 100;
+    EventBus.subscribe('PASS_CHARITY', (arg) => {
+      if (arg.community === self.name) {
+        self.passModal = true;
+        self.passFunds = Math.floor(Number(self.vaultBalance) * 100) / 100;
+      }
     });
   },
   mounted() {

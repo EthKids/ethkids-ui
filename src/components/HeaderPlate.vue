@@ -1,7 +1,7 @@
 <template>
   <div class="descriptionContainer">
     <div class="secondary-background text-white" v-if="this.$store.state.web3.networkId != this.$store.state.requiredNetwork">
-      Please switch to Ethereum Mainnet
+      Please switch to Ethereum {{ this.$store.state.netName }}
     </div>
     <b-card
       class="header-card"
@@ -60,7 +60,7 @@
         </b-row>
 
         <b-row align-h="between">
-          <b-col md="10" style="padding-top: 5vw">
+          <b-col md="10" style="padding-top: 70px">
             <span class="niceFont secondary header-title-label">
               EthKids
             </span>
@@ -206,7 +206,7 @@ export default {
 .header-main-label {
   font-size: 28px;
   font-weight: 200;
-  color: #40494e;
+  color: white;
 }
 
 </style>

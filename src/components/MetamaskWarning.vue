@@ -36,8 +36,8 @@ export default {
   .check-metamask {
     border: 1px dashed red;
     border-radius: 10px;
-    margin: 10px 10px 0px 10px;
-    padding: 10px 10px 0px 10px;
+    margin: 10px 10px 20px 10px;
+    padding: 10px 10px 10px 10px;
     display: inline-block;
   }
 </style>

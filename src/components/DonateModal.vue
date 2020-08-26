@@ -6,7 +6,7 @@
       Donate to charity
     </div>
     <div slot="subheader">
-      Chance.by
+      {{ title }}
     </div>
     <div slot="body">
       <div class="form-group text-center">
@@ -69,6 +69,7 @@ export default {
   mixins: [State],
   props: {
     name: String,
+    title: String,
   },
   components: {
     Modal,
@@ -93,10 +94,12 @@ export default {
   },
   beforeCreate() {
     const self = this;
-    EventBus.subscribe('OPEN_DONATE', () => {
-      self.donateModal = true;
-      //fetch initial FX
-      this.tokenChosen(this.selectedToken);
+    EventBus.subscribe('OPEN_DONATE', (arg) => {
+      if (arg.community === self.name) {
+        self.donateModal = true;
+        //fetch initial FX
+        this.tokenChosen(this.selectedToken);
+      }
     });
   },
   mounted() {
@@ -210,7 +213,7 @@ export default {
                       .executeSwapAndDonate(self.selectedToken.address,
                         window.web3.utils.toWei(self.donation.toString(), 'ether'),
                         window.web3.utils.toWei(maxDestAmount.toString(), 'ether'),
-                        self.$store.state.communityAddress
+                        self.community(self.name).address
                       )
                       .send({from: self.$store.state.web3.coinbase})
                       .on('transactionHash', (transactionHash) => {
