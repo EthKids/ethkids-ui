@@ -114,9 +114,6 @@ export default {
           self.loadMyTokenBalance();
         }
       }
-      if (mutation.type === 'registerTokenMyBalance') {
-        self.loadMyReturn();
-      }
       if (mutation.type === 'financialChange') {
         self.reloadFinancialState();
       }
@@ -131,7 +128,6 @@ export default {
     },
     reloadFinancialState() {
       this.loadMyTokenBalance();
-      this.loadMyReturn();
       this.loadBondingVault();
     },
     loadMyTokenBalance() {
@@ -141,6 +137,7 @@ export default {
         const balanceInETH = window.web3.utils.fromWei(tokenBalance.toString(), 'ether');
         self.$store.commit('registerTokenMyBalance', balanceInETH);
         self.myBalance = Math.floor(Number(balanceInETH) * 100) / 100;
+        self.loadMyReturn();
       });
 
     },
