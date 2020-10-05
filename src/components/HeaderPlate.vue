@@ -20,13 +20,13 @@
           </b-col>
           <b-col>
             <div class="secondary" id="rewards">
-              <span class="balance-container smallerText bolderText">
+              <span class="balance-container biggerText bolderText">
                 <a target="_blank" v-bind:href="getTokenLink">
                   {{ myBalance }} {{ this.$store.state.tokenSym }}
                 </a>
               </span>
               <b-button
-                size="sm"
+                size="default"
                 class="confirmBtn shadow-lg"
                 v-show="this.$store.state.tokenMyBalance > 0"
                 v-on:click="sellBack()">
@@ -40,7 +40,7 @@
             </b-tooltip>
           </b-col>
           <b-col cols="4">
-            <div id="nav" class="text-right pr-4 secondary">
+            <div id="nav" class="bolderText text-right pr-4 secondary">
               <router-link to="/">
                 <span class="ml-md-3 mr-md-3">Home</span>
               </router-link>
@@ -189,7 +189,7 @@ export default {
 }
 
 .balance-container {
-  padding: 5px;
+  padding: 10px;
   background-color: white;
   border: white;
   border-radius: 20px;

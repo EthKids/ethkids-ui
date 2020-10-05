@@ -80,7 +80,7 @@ export default {
     },
     loadCharityVault() {
       let charityVaultContract = this.community(this.name).vaultContract();
-      charityVaultContract.methods.sumErcStats().call().then((sumRaised) => {
+      charityVaultContract.methods.sumStats().call().then((sumRaised) => {
         let balanceUSD = window.web3.utils.fromWei(sumRaised.toString(), 'ether');
         this.totalDonationsRaised = parseFloat(balanceUSD).toFixed(2);
       });

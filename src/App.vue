@@ -172,6 +172,14 @@ export default {
     font-size: 14px;
   }
 
+  .biggerText {
+    font-size: 18px;
+  }
+
+  .bigText {
+    font-size: 22px;
+  }
+
   .biggestText {
     font-size: 26px;
   }
