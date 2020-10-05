@@ -147,7 +147,7 @@ export default {
   }
 
   .confirmBtn {
-    background-color: #ff0065;
+    background-color: #FA616E;
     color: white;
     margin: 10px;
   }
@@ -157,15 +157,15 @@ export default {
   }
 
   .secondary {
-    color: #ff0065;
+    color: #FA616E;
   }
 
   .secondary a {
-    color: #ff0065;
+    color: #FA616E;
   }
 
   .secondary-background {
-    background-color: #ff0065;
+    background-color: #FA616E;
   }
 
   .smallerText {
