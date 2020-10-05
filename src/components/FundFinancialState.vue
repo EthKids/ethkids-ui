@@ -73,32 +73,35 @@ export default {
         });
       }
     });
+    this.loadCharityVault();
   },
   methods: {
     reloadFinancialState() {
       this.loadCharityVault();
     },
     loadCharityVault() {
-      let charityVaultContract = this.community(this.name).vaultContract();
-      charityVaultContract.methods.sumStats().call().then((sumRaised) => {
-        let balanceUSD = window.web3.utils.fromWei(sumRaised.toString(), 'ether');
-        this.totalDonationsRaised = parseFloat(balanceUSD).toFixed(2);
-      });
+      if (this.community(this.name)) {
+        let charityVaultContract = this.community(this.name).vaultContract();
+        charityVaultContract.methods.sumStats().call().then((sumRaised) => {
+          let balanceUSD = window.web3.utils.fromWei(sumRaised.toString(), 'ether');
+          this.totalDonationsRaised = parseFloat(balanceUSD).toFixed(2);
+        });
 
-      getIERC20Contract(this.$store.state.stableTokenAddress).then((erc20Instance) => {
-        // sum up 'DAI' raised + yield 'aDAI'
-        erc20Instance.methods.balanceOf(charityVaultContract.options.address).call().then(ercBalance => {
-          let balance = window.web3.utils.fromWei(ercBalance.toString(), 'ether');
-          this.$store.commit('registerCharityVaultBalance', {
-            name: this.name,
-            balance: balance
-          });
-          let self = this;
-          this.$store.state.yieldVaultInstance().methods.communityVaultBalance(this.$store.state.aTokenInstance().options.address).call().then((aTokenBalance) => {
-            self.cumulatedBalance = Number(balance) + Number(window.web3.utils.fromWei(aTokenBalance.toString(), 'ether'));
-          });
-        })
-      });
+        getIERC20Contract(this.$store.state.stableTokenAddress).then((erc20Instance) => {
+          // sum up 'DAI' raised + yield 'aDAI'
+          erc20Instance.methods.balanceOf(charityVaultContract.options.address).call().then(ercBalance => {
+            let balance = window.web3.utils.fromWei(ercBalance.toString(), 'ether');
+            this.$store.commit('registerCharityVaultBalance', {
+              name: this.name,
+              balance: balance
+            });
+            let self = this;
+            this.$store.state.yieldVaultInstance().methods.communityVaultBalance(this.$store.state.aTokenInstance().options.address).call().then((aTokenBalance) => {
+              self.cumulatedBalance = Number(balance) + Number(window.web3.utils.fromWei(aTokenBalance.toString(), 'ether'));
+            });
+          })
+        });
+      }
     },
   },
 

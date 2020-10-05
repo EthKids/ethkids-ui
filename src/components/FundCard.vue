@@ -152,7 +152,35 @@ export default {
       transfers: 0,
     };
   },
+  mounted() {
+    const self = this;
+    this.$store.subscribe((mutation) => {
+      if (mutation.type == 'registerCommunity' && mutation.payload.name === this.name) {
+        mutation.payload.contract().methods.isWhitelistAdmin(this.$store.state.web3.coinbase).call().then((isSigner) => {
+          self.isAdmin = isSigner;
+        });
+      }
+      if (mutation.type == 'registerCommunityDonation' && mutation.payload.name === this.name) {
+        self.loadDonations();
+      }
+      if (mutation.type == 'registerCommunityTransfer' && mutation.payload.name === this.name) {
+        self.loadTransfers();
+      }
+    });
+    this.loadDonations();
+    this.loadTransfers();
+  },
   methods: {
+    loadDonations() {
+      if (this.community(this.name)) {
+        this.donations = this.community(this.name).communityDonations ? this.community(this.name).communityDonations.length : 0;
+      }
+    },
+    loadTransfers() {
+      if (this.community(this.name)) {
+        this.transfers = this.community(this.name).communityTransfers ? this.community(this.name).communityTransfers.length : 0;
+      }
+    },
     toggleDonations() {
       this.donationsVisible = !this.donationsVisible;
       if (this.donationsVisible) {
@@ -171,22 +199,6 @@ export default {
     passCharity() {
       EventBus.publish('PASS_CHARITY', {community: this.name});
     },
-  },
-  mounted() {
-    const self = this;
-    this.$store.subscribe((mutation) => {
-      if (mutation.type == 'registerCommunity' && mutation.payload.name === this.name) {
-        mutation.payload.contract().methods.isWhitelistAdmin(this.$store.state.web3.coinbase).call().then((isSigner) => {
-          self.isAdmin = isSigner;
-        });
-      }
-      if (mutation.type == 'registerCommunityDonation' && mutation.payload.name === this.name) {
-        self.donations = self.community(self.name).communityDonations.length;
-      }
-      if (mutation.type == 'registerCommunityTransfer' && mutation.payload.name === this.name) {
-        self.transfers = self.community(self.name).communityTransfers.length;
-      }
-    });
   },
   components: {
     TransfersTrail,

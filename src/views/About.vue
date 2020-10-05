@@ -125,8 +125,7 @@
                 At whenever a donor sends some funds to the charity, the individual 'buy' CHANCE price calculates to
                 find the number of CHANCE tokens he/she will receive.
                 <br><br>
-                As was explained earlier, the price
-                <um>depends on the personal CHANCE balance compared to the total amount minted.</um>
+                As was explained earlier, the price depends on the personal CHANCE balance compared to the total amount minted.
               </p>
               <blockquote class="blockquote text-center">
                 <img src="../assets/about-price.png" width="600px">
