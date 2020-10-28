@@ -53,20 +53,6 @@
   {
     "constant": true,
     "inputs": [],
-    "name": "stableToken",
-    "outputs": [
-      {
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
     "name": "walletId",
     "outputs": [
       {
@@ -100,10 +86,6 @@
       },
       {
         "name": "_walletId",
-        "type": "address"
-      },
-      {
-        "name": "_stableAddress",
         "type": "address"
       }
     ],
@@ -154,34 +136,6 @@
     ],
     "name": "OwnershipTransferred",
     "type": "event"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "_stableAddress",
-        "type": "address"
-      }
-    ],
-    "name": "setStableToken",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "getStableToken",
-    "outputs": [
-      {
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
   },
   {
     "constant": true,
@@ -242,8 +196,13 @@
   },
   {
     "constant": false,
-    "inputs": [],
-    "name": "executeSwapMyETHToStable",
+    "inputs": [
+      {
+        "name": "_ercAddress",
+        "type": "address"
+      }
+    ],
+    "name": "executeSwapMyETHToERC",
     "outputs": [
       {
         "name": "",

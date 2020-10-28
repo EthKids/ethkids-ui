@@ -3,15 +3,13 @@
     <h3>
       <a target="_blank" v-bind:href="charityVaultLink">${{ parseFloat(this.cumulatedBalance.toString()).toFixed(2) }}</a>
     </h3>
-    <!--<span>
-      Total <a target="_blank" v-bind:href="communityAddressLink">${{totalDonationsRaised}}</a>
-    </span>-->
   </div>
 </template>
 
 <script>
 import {getIERC20Contract} from "../utils/getContract";
 import State from "@/mixins/State";
+import KyberAPI from "@/services/KyberApi";
 
 export default {
   name: 'FundFinancialState',
@@ -23,8 +21,6 @@ export default {
   data() {
     return {
       cumulatedBalance: 0,
-      totalDonationsRaised: 0,
-      communityAddressLink: '',
       charityVaultLink: '',
     }
   },
@@ -33,7 +29,6 @@ export default {
     this.$store.subscribe((mutation) => {
       if (mutation.type == 'registerCommunity' && mutation.payload.name === this.name) {
         self.loadCharityVault();
-        this.communityAddressLink = `${this.$store.state.etherscan}/address/${mutation.payload.address}`;
         this.charityVaultLink = `${this.$store.state.etherscan}/address/${mutation.payload.vaultAddress}`;
 
         window.web3.eth.getBlockNumber().then((currentBlock) => {
@@ -81,25 +76,23 @@ export default {
     },
     loadCharityVault() {
       if (this.community(this.name)) {
+        let self = this;
         let charityVaultContract = this.community(this.name).vaultContract();
-        charityVaultContract.methods.sumStats().call().then((sumRaised) => {
-          let balanceUSD = window.web3.utils.fromWei(sumRaised.toString(), 'ether');
-          this.totalDonationsRaised = parseFloat(balanceUSD).toFixed(2);
-        });
 
-        getIERC20Contract(this.$store.state.stableTokenAddress).then((erc20Instance) => {
-          // sum up 'DAI' raised + yield 'aDAI'
-          erc20Instance.methods.balanceOf(charityVaultContract.options.address).call().then(ercBalance => {
-            let balance = window.web3.utils.fromWei(ercBalance.toString(), 'ether');
-            this.$store.commit('registerCharityVaultBalance', {
-              name: this.name,
-              balance: balance
+        // sum up ETH raised + yield 'aDAI'
+        window.web3.eth.getBalance(charityVaultContract.options.address, (err, charityVaultBalance) => {
+          let balanceETH = window.web3.utils.fromWei(charityVaultBalance.toString(), 'ether');
+          this.$store.commit('registerCharityVaultBalance', {
+            name: this.name,
+            balance: balanceETH
+          });
+          KyberAPI.fetchFxUSD(this.$store.state.kyberAPI + "/change24h", 'ETH')
+            .then((rate) => {
+              const balanceUSD = (rate * balanceETH).toFixed(2);
+              this.$store.state.yieldVaultInstance().methods.communityVaultBalance(this.$store.state.aTokenInstance().options.address).call().then((aTokenBalance) => {
+                self.cumulatedBalance = Number(balanceUSD) + Number(window.web3.utils.fromWei(aTokenBalance.toString(), 'ether'));
+              });
             });
-            let self = this;
-            this.$store.state.yieldVaultInstance().methods.communityVaultBalance(this.$store.state.aTokenInstance().options.address).call().then((aTokenBalance) => {
-              self.cumulatedBalance = Number(balance) + Number(window.web3.utils.fromWei(aTokenBalance.toString(), 'ether'));
-            });
-          })
         });
       }
     },

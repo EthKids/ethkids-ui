@@ -13,6 +13,8 @@ import {
 
 Vue.use(Vuex)
 
+const empty_address = '0x0000000000000000000000000000000000000000';
+
 export default new Vuex.Store({
   state: {
     //Main
@@ -24,7 +26,9 @@ export default new Vuex.Store({
     kyberAPI: 'https://api.kyber.network',
     httpProvider: 'https://mainnet.infura.io/v3/98d7e501879243c5877bac07a57cde7e',
     etherscan: 'https://etherscan.io',
-    aaveGraphQL: 'https://api.thegraph.com/subgraphs/name/aave/protocol-raw',*/
+    aaveGraphQL: 'https://api.thegraph.com/subgraphs/name/aave/protocol-raw',
+    dai: '0x6b175474e89094c44da98b954eedeac495271d0f',
+    adai: '0xfC1E690f61EFd961294b3e1Ce3313fBD8aa4f85d', */
 
     //Rinkeby
     /*
@@ -35,17 +39,21 @@ export default new Vuex.Store({
     kyberAPI: 'https://rinkeby-api.kyber.network',
     httpProvider: 'https://rinkeby.infura.io/v3/98d7e501879243c5877bac07a57cde7e',
     etherscan: 'https://rinkeby.etherscan.io',
-    aaveGraphQL: '',*/
+    aaveGraphQL: '',
+    dai: '0x6FA355a7b6bD2D6bD8b927C489221BFBb6f1D7B2', //KNC
+    adai: empty_address, */
 
     //Ropsten
     netName: 'Ropsten',
-    registryAddress: '0xccb683B39825e48F119aAd5C8a951a735f9222a9',
-    registryCreationBlock: 8298600,
+    registryAddress: '0xaE92Ee7D6B501AA64F41C2BF73d3C586e3ec2250',
+    registryCreationBlock: 8959496,
     requiredNetwork: 3,
     kyberAPI: 'https://ropsten-api.kyber.network',
     httpProvider: 'https://ropsten.infura.io/v3/98d7e501879243c5877bac07a57cde7e',
     etherscan: 'https://ropsten.etherscan.io',
     aaveGraphQL: 'https://api.thegraph.com/subgraphs/name/aave/protocol-ropsten-raw',
+    dai: '0xf80A32A835F79D7787E8a8ee5721D0fEaFd78108', //DAI, compatible with KyberSwap and Aave
+    adai: '0xcB1Fe6F440c49E9290c3eb7f158534c2dC374201',
 
     readOnly: false,
     web3: {
@@ -59,7 +67,6 @@ export default new Vuex.Store({
     ethBalance: 0,
     ethKidsRegistryInstance: null,
     kyberConverterAddress: null,
-    stableTokenAddress: null,
 
     communities: [],
 
@@ -116,9 +123,6 @@ export default new Vuex.Store({
     registerConverterAddress(state, payload) {
       state.kyberConverterAddress = payload;
     },
-    registerStableTokenAddress(state, payload) {
-      state.stableTokenAddress = payload;
-    },
     registerCommunity(state, payload) {
       state.communities.push(payload)
     },
@@ -134,9 +138,6 @@ export default new Vuex.Store({
     registerYieldVault(state, payload) {
       state.yieldVaultInstance = () => payload;
     },
-    registerAToken(state, payload) {
-      state.aTokenInstance = () => payload;
-    },
     registerBondingVaultBalance(state, payload) {
       state.bondingVaultBalance = payload;
     },
@@ -151,6 +152,9 @@ export default new Vuex.Store({
     },
     registerToken(state, payload) {
       state.tokenInstance = () => payload;
+    },
+    registerAToken(state, payload) {
+      state.aTokenInstance = () => payload;
     },
     registerTokenSym(state, payload) {
       state.tokenSym = payload;
@@ -217,12 +221,6 @@ export default new Vuex.Store({
       commit('registerYieldVaultAddress', yieldVaultAddress);
       getYieldVaultContract(yieldVaultAddress).then((yieldVaultContract) => {
         commit('registerYieldVault', yieldVaultContract);
-        //aToken
-        yieldVaultContract.methods.ADAI_ADDRESS().call().then((aTokenAddress) => {
-          getIATokenContract(aTokenAddress).then((aTokenContract) => {
-            commit('registerAToken', aTokenContract);
-          });
-        });
       }).catch((err) => {
         console.log(err);
       });
@@ -232,11 +230,9 @@ export default new Vuex.Store({
       commit('registerTokenAddress', tokenAddress);
       getEthKidsTokenContract(tokenAddress).then((tokenContract) => {
         commit('registerToken', tokenContract);
-
         tokenContract.methods.symbol().call().then((sym) => {
           commit('registerTokenSym', sym);
         });
-
       }).catch((err) => {
         console.log(err);
       });
@@ -283,14 +279,16 @@ export default new Vuex.Store({
             dispatch('initYieldVaultContract', yieldVaultAddress);
           });
 
+          //aToken
+          getIATokenContract(state.adai).then((aDAIContract) => {
+            commit('registerAToken', aDAIContract);
+          }).catch((err) => {
+            console.log(err);
+          });
+
           //converter
           registryContract.methods.currencyConverter().call().then((converter) => {
             commit('registerConverterAddress', converter);
-            getKyberConverterContract(converter).then(kyberConverter => {
-              kyberConverter.methods.getStableToken().call().then((stableToken) => {
-                commit('registerStableTokenAddress', stableToken);
-              });
-            });
           }).catch((e) => {
             throw e;
           });

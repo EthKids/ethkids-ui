@@ -30,34 +30,6 @@
   {
     "constant": true,
     "inputs": [],
-    "name": "stableToken",
-    "outputs": [
-      {
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "currencyConverter",
-    "outputs": [
-      {
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
     "name": "primary",
     "outputs": [
       {
@@ -102,7 +74,7 @@
         "type": "address"
       }
     ],
-    "name": "LogStableTokenReceived",
+    "name": "LogDonationReceived",
     "type": "event"
   },
   {
@@ -119,7 +91,7 @@
         "type": "address"
       }
     ],
-    "name": "LogStableTokenSent",
+    "name": "LogDonationWithdrawn",
     "type": "event"
   },
   {
@@ -133,34 +105,6 @@
     ],
     "name": "PrimaryTransferred",
     "type": "event"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "_registry",
-        "type": "address"
-      }
-    ],
-    "name": "setRegistry",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "getRegistry",
-    "outputs": [
-      {
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
   },
   {
     "constant": false,
@@ -195,18 +139,27 @@
     "type": "function"
   },
   {
-    "constant": true,
+    "constant": false,
     "inputs": [
       {
-        "name": "payee",
+        "name": "_registry",
         "type": "address"
       }
     ],
-    "name": "depositsOf",
+    "name": "setRegistry",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "getRegistry",
     "outputs": [
       {
         "name": "",
-        "type": "uint256"
+        "type": "address"
       }
     ],
     "payable": false,

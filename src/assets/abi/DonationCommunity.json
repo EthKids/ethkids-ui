@@ -340,6 +340,20 @@
     "constant": false,
     "inputs": [
       {
+        "name": "_donor",
+        "type": "address"
+      }
+    ],
+    "name": "donateDelegatedNoReward",
+    "outputs": [],
+    "payable": true,
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
         "name": "_amount",
         "type": "uint256"
       },

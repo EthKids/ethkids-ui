@@ -36,10 +36,8 @@
       </div>
       <div class="form-group text-center fx bordered" v-if="ethAmount">
         My balance: <b>{{ myBalance }} {{ selectedToken.symbol }}</b>
-        <br><br>
-        Token swap is powered by <a href="https://kyber.network/" target="_blank">Kyber Network </a>
         <br>
-        <b>{{ donation }} {{ selectedToken.symbol }} = {{ ethAmount }} ETH = {{ usdAmount }} USD</b>
+        <b>{{ donation }} {{ selectedToken.symbol }} = {{ usdAmount }} USD</b>
       </div>
       <div v-if="insufficientFunds" class="alert-danger insuffucientFunds">
         Insufficient funds
@@ -63,6 +61,7 @@ import EventBus from '@/utils/event-bus';
 import axios from "axios";
 import {getIERC20Contract, getKyberConverterContract} from "../utils/getContract";
 import State from "@/mixins/State";
+import KyberAPI from "@/services/KyberApi";
 
 export default {
   name: 'DonateModal',
@@ -149,17 +148,9 @@ export default {
     },
     fetchFxUSD() {
       const self = this;
-      axios.get(this.$store.state.kyberAPI + "/change24h")
-        .then((response) => {
-          Object.keys(response.data).forEach(function (pair) {
-            let searchingFor = self.isETHSelected() ?
-              'ETH_WETH' :
-              ('ETH_' + self.selectedToken.symbol);
-            if (pair === searchingFor) {
-              self.usdAmount = (response.data[pair].rate_usd_now * self.donation).toFixed(2);
-            }
-
-          });
+      KyberAPI.fetchFxUSD(this.$store.state.kyberAPI + "/change24h", this.isETHSelected() ? 'ETH' : this.selectedToken.symbol)
+        .then((rate) => {
+          self.usdAmount = (rate * self.donation).toFixed(2);
         });
     },
     donate() {

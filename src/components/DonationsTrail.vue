@@ -1,8 +1,12 @@
 <template>
   <div>
-    <h3>
-      Last donations
-    </h3>
+    <span class="bigText">
+      Donation trail
+    </span>
+    <br>
+    <span class="biggerText">
+      Total ${{ this.totalDonationsRaised }}
+    </span>
     <div class="row header">
       <div class="col-4">
         From
@@ -14,8 +18,11 @@
         When
       </div>
     </div>
-    <div class="row" v-for="item in items"
-         v-bind:class="{ highlighted: item.fullAddress == $store.state.web3.coinbase}">
+    <div
+      class="row"
+      v-for="item in items"
+      v-bind:class="{ highlighted: item.fullAddress == $store.state.web3.coinbase}"
+      v-bind:key="item.link">
       <div class="col-4">
         {{ item.from }}
       </div>
@@ -34,6 +41,7 @@
 <script>
 
 import State from "@/mixins/State";
+import KyberAPI from "@/services/KyberApi";
 
 export default {
   name: "DonationsTrail",
@@ -43,6 +51,7 @@ export default {
   },
   data() {
     return {
+      totalDonationsRaised: 0,
       items: [],
     };
   },
@@ -62,12 +71,25 @@ export default {
           //live listening
           mutation.payload.contract().events.LogDonationReceived({fromBlock: self.$store.state.registryCreationBlock}, (e, event) => {
             self.onDonationReceived(event, eventTxs, self);
+            self.loadCharitySummary();
           });
         }
       }
     });
+    this.loadCharitySummary();
   },
   methods: {
+    loadCharitySummary() {
+      let self = this;
+      let charityVaultContract = this.community(this.name).vaultContract();
+      charityVaultContract.methods.sumStats().call().then((sumRaised) => {
+        let balanceETH = window.web3.utils.fromWei(sumRaised.toString(), 'ether');
+        KyberAPI.fetchFxUSD(this.$store.state.kyberAPI + "/change24h", 'ETH')
+          .then((rate) => {
+            self.totalDonationsRaised = (rate * balanceETH).toFixed(2);
+          });
+      });
+    },
     onDonationReceived(event, eventTxs, self) {
       //dodgy duplicates
       if (eventTxs.has(event.transactionHash)) return;
@@ -92,9 +114,9 @@ export default {
 </script>
 
 <style scoped>
-  .header {
-    font-weight: bold;
-    background-color: rgb(235, 235, 235);
-  }
+.header {
+  font-weight: bold;
+  background-color: rgb(235, 235, 235);
+}
 
 </style>

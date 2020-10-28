@@ -18,17 +18,13 @@
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import Loading from 'vue-loading-overlay';
-import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 import CustomFooter from '@/components/CustomFooter'
-import Modal from '@/components/Modal';
 import EventBus from '@/utils/event-bus';
 
 export default {
   components: {
     Loading,
-    FontAwesomeIcon,
     CustomFooter,
-    Modal,
   },
   data() {
     return {

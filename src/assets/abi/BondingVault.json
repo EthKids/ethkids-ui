@@ -319,7 +319,7 @@
         "type": "address"
       }
     ],
-    "name": "fundWithAward",
+    "name": "fundWithReward",
     "outputs": [],
     "payable": true,
     "stateMutability": "payable",
