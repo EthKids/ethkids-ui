@@ -14,7 +14,7 @@
           id="pass-input"
           class="form-control"
           v-model="passFunds"
-          currency="DAI"
+          currency="ETH"
           currency-symbol-position="suffix"
           v-bind:min="0"
           v-bind:max="Number(vaultBalance)"
@@ -98,7 +98,11 @@ export default {
       self.passModal = false;
       EventBus.publish('SHOW_CONFIRMATION_WAITING', {msg: 'Passing ' + self.passFunds.toString() + ' DAI'});
       self.community(self.name).contract().methods
-        .passToCharity(window.web3.utils.toWei(self.passFunds.toString(), 'ether'), self.intermediary, self.ipfsHash)
+        .passToCharityWithInterest(window.web3.utils.toWei(self.passFunds.toString(), 'ether'),
+          self.intermediary,
+          self.ipfsHash,
+          self.$store.state.dai,
+          self.$store.state.adai)
         .send({from: self.$store.state.web3.coinbase})
         .on('transactionHash', (transactionHash) => {
           EventBus.publish('SHOW_CONFIRMATION_DONE', {tx: transactionHash});

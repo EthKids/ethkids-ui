@@ -199,11 +199,9 @@ export default {
                 if (confirmationNumber == 1) {
                   EventBus.publish('SHOW_CONFIRMATION_WAITING', {msg: `(2/2) Transferring donation of ${this.ethAmount} ETH...`});
                   getKyberConverterContract(self.$store.state.kyberConverterAddress).then(kyberConverter => {
-                    let maxDestAmount = self.ethAmount * 1.03; //max 3% up
                     kyberConverter.methods
                       .executeSwapAndDonate(self.selectedToken.address,
                         window.web3.utils.toWei(self.donation.toString(), 'ether'),
-                        window.web3.utils.toWei(maxDestAmount.toString(), 'ether'),
                         self.community(self.name).address
                       )
                       .send({from: self.$store.state.web3.coinbase})

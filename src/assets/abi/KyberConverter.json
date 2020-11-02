@@ -178,9 +178,23 @@
       {
         "name": "srcQty",
         "type": "uint256"
+      }
+    ],
+    "name": "executeSwapMyERCToETH",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "srcToken",
+        "type": "address"
       },
       {
-        "name": "maxDestAmount",
+        "name": "srcQty",
         "type": "uint256"
       },
       {

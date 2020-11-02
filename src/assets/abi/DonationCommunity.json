@@ -373,6 +373,36 @@
     "type": "function"
   },
   {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_amount",
+        "type": "uint256"
+      },
+      {
+        "name": "_intermediary",
+        "type": "address"
+      },
+      {
+        "name": "_ipfsHash",
+        "type": "string"
+      },
+      {
+        "name": "_aaveToken",
+        "type": "address"
+      },
+      {
+        "name": "_aaveAToken",
+        "type": "address"
+      }
+    ],
+    "name": "passToCharityWithInterest",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "constant": true,
     "inputs": [],
     "name": "name",
