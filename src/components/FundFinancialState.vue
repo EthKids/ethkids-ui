@@ -1,7 +1,7 @@
 <template>
   <div class="container stateContainer">
     <h3>
-      <a target="_blank" v-bind:href="charityVaultLink">${{ parseFloat(this.cumulatedBalance.toString()).toFixed(2) }}</a>
+      <a target="_blank" v-bind:href="charityVaultLink">${{ parseFloat(this.totalDonationsRaised.toString()).toFixed(2) }}</a>
     </h3>
   </div>
 </template>
@@ -21,6 +21,7 @@ export default {
   data() {
     return {
       cumulatedBalance: 0,
+      totalDonationsRaised: 0,
       charityVaultLink: '',
     }
   },
@@ -79,21 +80,31 @@ export default {
         let self = this;
         let charityVaultContract = this.community(this.name).vaultContract();
 
-        // sum up ETH raised + yield 'aDAI'
-        window.web3.eth.getBalance(charityVaultContract.options.address, (err, charityVaultBalance) => {
-          let balanceETH = window.web3.utils.fromWei(charityVaultBalance.toString(), 'ether');
-          this.$store.commit('registerCharityVaultBalance', {
-            name: this.name,
-            balance: balanceETH
-          });
-          KyberAPI.fetchFxUSD(this.$store.state.kyberAPI + "/change24h", 'ETH')
-            .then((rate) => {
-              const balanceUSD = (rate * balanceETH).toFixed(2);
-              this.$store.state.yieldVaultInstance().methods.communityVaultBalance(this.$store.state.aTokenInstance().options.address).call().then((aTokenBalance) => {
-                self.cumulatedBalance = Number(balanceUSD) + Number(window.web3.utils.fromWei(aTokenBalance.toString(), 'ether'));
+
+        KyberAPI.fetchFxUSD(this.$store.state.kyberAPI + "/change24h", 'ETH')
+          .then((rate) => {
+            this.$store.state.yieldVaultInstance().methods.communityVaultBalance(this.$store.state.aTokenInstance().options.address).call().then((aTokenBalance) => {
+              const yieldUSD = Number(window.web3.utils.fromWei(aTokenBalance.toString(), 'ether'));
+
+              window.web3.eth.getBalance(charityVaultContract.options.address, (err, charityVaultBalance) => {
+                let balanceETH = window.web3.utils.fromWei(charityVaultBalance.toString(), 'ether');
+                this.$store.commit('registerCharityVaultBalance', {
+                  name: this.name,
+                  balance: balanceETH
+                });
+
+                const balanceUSD = (rate * balanceETH).toFixed(2);
+                //current: balance + yield
+                self.cumulatedBalance = Number(balanceUSD) + yieldUSD;
+              });
+
+              charityVaultContract.methods.sumStats().call().then((sumRaised) => {
+                let balanceETH = window.web3.utils.fromWei(sumRaised.toString(), 'ether');
+                //historic: historic from vault + yield
+                self.totalDonationsRaised = (rate * balanceETH).toFixed(2) + yieldUSD;
               });
             });
-        });
+          });
       }
     },
   },
@@ -103,9 +114,9 @@ export default {
 
 <style scoped>
 
-  .stateContainer {
-    padding-top: 30px;
-    border-top: 1px dashed #b8b8b8;
-  }
+.stateContainer {
+  padding-top: 30px;
+  border-top: 1px dashed #b8b8b8;
+}
 
 </style>

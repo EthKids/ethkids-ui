@@ -144,7 +144,7 @@ export default {
     loadMyReturn() {
       if (this.myBalance > 0 && this.$store.state.bondingVaultInstance) {
         const amountWei = window.web3.utils.toWei(this.myBalance.toString(), 'ether');
-        this.$store.state.bondingVaultInstance().methods.calculateReturn(amountWei, this.$store.state.web3.coinbase)
+        this.$store.state.bondingVaultInstance().methods.calculateReturn(amountWei)
           .call({from: this.$store.state.web3.coinbase}).then((result) => {
           this.$store.commit('registerTokenMyETHReturn', window.web3.utils.fromWei(result.toString(), 'ether'));
         }).catch((e) => {

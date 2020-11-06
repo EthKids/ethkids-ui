@@ -359,10 +359,6 @@
       {
         "name": "_ethAmount",
         "type": "uint256"
-      },
-      {
-        "name": "_donor",
-        "type": "address"
       }
     ],
     "name": "calculateReward",
@@ -382,10 +378,6 @@
       {
         "name": "_tokenAmount",
         "type": "uint256"
-      },
-      {
-        "name": "_donor",
-        "type": "address"
       }
     ],
     "name": "calculateReturn",

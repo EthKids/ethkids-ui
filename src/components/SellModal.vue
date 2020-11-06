@@ -68,7 +68,7 @@ export default {
       if (this.amount > 0) {
         const amount = window.web3.utils.toWei(this.amount.toString(), 'ether');
         this.$store.state.bondingVaultInstance().methods
-          .calculateReturn(amount, this.$store.state.web3.coinbase)
+          .calculateReturn(amount)
           .call({from: this.$store.state.web3.coinbase}).then((result) => {
           this.myReturn = parseFloat(window.web3.utils.fromWei(result.toString(), 'ether')).toFixed(3)
         });

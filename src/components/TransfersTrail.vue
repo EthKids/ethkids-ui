@@ -14,9 +14,11 @@
         Notes
       </div>
     </div>
-    <div class="row" v-for="item in items">
+    <div class="row"
+         v-for="item in items"
+         v-bind:key="item.whenDate">
       <div class="col-4">
-        <a v-bind:href="item.link" target="_blank">{{ item.amount }} USD</a>
+        <a v-bind:href="item.link" target="_blank">{{ item.amount }} ETH</a>
       </div>
       <div class="col-4">
         <div v-b-tooltip.hover v-bind:title="item.whenDate">
@@ -79,7 +81,7 @@ export default {
           name: this.name,
           blockNo: block.number,
           link: `https://etherscan.io/tx/${event.transactionHash}`,
-          amount: parseFloat(window.web3.utils.fromWei(event.returnValues.amount.toString(), 'ether')).toFixed(0),
+          amount: parseFloat(window.web3.utils.fromWei(event.returnValues.amount.toString(), 'ether')).toFixed(2),
           when: self.moment(Number(block.timestamp), 'X').fromNow(),
           whenDate: self.moment(Number(block.timestamp), 'X').format('MMMM Do YYYY'),
           notes: event.returnValues.ipfsHash,

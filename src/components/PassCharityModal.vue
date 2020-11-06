@@ -96,7 +96,7 @@ export default {
         self.warning = '';
       }
       self.passModal = false;
-      EventBus.publish('SHOW_CONFIRMATION_WAITING', {msg: 'Passing ' + self.passFunds.toString() + ' DAI'});
+      EventBus.publish('SHOW_CONFIRMATION_WAITING', {msg: 'Passing ' + self.passFunds.toString() + ' ETH'});
       self.community(self.name).contract().methods
         .passToCharityWithInterest(window.web3.utils.toWei(self.passFunds.toString(), 'ether'),
           self.intermediary,

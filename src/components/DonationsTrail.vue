@@ -4,9 +4,6 @@
       Donation trail
     </span>
     <br>
-    <span class="biggerText">
-      Total ${{ this.totalDonationsRaised }}
-    </span>
     <div class="row header">
       <div class="col-4">
         From
@@ -51,7 +48,6 @@ export default {
   },
   data() {
     return {
-      totalDonationsRaised: 0,
       items: [],
     };
   },
@@ -71,25 +67,12 @@ export default {
           //live listening
           mutation.payload.contract().events.LogDonationReceived({fromBlock: self.$store.state.registryCreationBlock}, (e, event) => {
             self.onDonationReceived(event, eventTxs, self);
-            self.loadCharitySummary();
           });
         }
       }
     });
-    this.loadCharitySummary();
   },
   methods: {
-    loadCharitySummary() {
-      let self = this;
-      let charityVaultContract = this.community(this.name).vaultContract();
-      charityVaultContract.methods.sumStats().call().then((sumRaised) => {
-        let balanceETH = window.web3.utils.fromWei(sumRaised.toString(), 'ether');
-        KyberAPI.fetchFxUSD(this.$store.state.kyberAPI + "/change24h", 'ETH')
-          .then((rate) => {
-            self.totalDonationsRaised = (rate * balanceETH).toFixed(2);
-          });
-      });
-    },
     onDonationReceived(event, eventTxs, self) {
       //dodgy duplicates
       if (eventTxs.has(event.transactionHash)) return;

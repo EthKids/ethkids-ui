@@ -45,7 +45,7 @@ export default new Vuex.Store({
 
     //Ropsten
     netName: 'Ropsten',
-    registryAddress: '0x7bd072126F7a0b48B96c6346c5bC23b0E2520389',
+    registryAddress: '0xE8dcc388dB4196B338e198Ff84E77efD03E9F7C0',
     registryCreationBlock: 8959496,
     requiredNetwork: 3,
     kyberAPI: 'https://ropsten-api.kyber.network',
