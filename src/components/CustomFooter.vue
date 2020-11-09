@@ -37,9 +37,7 @@
           <br>
           Your help will enable us to keep running and maintaining this project
           <br>
-          Support us:
-          <br>
-          <b>0xDdC0E4931936d9F590Ccb29f7f4758751479d0A8</b>
+          Support us on <a href="https://gitcoin.co/grants/1408/ethkidsio-v2" target="_blank">GitCoin</a>
         </div>
       </div>
     </footer>
