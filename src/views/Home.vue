@@ -62,6 +62,22 @@
             </p>
           </div>
         </FundCard>
+        <FundCard
+          name="BySol"
+          title="BYSOL"
+          url="https://bysol.org/english"
+        >
+          <div slot="description">
+            <p>
+              <b>BYSOL</b> supports <b>families</b> who was repressed, prosecuted, or lost their jobs because of participating
+              in strikes or peaceful protests in Belarus
+            </p>
+            <p>
+              Thanks to the donations of ordinary citizens we already have more than <b>EUR 1.700.000</b> in our Fund. We offer the compensation of
+              1500 euro (500 euro x 3 months) to every repressed person.
+            </p>
+          </div>
+        </FundCard>
       </b-row>
     </div>
   </div>

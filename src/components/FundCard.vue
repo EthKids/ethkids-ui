@@ -214,6 +214,7 @@ export default {
 <style scoped>
   .fundContainer {
     padding: 10px;
+    margin-bottom: 20px;
     border: 1px dashed #b8b8b8;
     border-radius: 10px;
   }
