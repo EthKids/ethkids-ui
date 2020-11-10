@@ -89,7 +89,7 @@ export default {
   methods: {
     transfer() {
       const self = this;
-      if (!window.web3.utils.isAddress(self.intermediary)) {
+      if (!this.xWeb3().web3Instance.utils.isAddress(self.intermediary)) {
         self.warning = 'Wrong Ethereum address';
         return;
       } else {
@@ -98,7 +98,7 @@ export default {
       self.passModal = false;
       EventBus.publish('SHOW_CONFIRMATION_WAITING', {msg: 'Passing ' + self.passFunds.toString() + ' ETH'});
       self.community(self.name).contract().methods
-        .passToCharityWithInterest(window.web3.utils.toWei(self.passFunds.toString(), 'ether'),
+        .passToCharityWithInterest(self.toWei(self.passFunds.toString(), 'ether'),
           self.intermediary,
           self.ipfsHash,
           self.$store.state.dai,
@@ -109,7 +109,9 @@ export default {
           EventBus.publish('TX_CONFIRMING');
         })
         .on('confirmation', (confirmationNumber, receipt) => {
-          EventBus.publish('TX_CONFIRMED');
+          if (confirmationNumber == 0) {
+            EventBus.publish('TX_CONFIRMED');
+          }
         })
         .on('error', () => {
           EventBus.publish('CLOSE_CONFIRMATION_WAITING');

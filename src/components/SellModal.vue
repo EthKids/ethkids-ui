@@ -66,11 +66,11 @@ export default {
   methods: {
     estimateSell() {
       if (this.amount > 0) {
-        const amount = window.web3.utils.toWei(this.amount.toString(), 'ether');
+        const amount = this.toWei(this.amount.toString(), 'ether');
         this.$store.state.bondingVaultInstance().methods
           .calculateReturn(amount)
           .call({from: this.$store.state.web3.coinbase}).then((result) => {
-          this.myReturn = parseFloat(window.web3.utils.fromWei(result.toString(), 'ether')).toFixed(3)
+          this.myReturn = parseFloat(this.fromWei(result.toString(), 'ether')).toFixed(3)
         });
       } else {
         this.myReturn = 0;
@@ -81,7 +81,7 @@ export default {
       self.sellModal = false;
       EventBus.publish('SHOW_CONFIRMATION_WAITING', {msg: 'Selling ' + self.amount.toString() + ' ' + self.$store.state.tokenSym});
       self.$store.state.bondingVaultInstance().methods
-        .sell(window.web3.utils.toWei(self.amount.toString(), 'ether'))
+        .sell(this.toWei(self.amount.toString(), 'ether'))
         .send({from: self.$store.state.web3.coinbase})
         .on('transactionHash', (transactionHash) => {
           EventBus.publish('SHOW_CONFIRMATION_DONE', {tx: transactionHash});

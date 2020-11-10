@@ -35,8 +35,10 @@ export default {
   beforeCreate() {
     const self = this;
 
-    //dispatchers
-    this.$store.dispatch('registerWeb3').then(() => {
+
+    //start with 'read-only'
+    this.$store.dispatch('instantiateWeb3ReadOnly').then(() => {
+      //although the 'contracts' after this will be also 'read-only'
       this.$store.dispatch('registerContracts');
     });
 
@@ -48,6 +50,14 @@ export default {
       self.isLoading = false;
     });
 
+  },
+  mounted() {
+    //try
+    EventBus.publish('SHOW_WEB3_MODAL', {
+      callback: () => {
+        //do nothing
+      }
+    })
   }
 }
 </script>

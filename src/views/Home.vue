@@ -12,9 +12,8 @@
       Passive charity
     </b-button>
     <div class="p-4">
-      <metamask-warning v-if="!this.$store.state.web3.isInjected || !this.$store.state.web3.coinbase || this.$store.state.readOnly"/>
-      <network-warning v-if="!(!this.$store.state.web3.isInjected || !this.$store.state.web3.coinbase) &&
-                this.$store.state.web3.networkId != this.$store.state.requiredNetwork"/>
+      <network-warning v-if="this.$store.state.web3.networkId != this.$store.state.requiredNetwork"/>
+      <web-three-modal/>
       <b-row align-h="around" class="communities" v-show="this.$store.state.web3.networkId === this.$store.state.requiredNetwork">
         <FundCard
           name="ChanceBY"
@@ -85,19 +84,19 @@
 
 <script>
 // @ is an alias to /src
-import MetamaskWarning from '@/components/MetamaskWarning';
 import NetworkWarning from '@/components/NetworkWarning';
 import FundCard from '@/components/FundCard.vue'
 import HeaderPlate from '@/components/HeaderPlate'
 import PassiveCharityModal from "../components/PassiveCharityModal";
 import SellModal from "@/components/SellModal";
 import ConfirmationModal from "@/components/ConfirmationModal";
+import WebThreeModal from "@/components/WebThreeModal";
 
 export default {
   name: 'Home',
   components: {
+    WebThreeModal,
     PassiveCharityModal,
-    MetamaskWarning,
     NetworkWarning,
     FundCard,
     HeaderPlate,

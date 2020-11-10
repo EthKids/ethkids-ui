@@ -1,8 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import _ from 'lodash';
-import getWeb3 from './utils/getWeb3';
-import pollWeb3 from './utils/pollWeb3';
 import {
   getEthKidsRegistryContract,
   getDonationCommunityContract,
@@ -10,6 +8,7 @@ import {
   getCharityVaultContract,
   getBondingVaultContract, getKyberConverterContract, getYieldVaultContract, getIATokenContract,
 } from './utils/getContract';
+import Web3 from "web3";
 
 Vue.use(Vuex)
 
@@ -25,6 +24,7 @@ export default new Vuex.Store({
     requiredNetwork: 1,
     kyberAPI: 'https://api.kyber.network',
     httpProvider: 'https://mainnet.infura.io/v3/98d7e501879243c5877bac07a57cde7e',
+    infuraId: '98d7e501879243c5877bac07a57cde7e',
     etherscan: 'https://etherscan.io',
     aaveGraphQL: 'https://api.thegraph.com/subgraphs/name/aave/protocol-raw',
     dai: '0x6b175474e89094c44da98b954eedeac495271d0f',
@@ -38,6 +38,7 @@ export default new Vuex.Store({
     requiredNetwork: 4,
     kyberAPI: 'https://rinkeby-api.kyber.network',
     httpProvider: 'https://rinkeby.infura.io/v3/98d7e501879243c5877bac07a57cde7e',
+    infuraId: '98d7e501879243c5877bac07a57cde7e',
     etherscan: 'https://rinkeby.etherscan.io',
     aaveGraphQL: '',
     dai: '0x6FA355a7b6bD2D6bD8b927C489221BFBb6f1D7B2', //KNC
@@ -50,19 +51,17 @@ export default new Vuex.Store({
     requiredNetwork: 3,
     kyberAPI: 'https://ropsten-api.kyber.network',
     httpProvider: 'https://ropsten.infura.io/v3/98d7e501879243c5877bac07a57cde7e',
+    infuraId: '98d7e501879243c5877bac07a57cde7e',
     etherscan: 'https://ropsten.etherscan.io',
     aaveGraphQL: 'https://api.thegraph.com/subgraphs/name/aave/protocol-ropsten-raw',
     dai: '0xf80A32A835F79D7787E8a8ee5721D0fEaFd78108', //DAI, compatible with KyberSwap and Aave
     adai: '0xcB1Fe6F440c49E9290c3eb7f158534c2dC374201',
 
-    readOnly: false,
+    readOnly: true,
     web3: {
-      isInjected: false,
       web3Instance: null,
       networkId: null,
       coinbase: null,
-      balance: null,
-      error: null,
     },
     ethBalance: 0,
     ethKidsRegistryInstance: null,
@@ -87,41 +86,26 @@ export default new Vuex.Store({
 
   },
   mutations: {
+    disableReadOnlyMode(state) {
+      state.readOnly = false;
+    },
     registerWeb3Instance(state, payload) {
-      const result = payload;
-      const web3Copy = state.web3;
-      web3Copy.isInjected = result.injectedWeb3;
-      web3Copy.web3Instance = result.web3;
-      if (result.readOnly) {
-        state.readOnly = true;
-        web3Copy.coinbase = '0x0000000000000000000000000000000000000000';
-        web3Copy.networkId = result.networkId;
-        web3Copy.balance = '0';
-      } else {
-        web3Copy.coinbase = result.coinbase;
-        web3Copy.networkId = result.networkId;
-        web3Copy.balance = Number(result.balance);
-      }
-      state.web3 = web3Copy;
-      if (!result.readOnly) {
-        pollWeb3();
-      }
+      state.web3 = payload;
     },
-    registerNetworkId(state, payload) {
-      state.web3.networkId = payload;
-    },
-    pollWeb3Instance(state, payload) {
-      state.web3.coinbase = payload.coinbase;
-      state.web3.balance = parseInt(payload.balance, 10);
-    },
-    registerEthBalance(state, payload) {
-      state.ethBalance = payload;
+    registerCoinbase(state, payload) {
+      state.web3 = {
+        ...state.web3,
+        coinbase: payload
+      };
     },
     registerEthKidsRegistry(state, payload) {
       state.ethKidsRegistryInstance = () => payload;
     },
     registerConverterAddress(state, payload) {
       state.kyberConverterAddress = payload;
+    },
+    cleanCommunities(state, payload) {
+      state.communities = [];
     },
     registerCommunity(state, payload) {
       state.communities.push(payload)
@@ -190,23 +174,19 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    registerWeb3({commit}) {
-      return new Promise((resolve, reject) => {
-        getWeb3(this.state.httpProvider).then((result) => {
-          commit('registerWeb3Instance', result);
-          resolve(result);
-        }).catch((e) => {
-          console.log('error in action registerWeb3', e);
-          reject(e);
-        });
-      });
+    instantiateWeb3ReadOnly({commit, state}) {
+      state.readOnly = true;
+      const web3 = new Web3(new Web3.providers.HttpProvider(state.httpProvider));
+      const web3Obj = {
+        coinbase: '0x0000000000000000000000000000000000000001',
+        networkId: state.requiredNetwork,
+        web3Instance: web3
+      };
+      commit('registerWeb3Instance', web3Obj);
     },
-    pollWeb3({commit}, payload) {
-      commit('pollWeb3Instance', payload);
-    },
-    initBondingVaultContract({commit, dispatch}, bondingVaultAddress) {
+    initBondingVaultContract({commit, state, dispatch}, bondingVaultAddress) {
       commit('registerBondingVaultAddress', bondingVaultAddress);
-      getBondingVaultContract(bondingVaultAddress).then((bondingVaultContract) => {
+      getBondingVaultContract(bondingVaultAddress, state.web3.web3Instance).then((bondingVaultContract) => {
         //community token
         bondingVaultContract.methods.getEthKidsToken().call().then((tokenAddress) => {
           dispatch('initEthKidsTokenContract', tokenAddress);
@@ -217,18 +197,18 @@ export default new Vuex.Store({
       });
     },
 
-    initYieldVaultContract({commit, dispatch}, yieldVaultAddress) {
+    initYieldVaultContract({commit, state, dispatch}, yieldVaultAddress) {
       commit('registerYieldVaultAddress', yieldVaultAddress);
-      getYieldVaultContract(yieldVaultAddress).then((yieldVaultContract) => {
+      getYieldVaultContract(yieldVaultAddress, state.web3.web3Instance).then((yieldVaultContract) => {
         commit('registerYieldVault', yieldVaultContract);
       }).catch((err) => {
         console.log(err);
       });
     },
 
-    initEthKidsTokenContract({commit}, tokenAddress) {
+    initEthKidsTokenContract({commit, state}, tokenAddress) {
       commit('registerTokenAddress', tokenAddress);
-      getEthKidsTokenContract(tokenAddress).then((tokenContract) => {
+      getEthKidsTokenContract(tokenAddress, state.web3.web3Instance).then((tokenContract) => {
         commit('registerToken', tokenContract);
         tokenContract.methods.symbol().call().then((sym) => {
           commit('registerTokenSym', sym);
@@ -237,12 +217,12 @@ export default new Vuex.Store({
         console.log(err);
       });
     },
-    initEthKidsCommunityContract({commit, dispatch}, communityAddress) {
-      getDonationCommunityContract(communityAddress).then((communityContract) => {
+    initEthKidsCommunityContract({commit, state, dispatch}, communityAddress) {
+      getDonationCommunityContract(communityAddress, state.web3.web3Instance).then((communityContract) => {
         communityContract.methods.name().call().then((communityName) => {
           //charity vault
           communityContract.methods.charityVault().call().then((charityVaultAddress) => {
-            getCharityVaultContract(charityVaultAddress).then((charityVaultContract) => {
+            getCharityVaultContract(charityVaultAddress, state.web3.web3Instance).then((charityVaultContract) => {
               commit('registerCommunity', {
                 name: communityName,
                 address: communityAddress,
@@ -262,7 +242,8 @@ export default new Vuex.Store({
 
     registerContracts({commit, state, dispatch}) {
       return new Promise((resolve, reject) => {
-        getEthKidsRegistryContract(state.registryAddress).then((registryContract) => {
+        commit('cleanCommunities');
+        getEthKidsRegistryContract(state.registryAddress, state.web3.web3Instance).then((registryContract) => {
           registryContract.methods.communityCount().call().then((index) => {
             console.log("Total communities: " + index);
           }).catch((e) => {
@@ -280,7 +261,7 @@ export default new Vuex.Store({
           });
 
           //aToken
-          getIATokenContract(state.adai).then((aDAIContract) => {
+          getIATokenContract(state.adai, state.web3.web3Instance).then((aDAIContract) => {
             commit('registerAToken', aDAIContract);
           }).catch((err) => {
             console.log(err);

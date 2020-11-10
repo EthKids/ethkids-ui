@@ -76,12 +76,12 @@ export default {
       if (transfersTxs.has(event.transactionHash)) return;
       transfersTxs.add(event.transactionHash);
 
-      window.web3.eth.getBlock(event.blockNumber).then((block) => {
+      this.xWeb3().web3Instance.eth.getBlock(event.blockNumber).then((block) => {
         self.$store.commit('registerCommunityTransfer', {
           name: this.name,
           blockNo: block.number,
           link: `https://etherscan.io/tx/${event.transactionHash}`,
-          amount: parseFloat(window.web3.utils.fromWei(event.returnValues.amount.toString(), 'ether')).toFixed(2),
+          amount: parseFloat(this.fromWei(event.returnValues.amount.toString(), 'ether')).toFixed(2),
           when: self.moment(Number(block.timestamp), 'X').fromNow(),
           whenDate: self.moment(Number(block.timestamp), 'X').format('MMMM Do YYYY'),
           notes: event.returnValues.ipfsHash,

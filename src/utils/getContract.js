@@ -9,9 +9,8 @@ import IERC20ABI from '../assets/abi/IERC20';
 import IAToken from '../assets/abi/IAToken';
 import KybrConverterABI from '../assets/abi/KyberConverter'
 
-const getContract = (abi, address) =>
+const getContract = (abi, address, web3) =>
   new Promise((resolve, reject) => {
-    const web3 = new Web3(window.web3.currentProvider);
     const contractInstance = new web3.eth.Contract(abi, address);
     if (contractInstance) {
       resolve(contractInstance);
@@ -20,12 +19,12 @@ const getContract = (abi, address) =>
     }
   });
 
-export const getEthKidsRegistryContract = address => getContract(EthKidsRegistryABI, address);
-export const getDonationCommunityContract = address => getContract(DonationCommunityABI, address);
-export const getEthKidsTokenContract = address => getContract(EthKidsTokenABI, address);
-export const getCharityVaultContract = address => getContract(CharityVaultABI, address);
-export const getBondingVaultContract = address => getContract(BondingVaultABI, address);
-export const getYieldVaultContract = address => getContract(YieldVaultABI, address);
-export const getIERC20Contract = address => getContract(IERC20ABI, address);
-export const getIATokenContract = address => getContract(IAToken, address);
-export const getKyberConverterContract = address => getContract(KybrConverterABI, address);
+export const getEthKidsRegistryContract = (address, web3) => getContract(EthKidsRegistryABI, address, web3);
+export const getDonationCommunityContract = (address, web3) => getContract(DonationCommunityABI, address, web3);
+export const getEthKidsTokenContract = (address, web3) => getContract(EthKidsTokenABI, address, web3);
+export const getCharityVaultContract = (address, web3) => getContract(CharityVaultABI, address, web3);
+export const getBondingVaultContract = (address, web3) => getContract(BondingVaultABI, address, web3);
+export const getYieldVaultContract = (address, web3) => getContract(YieldVaultABI, address, web3);
+export const getIERC20Contract = (address, web3) => getContract(IERC20ABI, address, web3);
+export const getIATokenContract = (address, web3) => getContract(IAToken, address, web3);
+export const getKyberConverterContract = (address, web3) => getContract(KybrConverterABI, address, web3);

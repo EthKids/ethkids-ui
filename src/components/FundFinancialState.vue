@@ -7,7 +7,6 @@
 </template>
 
 <script>
-import {getIERC20Contract} from "../utils/getContract";
 import State from "@/mixins/State";
 import KyberAPI from "@/services/KyberApi";
 
@@ -28,11 +27,14 @@ export default {
   mounted() {
     const self = this;
     this.$store.subscribe((mutation) => {
+      if (mutation.type === 'financialChange') {
+        self.reloadFinancialState();
+      }
       if (mutation.type == 'registerCommunity' && mutation.payload.name === this.name) {
         self.loadCharityVault();
         this.charityVaultLink = `${this.$store.state.etherscan}/address/${mutation.payload.vaultAddress}`;
 
-        window.web3.eth.getBlockNumber().then((currentBlock) => {
+        this.xWeb3().web3Instance.eth.getBlockNumber().then((currentBlock) => {
 
           let latestDonationBlock = 0;
           mutation.payload.contract().events.LogDonationReceived({
@@ -40,7 +42,6 @@ export default {
           }, (e, res) => {
             if (!e && latestDonationBlock < res.blockNumber) {
               this.$store.commit('financialChange');
-              this.reloadFinancialState();
               latestDonationBlock = res.blockNumber;
             }
           });
@@ -51,7 +52,6 @@ export default {
           }, (e, res) => {
             if (!e && latestSoldBlock < res.blockNumber) {
               this.$store.commit('financialChange');
-              this.reloadFinancialState();
               latestSoldBlock = res.blockNumber;
             }
           });
@@ -62,7 +62,6 @@ export default {
           }, (e, res) => {
             if (!e && latestPassToCharityBlock < res.blockNumber) {
               this.$store.commit('financialChange');
-              this.reloadFinancialState();
               latestPassToCharityBlock = res.blockNumber;
             }
           });
@@ -84,10 +83,10 @@ export default {
         KyberAPI.fetchFxUSD(this.$store.state.kyberAPI + "/change24h", 'ETH')
           .then((rate) => {
             this.$store.state.yieldVaultInstance().methods.communityVaultBalance(this.$store.state.aTokenInstance().options.address).call().then((aTokenBalance) => {
-              const yieldUSD = Number(window.web3.utils.fromWei(aTokenBalance.toString(), 'ether'));
+              const yieldUSD = Number(this.fromWei(aTokenBalance.toString(), 'ether'));
 
-              window.web3.eth.getBalance(charityVaultContract.options.address, (err, charityVaultBalance) => {
-                let balanceETH = window.web3.utils.fromWei(charityVaultBalance.toString(), 'ether');
+              this.xWeb3().web3Instance.eth.getBalance(charityVaultContract.options.address, (err, charityVaultBalance) => {
+                let balanceETH = this.fromWei(charityVaultBalance.toString(), 'ether');
                 this.$store.commit('registerCharityVaultBalance', {
                   name: this.name,
                   balance: balanceETH
@@ -99,7 +98,7 @@ export default {
               });
 
               charityVaultContract.methods.sumStats().call().then((sumRaised) => {
-                let balanceETH = window.web3.utils.fromWei(sumRaised.toString(), 'ether');
+                let balanceETH = self.fromWei(sumRaised.toString(), 'ether');
                 //historic: historic from vault + yield
                 self.totalDonationsRaised = (rate * balanceETH).toFixed(2) + yieldUSD;
               });

@@ -60,9 +60,12 @@
 <script>
 
 import AAVE_RESERVES from '../graphql/AaveReserves.gql'
+import State from "@/mixins/State";
+import EventBus from "@/utils/event-bus";
 
 export default {
   name: 'PassiveCharity',
+  mixins: [State],
   data() {
     return {
       aboutPassiveCharity: false,
@@ -79,6 +82,11 @@ export default {
 
   mounted() {
     this.loadFinancials();
+    //reload on re-opening
+    let self = this;
+    EventBus.subscribe('SHOW_PASSIVE_CHARITY', (data) => {
+      self.loadFinancials();
+    });
   },
 
   computed: {},
@@ -99,12 +107,12 @@ export default {
       const daiReservesCollection = reserves.data.userReserves.filter(res => res.reserve.symbol == 'DAI');
       this.forwardingAccounts = daiReservesCollection.length;
       daiReservesCollection
-        .forEach(reserve => this.cumulatedDeposit += Number(window.web3.utils.fromWei(reserve.principalATokenBalance.toString(), 'ether')));
+        .forEach(reserve => this.cumulatedDeposit += Number(this.fromWei(reserve.principalATokenBalance.toString(), 'ether')));
     },
     loadMyATokenBalance() {
       let self = this;
       this.$store.state.aTokenInstance().methods.balanceOf(this.$store.state.web3.coinbase).call().then((aTokenBalance) => {
-        self.myATokenBalance = window.web3.utils.fromWei(aTokenBalance.toString(), 'ether');
+        self.myATokenBalance = this.fromWei(aTokenBalance.toString(), 'ether');
       });
 
       this.$store.state.aTokenInstance().methods.getInterestRedirectionAddress(this.$store.state.web3.coinbase).call().then((destination) => {
@@ -116,10 +124,10 @@ export default {
     loadYieldVault() {
       let self = this;
       this.$store.state.yieldVaultInstance().methods.balance(this.$store.state.aTokenInstance().options.address).call().then((aTokenBalance) => {
-        self.yieldVaultBalance = window.web3.utils.fromWei(aTokenBalance.toString(), 'ether');
+        self.yieldVaultBalance = this.fromWei(aTokenBalance.toString(), 'ether');
       });
       this.$store.state.yieldVaultInstance().methods.historicBalance(this.$store.state.aTokenInstance().options.address).call().then((aTokenBalance) => {
-        self.historicYieldVaultBalance = window.web3.utils.fromWei(aTokenBalance.toString(), 'ether');
+        self.historicYieldVaultBalance = this.fromWei(aTokenBalance.toString(), 'ether');
       });
     },
     switchAaveInterestForwarding() {
@@ -133,12 +141,18 @@ export default {
       const self = this;
       this.$store.state.aTokenInstance().methods.redirectInterestStream(this.$store.state.yieldVaultAddress)
         .send({from: this.$store.state.web3.coinbase})
+        .on('transactionHash', (transactionHash) => {
+          EventBus.publish('TX_CONFIRMING');
+        })
         .on('confirmation', (confirmationNumber, receipt) => {
+          if (confirmationNumber == 0) {
+            EventBus.publish('TX_CONFIRMED');
+          }
           if (confirmationNumber == 1) {
             self.loadFinancials();
           }
         })
-        .on('error', () => {
+        .on('error', (msg) => {
           self.redirectionEnabled = !self.redirectionEnabled;
         });
     },
@@ -146,12 +160,19 @@ export default {
       const self = this;
       this.$store.state.aTokenInstance().methods.redirectInterestStream('0x0000000000000000000000000000000000000000')
         .send({from: this.$store.state.web3.coinbase})
+        .on('transactionHash', (transactionHash) => {
+          EventBus.publish('TX_CONFIRMING');
+        })
         .on('confirmation', (confirmationNumber, receipt) => {
+          if (confirmationNumber == 0) {
+            EventBus.publish('TX_CONFIRMED');
+          }
           if (confirmationNumber == 1) {
             self.loadFinancials();
           }
         })
-        .on('error', () => {
+        .on('error', (msg) => {
+          console.error(msg);
           self.redirectionEnabled = !self.redirectionEnabled;
         });
     },

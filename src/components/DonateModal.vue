@@ -124,9 +124,9 @@ export default {
       const self = this;
       this.insufficientFunds = false;
       if (!this.isETHSelected()) {
-        getIERC20Contract(this.selectedToken.address).then((erc20Instance) => {
+        getIERC20Contract(this.selectedToken.address, this.xWeb3().web3Instance).then((erc20Instance) => {
           self.ercBalance(erc20Instance).then(balance => {
-            self.myBalance = parseFloat(window.web3.utils.fromWei(balance.toString(), 'ether')).toFixed(2);
+            self.myBalance = parseFloat(self.fromWei(balance.toString(), 'ether')).toFixed(2);
           });
         });
         axios.get(this.$store.state.kyberAPI + "/sell_rate", {
@@ -140,8 +140,8 @@ export default {
             this.fetchFxUSD();
           })
       } else {
-        window.web3.eth.getBalance(this.$store.state.web3.coinbase).then(eth =>
-          this.myBalance = parseFloat(window.web3.utils.fromWei(eth, 'ether')).toFixed(2));
+        this.xWeb3().web3Instance.eth.getBalance(this.$store.state.web3.coinbase).then(eth =>
+          this.myBalance = parseFloat(this.fromWei(eth, 'ether')).toFixed(2));
         this.ethAmount = this.donation;
         this.fetchFxUSD();
       }
@@ -166,15 +166,18 @@ export default {
       EventBus.publish('SHOW_CONFIRMATION_WAITING', {msg: 'Donating ' + self.donation.toString() + ' ETH'});
       self.community(self.name).contract().methods
         .donate()
-        .send({from: self.$store.state.web3.coinbase, value: window.web3.utils.toWei(self.donation.toString(), 'ether')})
+        .send({from: self.$store.state.web3.coinbase, value: self.toWei(self.donation.toString(), 'ether')})
         .on('transactionHash', (transactionHash) => {
           EventBus.publish('SHOW_CONFIRMATION_DONE', {msg: 'Thank you for your donation!', tx: transactionHash});
           EventBus.publish('TX_CONFIRMING');
         })
         .on('confirmation', (confirmationNumber, receipt) => {
-          EventBus.publish('TX_CONFIRMED');
+          if (confirmationNumber == 0) {
+            EventBus.publish('TX_CONFIRMED');
+          }
         })
-        .on('error', () => {
+        .on('error', (msg) => {
+          console.error(msg);
           EventBus.publish('CLOSE_CONFIRMATION_WAITING');
           self.donateModal = true;
         });
@@ -184,13 +187,13 @@ export default {
       const self = this;
       self.donateModal = false;
       EventBus.publish('SHOW_CONFIRMATION_WAITING', {msg: `(1/2) Approving swap of ${this.donation} ${this.selectedToken.symbol}...`});
-      getIERC20Contract(this.selectedToken.address).then((erc20Instance) => {
+      getIERC20Contract(this.selectedToken.address, this.xWeb3().web3Instance).then((erc20Instance) => {
         self.ercBalance(erc20Instance).then(balance => {
           //balance is enough?
-          if (Number(balance) >= (Number)(window.web3.utils.toWei(self.donation.toString(), 'ether'))) {
+          if (Number(balance) >= (Number)(self.toWei(self.donation.toString(), 'ether'))) {
             self.donateModal = false;
             erc20Instance.methods
-              .approve(self.$store.state.kyberConverterAddress, window.web3.utils.toWei(self.donation.toString(), 'ether'))
+              .approve(self.$store.state.kyberConverterAddress, self.toWei(self.donation.toString(), 'ether'))
               .send({from: self.$store.state.web3.coinbase})
               .on('transactionHash', (hash) => {
 
@@ -198,10 +201,10 @@ export default {
               .on('confirmation', (confirmationNumber, receipt) => {
                 if (confirmationNumber == 1) {
                   EventBus.publish('SHOW_CONFIRMATION_WAITING', {msg: `(2/2) Transferring donation of ${this.ethAmount} ETH...`});
-                  getKyberConverterContract(self.$store.state.kyberConverterAddress).then(kyberConverter => {
+                  getKyberConverterContract(self.$store.state.kyberConverterAddress, this.xWeb3().web3Instance).then(kyberConverter => {
                     kyberConverter.methods
                       .executeSwapAndDonate(self.selectedToken.address,
-                        window.web3.utils.toWei(self.donation.toString(), 'ether'),
+                        self.toWei(self.donation.toString(), 'ether'),
                         self.community(self.name).address
                       )
                       .send({from: self.$store.state.web3.coinbase})
@@ -219,7 +222,8 @@ export default {
                   });
                 }
               })
-              .on('error', () => {
+              .on('error', (msg) => {
+                console.error(msg);
                 EventBus.publish('CLOSE_CONFIRMATION_WAITING');
                 self.donateModal = true;
               });

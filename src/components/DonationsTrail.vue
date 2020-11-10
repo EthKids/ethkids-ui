@@ -78,14 +78,14 @@ export default {
       if (eventTxs.has(event.transactionHash)) return;
       eventTxs.add(event.transactionHash);
 
-      window.web3.eth.getBlock(event.blockNumber).then((block) => {
+      this.xWeb3().web3Instance.eth.getBlock(event.blockNumber).then((block) => {
         self.$store.commit('registerCommunityDonation', {
           name: this.name,
           blockNo: block.number,
           from: event.returnValues.from.toString().substr(0, 12) + '...',
           fullAddress: event.returnValues.from.toString(),
           link: `${this.$store.state.etherscan}/tx/${event.transactionHash}`,
-          amount: parseFloat(window.web3.utils.fromWei(event.returnValues.amount.toString(), 'ether')).toFixed(3),
+          amount: parseFloat(this.fromWei(event.returnValues.amount.toString(), 'ether')).toFixed(3),
           when: self.moment(Number(block.timestamp), 'X').fromNow(),
           whenDate: self.moment(Number(block.timestamp), 'X').format('MMMM Do YYYY'),
         });

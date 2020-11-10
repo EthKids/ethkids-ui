@@ -75,8 +75,11 @@
 </template>
 
 <script>
+import State from "@/mixins/State";
+
 export default {
   name: "HeaderPlate",
+  mixins: [State],
   components: {},
   data() {
     return {
@@ -108,7 +111,7 @@ export default {
       if (mutation.type === 'registerToken') {
         self.loadMyTokenBalance();
       }
-      if (mutation.type === 'pollWeb3Instance') {
+      if (mutation.type === 'registerWeb3Instance') {
         //happens initially or upon changing account
         if (self.$store.state.tokenInstance) {
           self.loadMyTokenBalance();
@@ -134,7 +137,7 @@ export default {
       let tokenInstance = this.$store.state.tokenInstance();
       let self = this;
       tokenInstance.methods.balanceOf(this.$store.state.web3.coinbase).call().then((tokenBalance) => {
-        const balanceInETH = window.web3.utils.fromWei(tokenBalance.toString(), 'ether');
+        const balanceInETH = self.fromWei(tokenBalance.toString(), 'ether');
         self.$store.commit('registerTokenMyBalance', balanceInETH);
         self.myBalance = Math.floor(Number(balanceInETH) * 100) / 100;
         self.loadMyReturn();
@@ -143,10 +146,10 @@ export default {
     },
     loadMyReturn() {
       if (this.myBalance > 0 && this.$store.state.bondingVaultInstance) {
-        const amountWei = window.web3.utils.toWei(this.myBalance.toString(), 'ether');
+        const amountWei = this.toWei(this.myBalance.toString(), 'ether');
         this.$store.state.bondingVaultInstance().methods.calculateReturn(amountWei)
           .call({from: this.$store.state.web3.coinbase}).then((result) => {
-          this.$store.commit('registerTokenMyETHReturn', window.web3.utils.fromWei(result.toString(), 'ether'));
+          this.$store.commit('registerTokenMyETHReturn', this.fromWei(result.toString(), 'ether'));
         }).catch((e) => {
           throw e;
         });
@@ -156,8 +159,8 @@ export default {
     },
     loadBondingVault() {
       let bondingVaultContract = this.$store.state.bondingVaultInstance();
-      window.web3.eth.getBalance(bondingVaultContract.options.address, (err, bondingVaultBalance) => {
-        let balanceEth = window.web3.utils.fromWei(bondingVaultBalance.toString(), 'ether');
+      this.xWeb3().web3Instance.eth.getBalance(bondingVaultContract.options.address, (err, bondingVaultBalance) => {
+        let balanceEth = this.fromWei(bondingVaultBalance.toString(), 'ether');
         this.$store.commit('registerBondingVaultBalance', parseFloat(balanceEth).toFixed(2));
       });
     },

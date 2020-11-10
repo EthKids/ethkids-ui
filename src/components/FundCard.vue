@@ -78,7 +78,6 @@
         <div class="actions">
           <b-button
             size="lg"
-            v-bind:disabled="this.$store.state.readOnly"
             class="confirmBtn shadow-lg"
             v-on:click="donate()">
             Donate
@@ -156,7 +155,7 @@ export default {
     const self = this;
     this.$store.subscribe((mutation) => {
       if (mutation.type == 'registerCommunity' && mutation.payload.name === this.name) {
-        mutation.payload.contract().methods.isWhitelistAdmin(this.$store.state.web3.coinbase).call().then((isSigner) => {
+        mutation.payload.contract().methods.isWhitelistAdmin(self.$store.state.web3.coinbase).call().then((isSigner) => {
           self.isAdmin = isSigner;
         });
       }
@@ -194,10 +193,26 @@ export default {
       }
     },
     donate() {
-      EventBus.publish('OPEN_DONATE', {community: this.name});
+      if (this.$store.state.readOnly) {
+        EventBus.publish('SHOW_WEB3_MODAL', {
+          callback: () => {
+            EventBus.publish('OPEN_DONATE', {community: this.name});
+          }
+        })
+      } else {
+        EventBus.publish('OPEN_DONATE', {community: this.name});
+      }
     },
     passCharity() {
-      EventBus.publish('PASS_CHARITY', {community: this.name});
+      if (this.$store.state.readOnly) {
+        EventBus.publish('SHOW_WEB3_MODAL', {
+          callback: () => {
+            EventBus.publish('PASS_CHARITY', {community: this.name});
+          }
+        })
+      } else {
+        EventBus.publish('PASS_CHARITY', {community: this.name});
+      }
     },
   },
   components: {
@@ -212,30 +227,30 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .fundContainer {
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px dashed #b8b8b8;
-    border-radius: 10px;
-  }
+.fundContainer {
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px dashed #b8b8b8;
+  border-radius: 10px;
+}
 
-  .social {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-  }
+.social {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
 
-  ul {
-    text-align: left;
-  }
+ul {
+  text-align: left;
+}
 
-  ul li {
-    display: inline-block;
-  }
+ul li {
+  display: inline-block;
+}
 
-  .fundDescription {
-    text-align: left;
-    text-justify: inter-word;
-  }
+.fundDescription {
+  text-align: left;
+  text-justify: inter-word;
+}
 
 </style>
