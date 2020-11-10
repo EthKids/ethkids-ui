@@ -85,7 +85,7 @@ export default {
           from: event.returnValues.from.toString().substr(0, 12) + '...',
           fullAddress: event.returnValues.from.toString(),
           link: `${this.$store.state.etherscan}/tx/${event.transactionHash}`,
-          amount: parseFloat(this.fromWei(event.returnValues.amount.toString(), 'ether')).toFixed(3),
+          amount: parseFloat(this.fromWei(event.returnValues.amount)).toFixed(3),
           when: self.moment(Number(block.timestamp), 'X').fromNow(),
           whenDate: self.moment(Number(block.timestamp), 'X').format('MMMM Do YYYY'),
         });

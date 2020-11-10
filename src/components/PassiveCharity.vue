@@ -107,12 +107,12 @@ export default {
       const daiReservesCollection = reserves.data.userReserves.filter(res => res.reserve.symbol == 'DAI');
       this.forwardingAccounts = daiReservesCollection.length;
       daiReservesCollection
-        .forEach(reserve => this.cumulatedDeposit += Number(this.fromWei(reserve.principalATokenBalance.toString(), 'ether')));
+        .forEach(reserve => this.cumulatedDeposit += Number(this.fromWei(reserve.principalATokenBalance)));
     },
     loadMyATokenBalance() {
       let self = this;
       this.$store.state.aTokenInstance().methods.balanceOf(this.$store.state.web3.coinbase).call().then((aTokenBalance) => {
-        self.myATokenBalance = this.fromWei(aTokenBalance.toString(), 'ether');
+        self.myATokenBalance = this.fromWei(aTokenBalance);
       });
 
       this.$store.state.aTokenInstance().methods.getInterestRedirectionAddress(this.$store.state.web3.coinbase).call().then((destination) => {
@@ -124,10 +124,10 @@ export default {
     loadYieldVault() {
       let self = this;
       this.$store.state.yieldVaultInstance().methods.balance(this.$store.state.aTokenInstance().options.address).call().then((aTokenBalance) => {
-        self.yieldVaultBalance = this.fromWei(aTokenBalance.toString(), 'ether');
+        self.yieldVaultBalance = this.fromWei(aTokenBalance);
       });
       this.$store.state.yieldVaultInstance().methods.historicBalance(this.$store.state.aTokenInstance().options.address).call().then((aTokenBalance) => {
-        self.historicYieldVaultBalance = this.fromWei(aTokenBalance.toString(), 'ether');
+        self.historicYieldVaultBalance = this.fromWei(aTokenBalance);
       });
     },
     switchAaveInterestForwarding() {

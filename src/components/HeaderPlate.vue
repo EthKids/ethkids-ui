@@ -137,7 +137,7 @@ export default {
       let tokenInstance = this.$store.state.tokenInstance();
       let self = this;
       tokenInstance.methods.balanceOf(this.$store.state.web3.coinbase).call().then((tokenBalance) => {
-        const balanceInETH = self.fromWei(tokenBalance.toString(), 'ether');
+        const balanceInETH = self.fromWei(tokenBalance);
         self.$store.commit('registerTokenMyBalance', balanceInETH);
         self.myBalance = Math.floor(Number(balanceInETH) * 100) / 100;
         self.loadMyReturn();
@@ -149,7 +149,7 @@ export default {
         const amountWei = this.toWei(this.myBalance.toString(), 'ether');
         this.$store.state.bondingVaultInstance().methods.calculateReturn(amountWei)
           .call({from: this.$store.state.web3.coinbase}).then((result) => {
-          this.$store.commit('registerTokenMyETHReturn', this.fromWei(result.toString(), 'ether'));
+          this.$store.commit('registerTokenMyETHReturn', this.fromWei(result));
         }).catch((e) => {
           throw e;
         });
@@ -160,7 +160,7 @@ export default {
     loadBondingVault() {
       let bondingVaultContract = this.$store.state.bondingVaultInstance();
       this.xWeb3().web3Instance.eth.getBalance(bondingVaultContract.options.address, (err, bondingVaultBalance) => {
-        let balanceEth = this.fromWei(bondingVaultBalance.toString(), 'ether');
+        let balanceEth = this.fromWei(bondingVaultBalance);
         this.$store.commit('registerBondingVaultBalance', parseFloat(balanceEth).toFixed(2));
       });
     },

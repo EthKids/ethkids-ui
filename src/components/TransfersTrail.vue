@@ -81,7 +81,7 @@ export default {
           name: this.name,
           blockNo: block.number,
           link: `https://etherscan.io/tx/${event.transactionHash}`,
-          amount: parseFloat(this.fromWei(event.returnValues.amount.toString(), 'ether')).toFixed(2),
+          amount: parseFloat(this.fromWei(event.returnValues.amount)).toFixed(2),
           when: self.moment(Number(block.timestamp), 'X').fromNow(),
           whenDate: self.moment(Number(block.timestamp), 'X').format('MMMM Do YYYY'),
           notes: event.returnValues.ipfsHash,

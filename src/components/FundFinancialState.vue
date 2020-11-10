@@ -83,10 +83,10 @@ export default {
         KyberAPI.fetchFxUSD(this.$store.state.kyberAPI + "/change24h", 'ETH')
           .then((rate) => {
             this.$store.state.yieldVaultInstance().methods.communityVaultBalance(this.$store.state.aTokenInstance().options.address).call().then((aTokenBalance) => {
-              const yieldUSD = Number(this.fromWei(aTokenBalance.toString(), 'ether'));
+              const yieldUSD = Number(this.fromWei(aTokenBalance));
 
               this.xWeb3().web3Instance.eth.getBalance(charityVaultContract.options.address, (err, charityVaultBalance) => {
-                let balanceETH = this.fromWei(charityVaultBalance.toString(), 'ether');
+                let balanceETH = this.fromWei(charityVaultBalance);
                 this.$store.commit('registerCharityVaultBalance', {
                   name: this.name,
                   balance: balanceETH
@@ -98,7 +98,7 @@ export default {
               });
 
               charityVaultContract.methods.sumStats().call().then((sumRaised) => {
-                let balanceETH = self.fromWei(sumRaised.toString(), 'ether');
+                let balanceETH = self.fromWei(sumRaised);
                 //historic: historic from vault + yield
                 self.totalDonationsRaised = (rate * balanceETH).toFixed(2) + yieldUSD;
               });

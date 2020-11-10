@@ -38,9 +38,11 @@
 import VueNumeric from 'vue-numeric';
 import Modal from '@/components/Modal';
 import EventBus from '@/utils/event-bus';
+import State from "@/mixins/State";
 
 export default {
   name: "SellModal",
+  mixins: [State],
   components: {
     Modal,
     VueNumeric,
@@ -66,11 +68,11 @@ export default {
   methods: {
     estimateSell() {
       if (this.amount > 0) {
-        const amount = this.toWei(this.amount.toString(), 'ether');
+        const amount = this.toWei(this.amount);
         this.$store.state.bondingVaultInstance().methods
           .calculateReturn(amount)
           .call({from: this.$store.state.web3.coinbase}).then((result) => {
-          this.myReturn = parseFloat(this.fromWei(result.toString(), 'ether')).toFixed(3)
+          this.myReturn = parseFloat(this.fromWei(result)).toFixed(3)
         });
       } else {
         this.myReturn = 0;

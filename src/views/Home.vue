@@ -4,6 +4,7 @@
     <passive-charity-modal/>
     <confirmation-modal/>
     <HeaderPlate/>
+    <web-three-modal/>
     <b-button
       size="lg"
       class="confirmBtn shadow-lg w-25"
@@ -13,7 +14,6 @@
     </b-button>
     <div class="p-4">
       <network-warning v-if="this.$store.state.web3.networkId != this.$store.state.requiredNetwork"/>
-      <web-three-modal/>
       <b-row align-h="around" class="communities" v-show="this.$store.state.web3.networkId === this.$store.state.requiredNetwork">
         <FundCard
           name="ChanceBY"
