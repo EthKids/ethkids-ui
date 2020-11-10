@@ -1,10 +1,8 @@
 <template>
   <modal v-if="showModal"
          @close="showModal = false">
-    <div slot="body">
-      <div slot="header" class="bolderText" v-if="showError">
-        You need an Ethereum wallet to contribute to the EthKids communities
-      </div>
+    <div slot="header" class="biggerText bolderText secondary" v-if="showError">
+      {{ errorMsg }}
     </div>
     <div slot="body">
       <div class="row mt-3">
@@ -54,6 +52,7 @@ export default {
     return {
       showModal: false,
       showError: false,
+      errorMsg: '',
       callback: () => {
       },
     }
@@ -68,13 +67,30 @@ export default {
   methods: {
     async connectMetamask() {
       const provider = await detectEthereumProvider();
-      if (provider) {
-        const web3 = new Web3(provider);
-        this.commitWeb3(web3, provider);
-      } else {
-        //neither Metamask nor anything else
+      if (provider !== window.ethereum) {
+        this.errorMsg = 'Do you have multiple wallets installed'
         this.showError = true;
       }
+
+      //test if Metamask is unlocked
+      provider
+        .request({method: 'eth_accounts'})
+        .then(accounts => {
+          if (accounts.length === 0) {
+            this.errorMsg = 'Please login to your Metamask first';
+            this.showError = true;
+          } else {
+            if (provider) {
+              this.showError = false;
+              const web3 = new Web3(provider);
+              this.commitWeb3(web3, provider);
+            } else {
+              //neither Metamask nor anything else
+              this.errorMsg = 'You need an Ethereum wallet to contribute to the EthKids communities'
+              this.showError = true;
+            }
+          }
+        });
     },
     async connectWalletConnect() {
       //  Create WalletConnect Provider
