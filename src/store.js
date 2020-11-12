@@ -17,10 +17,10 @@ const empty_address = '0x0000000000000000000000000000000000000000';
 export default new Vuex.Store({
   state: {
     //Main
-    /*
+
     netName: 'Main',
-    registryAddress: '0x220A7844d3eAa78E60AA238fEA1BF8a01A567126',
-    registryCreationBlock: 8810339,
+    registryAddress: '0x1efa04200fd85581502dc21226f6064863932ea5',
+    registryCreationBlock: 11242060,
     requiredNetwork: 1,
     kyberAPI: 'https://api.kyber.network',
     httpProvider: 'https://mainnet.infura.io/v3/98d7e501879243c5877bac07a57cde7e',
@@ -28,7 +28,7 @@ export default new Vuex.Store({
     etherscan: 'https://etherscan.io',
     aaveGraphQL: 'https://api.thegraph.com/subgraphs/name/aave/protocol-raw',
     dai: '0x6b175474e89094c44da98b954eedeac495271d0f',
-    adai: '0xfC1E690f61EFd961294b3e1Ce3313fBD8aa4f85d', */
+    adai: '0xfC1E690f61EFd961294b3e1Ce3313fBD8aa4f85d',
 
     //Rinkeby
     /*
@@ -45,7 +45,7 @@ export default new Vuex.Store({
     adai: empty_address, */
 
     //Ropsten
-    netName: 'Ropsten',
+    /*netName: 'Ropsten',
     registryAddress: '0xE8dcc388dB4196B338e198Ff84E77efD03E9F7C0',
     registryCreationBlock: 8959496,
     requiredNetwork: 3,
@@ -55,7 +55,7 @@ export default new Vuex.Store({
     etherscan: 'https://ropsten.etherscan.io',
     aaveGraphQL: 'https://api.thegraph.com/subgraphs/name/aave/protocol-ropsten-raw',
     dai: '0xf80A32A835F79D7787E8a8ee5721D0fEaFd78108', //DAI, compatible with KyberSwap and Aave
-    adai: '0xcB1Fe6F440c49E9290c3eb7f158534c2dC374201',
+    adai: '0xcB1Fe6F440c49E9290c3eb7f158534c2dC374201',*/
 
     readOnly: true,
     web3: {
