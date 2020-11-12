@@ -67,6 +67,9 @@ export default {
   methods: {
     async connectMetamask() {
       const provider = await detectEthereumProvider();
+      if (provider) {
+        provider.enable();
+      }
       if (provider !== window.ethereum) {
         this.errorMsg = 'Do you have multiple wallets installed'
         this.showError = true;
