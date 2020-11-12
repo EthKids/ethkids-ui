@@ -99,7 +99,7 @@ export default {
   },
   computed: {
     getTokenLink() {
-      return `${this.$store.state.etherscan}/address/${this.$store.state.tokenAddress}`;
+      return `${this.$store.state.etherscan}/token/${this.$store.state.tokenAddress}`;
     },
     getBondingVaultAddressLink() {
       return `${this.$store.state.etherscan}/address/${this.$store.state.bondingVaultAddress}`;
