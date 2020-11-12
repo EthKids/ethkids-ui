@@ -4,6 +4,7 @@
     <h3>
       <a target="_blank" v-bind:href="charityVaultLink">${{ parseFloat(this.totalDonationsRaised.toString()).toFixed(2) }}</a>
     </h3>
+    <hr>
   </div>
 </template>
 
