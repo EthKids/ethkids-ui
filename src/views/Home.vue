@@ -61,7 +61,7 @@
             </p>
           </div>
         </FundCard>
-        <FundCard
+<!--        <FundCard
           name="BySol"
           title="BYSOL"
           url="https://bysol.org/english"
@@ -76,7 +76,7 @@
               1500 euro (500 euro x 3 months) to every repressed person.
             </p>
           </div>
-        </FundCard>
+        </FundCard>-->
       </b-row>
     </div>
   </div>
